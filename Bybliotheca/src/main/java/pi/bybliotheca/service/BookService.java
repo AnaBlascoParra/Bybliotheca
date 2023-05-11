@@ -24,7 +24,7 @@ public class BookService {
 
     public String deleteBook(int id) {
         repository.deleteById(id);
-        return "Book removed" + id;
+        return "Book successfully deleted.";
     }
 
     public Book updateBook(Book book) {
@@ -58,6 +58,17 @@ public class BookService {
                 .filter(book -> book.getGenre().equals(genre))
                 .collect(Collectors.toList());
         return booksByGenre;
+    }
+
+    void reduceQuantity(int id){
+        Book book = repository.findById(id);
+        if(book.getQty() == 0){
+            System.out.print("No existences left.");
+        } else {
+            book.setQty(book.getQty()-1);
+            repository.save(book);
+            System.out.print("Book borrowed successfully and available for pick-up.");
+        }
     }
 
 
