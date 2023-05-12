@@ -60,14 +60,13 @@ public class BookService {
         return booksByGenre;
     }
 
-    void reduceQuantity(int id){
+    public void reduceQuantity(int id){
         Book book = repository.findById(id);
         if(book.getQty() == 0){
             System.out.print("No existences left.");
         } else {
             book.setQty(book.getQty()-1);
             repository.save(book);
-            System.out.print("Book borrowed successfully and available for pick-up.");
         }
     }
 

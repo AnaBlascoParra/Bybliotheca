@@ -5,5 +5,8 @@ import pi.bybliotheca.entity.User;
 
 public interface UserRepository extends JpaRepository<User,Integer> {
     User findById(int id);
+
+    User findByUsername(String username);
+
     User findByFullname(String name, String surname);
 }

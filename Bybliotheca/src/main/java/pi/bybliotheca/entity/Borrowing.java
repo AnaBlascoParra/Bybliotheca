@@ -9,10 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name="BORROWINGS")
@@ -22,10 +20,22 @@ public class Borrowing {
     private int id;
     private int userId;
     private int bookId;
-    private LocalDateTime borrowDate;
-    private LocalDateTime returnDate;
+    private LocalDate borrowDate;
+    private LocalDate returnDate;
 
-    public LocalDateTime getReturnDate() {
-        return borrowDate.plusDays(15);
+    public Borrowing(int userId, int bookId, LocalDate borrowDate, LocalDate returnDate) {
+        this.userId = userId;
+        this.bookId = bookId;
+        this.borrowDate = borrowDate;
+        this.returnDate = returnDate;
     }
+
+    public LocalDate getBorrowDate() {
+        return LocalDate.now();
+    }
+    public LocalDate getReturnDate() {
+        return getBorrowDate().plusDays(15);
+    }
+
+
 }
