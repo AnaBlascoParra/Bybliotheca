@@ -10,7 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name="FAVS")
@@ -20,4 +19,9 @@ public class BookFav {
     private int id;
     private int userId;
     private int bookId;
+
+    public BookFav(int bookId,int userId) {
+        this.bookId = bookId;
+        this.userId = userId;
+    }
 }

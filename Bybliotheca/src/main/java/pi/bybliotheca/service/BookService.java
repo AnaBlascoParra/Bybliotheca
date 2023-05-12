@@ -34,6 +34,7 @@ public class BookService {
         existingBook.setGenre(book.getGenre());
         existingBook.setNpages(book.getNpages());
         existingBook.setYear(book.getYear());
+        System.out.print("Book successfully updated.");
         return repository.save(existingBook);
     }
 
@@ -63,7 +64,7 @@ public class BookService {
     public void reduceQuantity(int id){
         Book book = repository.findById(id);
         if(book.getQty() == 0){
-            System.out.print("No existences left.");
+            throw new ArithmeticException("No existences left.");
         } else {
             book.setQty(book.getQty()-1);
             repository.save(book);
