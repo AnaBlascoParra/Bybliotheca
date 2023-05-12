@@ -71,8 +71,16 @@ public class BookService {
         }
     }
 
-
-
-
+    public void increaseQuantity(int id){
+        Book book = repository.findById(id);
+        book.setQty(book.getQty()+1);
+        repository.save(book);
+    }
 
 }
+
+
+
+
+
+

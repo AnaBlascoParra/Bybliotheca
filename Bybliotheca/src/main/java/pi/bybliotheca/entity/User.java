@@ -4,14 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.List;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "USERS")
@@ -26,27 +22,19 @@ public class User {
     private String password;
     private String name;
     private String surname;
-    private List<Book> borrowed;
-    private List<Book> favourites;
+    private String role;
+    private int active;
+    private int deleted;
 
-    public void addBorrowedBook(Book book, int id) { //!!: pasar a Java8
-        for (Book b : this.borrowed) {
-            if (b.getId() == book.getId()) {
-                throw new ArithmeticException("You can't borrow more than one copy of the same book.");
-            } else {
-                this.borrowed.add(book);
-            }
-        }
+    public User(String username, String dni, String email, String password, String name, String surname) {
+        this.username = username;
+        this.dni = dni;
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.surname = surname;
+        this.role = "USER";
+        this.active = 0;
+        this.deleted = 0;
     }
-
-    public void addFavBook(Book book, int id){ //!!: pasar a Java8
-        for (Book b : this.favourites) {
-            if (b.getId() == book.getId()) {
-                throw new ArithmeticException("You already added '" + book.getTitle() +"' to your 'Favourites'." );
-            } else {
-                this.favourites.add(book);
-            }
-        }
-    }
-
 }

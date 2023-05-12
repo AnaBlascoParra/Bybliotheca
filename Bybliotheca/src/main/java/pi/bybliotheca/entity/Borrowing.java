@@ -14,7 +14,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Entity
 @Table(name="BORROWINGS")
-public class Borrowing {
+public class  Borrowing {
     @Id
     @GeneratedValue
     private int id;

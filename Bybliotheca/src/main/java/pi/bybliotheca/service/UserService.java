@@ -42,18 +42,6 @@ public class UserService {
         return repository.save(existingUser);
     }
 
-    public void addBorrowedBook(Book book, int userId){ //??: misma duda que en el de abajo
-        User existingUser = repository.findById(userId);
-        existingUser.addBorrowedBook(book,userId);
-        repository.save(existingUser);
-    }
-
-    public void addFavBook(Book book, int userId){ //??: no estoy segura del proposito de este metodo en el service, si luego abajo no lo llamo, no debería quedarse en la entity? no me entero
-        User existingUser = repository.findById(userId);
-        existingUser.addFavBook(book,userId);
-        repository.save(existingUser);
-    }
-
     public User getUserById(int id) {
         return repository.findById(id); //orElse(null)?
     }
@@ -62,28 +50,13 @@ public class UserService {
         return repository.findByUsername(username); //orElse(null)?
     }
 
-    public User getUserByFullname(String name, String surname) {
-        return repository.findByFullname(name,surname);
+    public User getUserByDni(String dni) {
+        return repository.findByDni(dni);
     }
 
-    public void borrowBook(int bookId, int userId){
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication(); // !!: en teoria esto coge los datos del usuario loggeado
-        User user = repository.findById(userId);
-        User loggedUser = repository.findByUsername(auth.getPrincipal().toString()); //??: esto es el username??
-        Book book = bookRepository.findById(bookId);
-        if(loggedUser.getId()==userId){
-            bookService.reduceQuantity(bookId);
-            user.addBorrowedBook(book,userId); //??: aquí llamo al método de la entity, no de este service, no?
-            Borrowing newBr = new Borrowing(userId,bookId, LocalDate.now(),LocalDate.now().plusDays(15)); //orElse(null)??
-            repository.save(user);
-            System.out.print("Book borrowed: " + book.getTitle() + " by " + book.getAuthor() + ". RETURN DATE: " + newBr.getReturnDate());
-        } else {
-            throw new SecurityException("You are not correctly logged. Logging you out ..."); //??: esto no es correcto pero no sé bien qué implica que los dos ids de user no coincidan
-            //??: aquí desloggeo al usuario?
-        }
-    }
 
-    public void addToFavourites(int bookId, int userId){
+
+    /*public void addToFavourites(int bookId, int userId){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = repository.findById(userId);
         User loggedUser = repository.findByUsername(auth.getPrincipal().toString());
@@ -96,7 +69,7 @@ public class UserService {
         } else {
             throw new SecurityException("You are not correctly logged. Logging you out ...");
         }
-    }
+    }*/
 
 
 
