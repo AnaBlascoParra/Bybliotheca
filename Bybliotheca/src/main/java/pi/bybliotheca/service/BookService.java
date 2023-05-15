@@ -22,9 +22,8 @@ public class BookService {
         return repository.save(book);
     }
 
-    public String deleteBook(int id) {
+    public void deleteBook(int id) {
         repository.deleteById(id);
-        return "Book successfully deleted.";
     }
 
     public Book updateBook(Book book) {
