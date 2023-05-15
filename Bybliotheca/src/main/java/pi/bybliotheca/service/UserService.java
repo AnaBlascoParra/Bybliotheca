@@ -1,8 +1,12 @@
 package pi.bybliotheca.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import pi.bybliotheca.entity.Book;
 import pi.bybliotheca.entity.BookFav;
@@ -13,13 +17,11 @@ import pi.bybliotheca.repository.BookRepository;
 import pi.bybliotheca.repository.BorrowingRepository;
 import pi.bybliotheca.repository.UserRepository;
 
-import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
-public class UserService {
+public class UserService /*implements UserDetailsService*/ {
 
     @Autowired
     private UserRepository repository;
@@ -36,6 +38,16 @@ public class UserService {
     @Autowired
     private BookService bookService;
 
+    @Bean //??
+    public BCryptPasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
+
+
+    public User register(User user){
+        user.setPassword(passwordEncoder().encode(user.getPassword()));
+        return repository.save(user);
+    }
     public User saveUser(User user) {
         return repository.save(user);
     }
@@ -94,6 +106,25 @@ public class UserService {
         List<Book> favedBooks = bookRepository.findAllById(bookIds);
         return favedBooks;
     }
+
+    /*@Override //??
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = repository.findByUsername(username);
+
+        org.springframework.security.core.userdetails.User.UserBuilder builder = null;
+
+        if(user!=null) {
+            builder=user.(username);
+            builder.disabled(false);
+            builder.password(user.getPassword());
+            builder.authorities(new SimpleGrantedAuthority(user.getRole()));
+        }
+        else {
+            throw new UsernameNotFoundException("Usuario no encontrado");
+        }
+        return builder.build();
+    }*/
+
 
 
 }

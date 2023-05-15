@@ -23,6 +23,8 @@ public class User {
     private String name;
     private String surname;
     private String role;
+
+    private String token;
     private int active;
     private int deleted;
 
@@ -34,6 +36,7 @@ public class User {
         this.name = name;
         this.surname = surname;
         this.role = "USER";
+        this.token = token;
         this.active = 0;
         this.deleted = 0;
     }
