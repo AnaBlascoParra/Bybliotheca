@@ -55,9 +55,20 @@ public class BookController {
     }
 
 
-    @GetMapping("/books")
+
+    @GetMapping("/allbooks")
     public List<Book> getBooks(){
         return service.getBooks();
+    }
+
+    @GetMapping("/authors")
+    public List<String> getAuthors(){
+        return service.getAuthors();
+    }
+
+    @GetMapping("/genres")
+    public List<String> getGenres(){
+        return service.getGenres();
     }
 
     @GetMapping("/books/{id}")

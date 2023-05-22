@@ -76,6 +76,21 @@ public class BookService {
         repository.save(book);
     }
 
+    public List<String> getAuthors() {
+        List<Book> books = repository.findAll();
+        List<String> authors = books.stream()
+                .map(Book::getAuthor)
+                .collect(Collectors.toList());
+        return authors;
+    }
+
+    public List<String> getGenres() {
+        List<Book> books = repository.findAll();
+        List<String> genres = books.stream()
+                .map(Book::getGenre)
+                .collect(Collectors.toList());
+        return genres;
+    }
 }
 
 

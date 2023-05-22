@@ -7,15 +7,18 @@ class BybliothecaApp extends StatelessWidget {
   const BybliothecaApp({super.key});
 
   @override
-  Widget build(BuildContext context){
-    return const MaterialApp(
+  Widget build(BuildContext context) {
+    return MaterialApp(
       home: MainMenu(),
+      routes: {
+        '/allbooks': (context) => AllBooksScreen(),
+        '/byauthor': (context) => ByAuthorScreen(),
+        '/bygenre': (context) => ByGenreScreen()
+      },
     );
   }
 }
 
-final _byauthor = new AssetImage("assets/byauthor.png");
-final _bygenre = new AssetImage("assets/bygenre.png");
 
 class MainMenu extends StatefulWidget{
   const MainMenu({super.key});
@@ -30,8 +33,10 @@ class _MainMenuState extends State<MainMenu>{
   int _selectedIndex = 0;
     static const TextStyle optionStyle =
         TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-    static const List<Widget> _widgetOptions = <Widget>[
-      //aquí las rutas de cada botón
+    static final List<Widget> _widgetOptions = <Widget>[
+      const BooksMenuScreen(),
+      MyAccountScreen(),
+      MyBorrowingsScreen()
     ];
 
     void _onItemTapped(int index) {
@@ -61,7 +66,7 @@ class _MainMenuState extends State<MainMenu>{
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.school),
-            label: 'Nosep',
+            label: 'My Borrowings',
           ),
         ],
         currentIndex: _selectedIndex,

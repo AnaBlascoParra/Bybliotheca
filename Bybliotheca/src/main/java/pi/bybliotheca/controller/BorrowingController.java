@@ -30,7 +30,7 @@ public class BorrowingController {
         }
     }
 
-    @PutMapping("/user/{userId}/borrowed/{id}")
+    @PutMapping("/user/{userId}/borrowed/{id}/return")
     public void returnBook(@PathVariable int id, int userId){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = userRepository.findByUsername(auth.getPrincipal().toString());
