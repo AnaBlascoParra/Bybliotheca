@@ -10,17 +10,17 @@ class ByAuthorScreen extends StatefulWidget {
 }
 
 class ByAuthorScreenState extends State<ByAuthorScreen> {
-  
   List<String> authors = [];
+  final _background = const AssetImage("assets/background.png");
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
     fetchAuthors();
   }
 
   //ENDPOINTS
-  
+
   // authors
   Future<void> fetchAuthors() async {
     final response = await http.get(Uri.parse('/authors'));
@@ -62,21 +62,41 @@ class ByAuthorScreenState extends State<ByAuthorScreen> {
       appBar: AppBar(
         title: Text('Authors'),
       ),
-      body: ListView.builder(
-        itemCount: authors.length,
-        itemBuilder: (context, index) {
-          final author = authors[index];
-          return ListTile(
-            title: Text(author),
-            onTap: () async {
-              final books = await fetchBooksByAuthor(author);
-              if (books.isNotEmpty) {
-                navigateToBookDetails(books[0].id);
-              }
-            },
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: _background,
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: ListView.builder(
+          itemCount: authors.length,
+          itemBuilder: (context, index) {
+            final author = authors[index];
+            return ListTile(
+              title: Text(author),
+              onTap: () async {
+                final books = await fetchBooksByAuthor(author);
+                if (books.isNotEmpty) {
+                  navigateToBookDetails(books[0].id);
+                }
+              },
+            );
+          },
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const MainMenu(),
+            ),
           );
         },
+        child: Icon(Icons.arrow_back),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }

@@ -1,129 +1,99 @@
 import 'package:flutter/material.dart';
 
-class BooksMenuScreen extends StatelessWidget{
+class BooksMenuScreen extends StatelessWidget {
   const BooksMenuScreen({super.key});
 
   final _allbooks = const AssetImage("assets/allbooks.png");
   final _byauthor = const AssetImage("assets/byauthor.png");
   final _bygenre = const AssetImage("assets/bygenre.png");
+  final _background = const AssetImage("assets/background.png");
 
   @override
-    Widget build(BuildContext context) {
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        body: Stack(
+          fit: StackFit.expand,
+          children: [
+            Image(
+              image: _background,
+              fit: BoxFit.cover,
+            ),
+            Center(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 40),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    buildButton(
+                      image: _allbooks,
+                      label: "All Books",
+                      onTap: () {
+                        Navigator.pushReplacementNamed(context, '/allbooks');
+                      },
+                    ),
+                    SizedBox(height: 16),
+                    buildButton(
+                      image: _byauthor,
+                      label: "Books by Author",
+                      onTap: () {
+                        Navigator.pushReplacementNamed(context, '/byauthor');
+                      },
+                    ),
+                    SizedBox(height: 16),
+                    buildButton(
+                      image: _bygenre,
+                      label: "Books by Genre",
+                      onTap: () {
+                        Navigator.pushReplacementNamed(context, '/bygenre');
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 
-      return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: Scaffold(
-          appBar: AppBar(
-            title: const Text('Bybliotheca'),
+  Widget buildButton({
+    required AssetImage image,
+    required String label,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Container(
+            height: 180,
+            decoration: BoxDecoration(
+              color: Colors.black,
+              image: DecorationImage(
+                image: image,
+                fit: BoxFit.cover,
+              ),
+            ),
           ),
-          body: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              GestureDetector(
-                onTap:(){
-                  Navigator.pushReplacementNamed(context, '/allbooks'); 
-                },
-                child: Stack(
-                  children: [
-                    Container(
-                      width: 120,
-                      height: 40,
-                      decoration: const BoxDecoration(
-                        color: Colors.black,
-                        image: DecorationImage(
-                          image: AssetImage("assets/_allbooks.png"),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                    const Positioned.fill(
-                      child: Center(
-                        child: Text(
-                          "All Books",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
+          Positioned.fill(
+            child: Center(
+              child: Text(
+                label,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(height: 16),
-              GestureDetector(
-                onTap:(){
-                  Navigator.pushReplacementNamed(context, '/byauthor'); 
-                },
-                child: Stack(
-                  children: [
-                    Container(
-                      width: 120,
-                      height: 40,
-                      decoration: const BoxDecoration(
-                        color: Colors.black,
-                        image: DecorationImage(
-                          image: AssetImage("assets/_byauthor.png"),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                    const Positioned.fill(
-                      child: Center(
-                        child: Text(
-                          "Books by Author",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 16),
-              GestureDetector(
-                onTap:(){
-                  Navigator.pushReplacementNamed(context, '/bygenre'); 
-                },
-                child: Stack(
-                  children: [
-                    Container(
-                      width: 120,
-                      height: 40,
-                      decoration: const BoxDecoration(
-                        color: Colors.black,
-                        image: DecorationImage(
-                          image: AssetImage("assets/_bygenre.png"),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                    const Positioned.fill(
-                      child: Center(
-                        child: Text(
-                          "Books by Genre",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              )
-            ],
+            ),
           ),
-        )
-      );
-    }
+        ],
+      ),
+    );
+  }
 }
-
-
-  

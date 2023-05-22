@@ -4,7 +4,6 @@ import 'package:bybliotheca_flutter/entities/book.dart';
 import 'package:bybliotheca_flutter/screens/screens.dart';
 import 'package:http/http.dart' as http;
 
-
 class AllBooksScreen extends StatefulWidget {
   const AllBooksScreen({super.key});
 
@@ -13,11 +12,11 @@ class AllBooksScreen extends StatefulWidget {
 }
 
 class AllBooksScreenState extends State<AllBooksScreen> {
-  
   List<Book> books = [];
+  final _background = const AssetImage("assets/background.png");
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
     fetchBooks();
   }
@@ -55,23 +54,42 @@ class AllBooksScreenState extends State<AllBooksScreen> {
       appBar: AppBar(
         title: const Text('All books'),
       ),
-      body: ListView.builder(
-        itemCount: books.length,
-        itemBuilder: (context, index) {
-          final book = books[index];
-          return ListTile(
-            title: Text(book.title),
-             onTap: () async {
-              if (books.isNotEmpty) {
-                navigateToBookDetails(books[0].id);
-              }
-            },
-            subtitle: Text(book.author),
-            //TO-DO: imagen preview
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: _background,
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: ListView.builder(
+          itemCount: books.length,
+          itemBuilder: (context, index) {
+            final book = books[index];
+            return ListTile(
+              title: Text(book.title),
+              onTap: () async {
+                if (books.isNotEmpty) {
+                  navigateToBookDetails(books[0].id);
+                }
+              },
+              subtitle: Text(book.author),
+              //TO-DO: imagen preview
+            );
+          },
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const MainMenu(),
+            ),
           );
         },
+        child: Icon(Icons.arrow_back),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
-
 }

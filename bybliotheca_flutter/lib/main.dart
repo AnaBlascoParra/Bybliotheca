@@ -9,6 +9,16 @@ class BybliothecaApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+        primaryColor: const Color.fromARGB(255, 51, 32, 14),
+        accentColor: const Color.fromARGB(255, 184, 160, 91),
+        appBarTheme: const AppBarTheme(color: Color.fromARGB(255, 51, 32, 14)),
+        bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+          backgroundColor: Color.fromARGB(255, 51, 32, 14),
+          unselectedItemColor: Color.fromARGB(255, 184, 160, 91),
+        ),
+      ),
+      debugShowCheckedModeBanner: false,
       home: const MainMenu(),
       routes: {
         '/allbooks': (context) => AllBooksScreen(),
@@ -19,35 +29,33 @@ class BybliothecaApp extends StatelessWidget {
   }
 }
 
-
-class MainMenu extends StatefulWidget{
+class MainMenu extends StatefulWidget {
   const MainMenu({super.key});
 
   @override
-  State<MainMenu> createState() =>
-    _MainMenuState();
+  State<MainMenu> createState() => _MainMenuState();
 }
 
-class _MainMenuState extends State<MainMenu>{
-
+class _MainMenuState extends State<MainMenu> {
   int _selectedIndex = 0;
-    static const TextStyle optionStyle =
-        TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-    static final List<Widget> _widgetOptions = <Widget>[
-      const BooksMenuScreen(),
-      MyAccountScreen(),
-      MyBorrowingsScreen()
-    ];
+  static const TextStyle optionStyle =
+      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  static final List<Widget> _widgetOptions = <Widget>[
+    const BooksMenuScreen(),
+    MyAccountScreen(),
+    MyBorrowingsScreen()
+  ];
 
-    void _onItemTapped(int index) {
-      setState(() {
-        _selectedIndex = index;
-      });
-    }
-    
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
   @override
-    Widget build(BuildContext context) {
-      return Scaffold(
+  Widget build(BuildContext context) {
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const Text('Bybliotheca'),
       ),
@@ -74,11 +82,5 @@ class _MainMenuState extends State<MainMenu>{
         onTap: _onItemTapped,
       ),
     );
-       
-    }
-
+  }
 }
-
-  
-
-
