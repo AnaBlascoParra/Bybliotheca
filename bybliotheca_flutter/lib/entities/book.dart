@@ -8,13 +8,13 @@ class Book {
   int qty;
 
   Book({
-    this.id,
-    this.title,
-    this.author,
-    this.genre,
-    this.npages,
-    this.year,
-    this.qty,
+    required this.id,
+    required this.title,
+    required this.author,
+    required this.genre,
+    required this.npages,
+    required this.year,
+    required this.qty,
   });
 
   factory Book.fromJson(Map<String, dynamic> json) {

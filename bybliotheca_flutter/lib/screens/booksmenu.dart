@@ -88,7 +88,7 @@ class BooksMenuScreen extends StatelessWidget{
               const SizedBox(height: 16),
               GestureDetector(
                 onTap:(){
-                  Navigator.pushReplacementNamed(context, '/bygenre'); //ByGenreScreen()
+                  Navigator.pushReplacementNamed(context, '/bygenre'); 
                 },
                 child: Stack(
                   children: [

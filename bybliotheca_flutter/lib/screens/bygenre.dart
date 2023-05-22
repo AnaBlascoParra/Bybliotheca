@@ -1,8 +1,12 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:bybliotheca_flutter/entities/book.dart';
+import 'package:bybliotheca_flutter/screens/screens.dart';
 import 'package:http/http.dart' as http;
 
 class ByGenreScreen extends StatefulWidget {
+  const ByGenreScreen({super.key});
+
   @override
   ByGenreScreenState createState() => ByGenreScreenState();
 }
@@ -17,8 +21,10 @@ class ByGenreScreenState extends State<ByGenreScreen> {
     fetchGenres();
   }
 
-   Future<void> fetchGenres() async {
-    
+  //ENDPOINTS
+
+  // genres
+  Future<void> fetchGenres() async {
     final response = await http.get(Uri.parse('/genres'));
 
     if (response.statusCode == 200) {
@@ -32,6 +38,28 @@ class ByGenreScreenState extends State<ByGenreScreen> {
     }
   }
 
+  // books/{genre}
+  Future<List<Book>> fetchBooksByGenre(String genre) async {
+    final response = await http.get(Uri.parse('/books/$genre'));
+    if (response.statusCode == 200) {
+      final jsonData = json.decode(response.body);
+      return List<Book>.from(jsonData.map((item) => Book.fromJson(item)));
+    } else {
+      throw Exception('Error! Could not fetch books from genre.');
+    }
+  }
+
+  void navigateToBookDetails(int bookId) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => BookDetailsScreen(bookId: bookId),
+      ),
+    );
+  }
+
+  //UI
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,8 +69,15 @@ class ByGenreScreenState extends State<ByGenreScreen> {
       body: ListView.builder(
         itemCount: genres.length,
         itemBuilder: (context, index) {
+          final genre = genres[index];
           return ListTile(
-            title: Text(genres[index]),
+            title: Text(genre),
+            onTap: () async {
+              final books = await fetchBooksByGenre(genre);
+              if (books.isNotEmpty) {
+                navigateToBookDetails(books[0].id);
+              }
+            },
           );
         },
       ),

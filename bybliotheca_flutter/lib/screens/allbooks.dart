@@ -1,9 +1,13 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:bybliotheca_flutter/classes/book.dart';
+import 'package:bybliotheca_flutter/entities/book.dart';
+import 'package:bybliotheca_flutter/screens/screens.dart';
 import 'package:http/http.dart' as http;
 
+
 class AllBooksScreen extends StatefulWidget {
+  const AllBooksScreen({super.key});
+
   @override
   AllBooksScreenState createState() => AllBooksScreenState();
 }
@@ -18,10 +22,11 @@ class AllBooksScreenState extends State<AllBooksScreen> {
     fetchBooks();
   }
 
-   Future<void> fetchBooks() async {
-    
-    final response = await http.get(Uri.parse('/allbooks'));
+  //ENDPOINTS
 
+  // allbooks
+  Future<void> fetchBooks() async {
+    final response = await http.get(Uri.parse('/allbooks'));
     if (response.statusCode == 200) {
       // Success
       final List<dynamic> bookData = json.decode(response.body);
@@ -34,11 +39,21 @@ class AllBooksScreenState extends State<AllBooksScreen> {
     }
   }
 
+  void navigateToBookDetails(int bookId) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => BookDetailsScreen(bookId: bookId),
+      ),
+    );
+  }
+
+  //UI
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('All books'),
+        title: const Text('All books'),
       ),
       body: ListView.builder(
         itemCount: books.length,
@@ -46,8 +61,13 @@ class AllBooksScreenState extends State<AllBooksScreen> {
           final book = books[index];
           return ListTile(
             title: Text(book.title),
+             onTap: () async {
+              if (books.isNotEmpty) {
+                navigateToBookDetails(books[0].id);
+              }
+            },
             subtitle: Text(book.author),
-            //imagen preview
+            //TO-DO: imagen preview
           );
         },
       ),

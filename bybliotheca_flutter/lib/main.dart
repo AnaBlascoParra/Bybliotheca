@@ -9,7 +9,7 @@ class BybliothecaApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: MainMenu(),
+      home: const MainMenu(),
       routes: {
         '/allbooks': (context) => AllBooksScreen(),
         '/byauthor': (context) => ByAuthorScreen(),

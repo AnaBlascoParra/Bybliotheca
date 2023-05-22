@@ -1,4 +1,4 @@
-export 'package:bybliotheca_flutter/screens/book.dart';
+export 'package:bybliotheca_flutter/screens/bookdetails.dart';
 export 'package:bybliotheca_flutter/screens/booksmenu.dart';
 export 'package:bybliotheca_flutter/screens/allbooks.dart';
 export 'package:bybliotheca_flutter/screens/byauthor.dart';

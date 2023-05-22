@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:bybliotheca_flutter/entities/book.dart';
+import 'package:bybliotheca_flutter/screens/screens.dart';
 import 'package:http/http.dart' as http;
 
 class ByAuthorScreen extends StatefulWidget {
@@ -17,10 +19,11 @@ class ByAuthorScreenState extends State<ByAuthorScreen> {
     fetchAuthors();
   }
 
-   Future<void> fetchAuthors() async {
-    
+  //ENDPOINTS
+  
+  // authors
+  Future<void> fetchAuthors() async {
     final response = await http.get(Uri.parse('/authors'));
-
     if (response.statusCode == 200) {
       // Success
       setState(() {
@@ -32,6 +35,27 @@ class ByAuthorScreenState extends State<ByAuthorScreen> {
     }
   }
 
+  // books/{author}
+  Future<List<Book>> fetchBooksByAuthor(String author) async {
+    final response = await http.get(Uri.parse('/books/$author'));
+    if (response.statusCode == 200) {
+      final jsonData = json.decode(response.body);
+      return List<Book>.from(jsonData.map((item) => Book.fromJson(item)));
+    } else {
+      throw Exception('Error! Could not fetch books by author.');
+    }
+  }
+
+  void navigateToBookDetails(int bookId) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => BookDetailsScreen(bookId: bookId),
+      ),
+    );
+  }
+
+  //UI
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,12 +65,18 @@ class ByAuthorScreenState extends State<ByAuthorScreen> {
       body: ListView.builder(
         itemCount: authors.length,
         itemBuilder: (context, index) {
+          final author = authors[index];
           return ListTile(
-            title: Text(authors[index]),
+            title: Text(author),
+            onTap: () async {
+              final books = await fetchBooksByAuthor(author);
+              if (books.isNotEmpty) {
+                navigateToBookDetails(books[0].id);
+              }
+            },
           );
         },
       ),
     );
   }
-
 }
