@@ -2,6 +2,7 @@ class Book {
   int id;
   String title;
   String author;
+  String summary;
   String genre;
   int npages;
   int year;
@@ -11,6 +12,7 @@ class Book {
     required this.id,
     required this.title,
     required this.author,
+    required this.summary,
     required this.genre,
     required this.npages,
     required this.year,
@@ -22,6 +24,7 @@ class Book {
       id: json['id'],
       title: json['title'],
       author: json['author'],
+      summary: json['summary'],
       genre: json['genre'],
       npages: json['npages'],
       year: json['year'],

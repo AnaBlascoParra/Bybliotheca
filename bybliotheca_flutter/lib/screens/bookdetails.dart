@@ -99,6 +99,10 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                     style: TextStyle(fontSize: 16),
                   ),
                   Text(
+                    'Summary: ${book.summary}',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                  Text(
                     'Genre: ${book.genre}',
                     style: TextStyle(fontSize: 16),
                   ),

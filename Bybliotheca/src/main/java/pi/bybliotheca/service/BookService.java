@@ -30,6 +30,7 @@ public class BookService {
         Book existingBook = repository.findById(book.getId()); //orElse(null)
         existingBook.setTitle(book.getTitle());
         existingBook.setAuthor(book.getAuthor());
+        existingBook.setSummary(book.getSummary());
         existingBook.setGenre(book.getGenre());
         existingBook.setNpages(book.getNpages());
         existingBook.setYear(book.getYear());
