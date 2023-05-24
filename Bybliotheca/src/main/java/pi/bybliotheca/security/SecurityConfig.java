@@ -22,7 +22,7 @@ public class SecurityConfig {
         http.csrf().disable()
                 .addFilterBefore(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                .antMatchers("/register").permitAll()
+                .antMatchers("/register","/login").permitAll()
                 .anyRequest().authenticated();
         return http.build();
     }

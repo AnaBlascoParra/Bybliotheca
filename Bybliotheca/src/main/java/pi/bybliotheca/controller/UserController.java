@@ -44,12 +44,14 @@ public class UserController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         User user2 = service.getUserByUsername(user.getUsername());
         String token = getJWTToken(user.getUsername());
-        if(user.getActive()==1 && user.getDeleted()==0) {
+        user.setToken(token);
+        return user2;
+        /*if(user.getActive()==1 && user.getDeleted()==0) {
             user.setToken(token);
             return user2;
         } else {
             throw new SecurityException("Invalid operation: User " + user.getId() + " deleted or not yet activated by ADMIN.");
-        }
+        }*/
     }
 
     private String getJWTToken(String username){
