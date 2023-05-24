@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class UserService /*implements UserDetailsService*/ {
+public class UserService implements UserDetailsService {
 
     @Autowired
     private UserRepository repository;
@@ -38,14 +38,33 @@ public class UserService /*implements UserDetailsService*/ {
     @Autowired
     private BookService bookService;
 
-    @Bean //??
+    @Bean
     public BCryptPasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = repository.findByUsername(username);
+
+        org.springframework.security.core.userdetails.User.UserBuilder builder = null;
+
+        if (user != null) {
+            builder = org.springframework.security.core.userdetails.User.withUsername(username);
+            builder.disabled(false);
+            builder.password(user.getPassword());
+            builder.authorities(new SimpleGrantedAuthority(user.getRole()));
+
+        } else
+            throw new UsernameNotFoundException("User not found");
+        return builder.build();
     }
 
 
     public User register(User user){
         user.setPassword(passwordEncoder().encode(user.getPassword()));
+        user.setActive(1);
+        user.setRole("USER");
         return repository.save(user);
     }
     public User saveUser(User user) {
@@ -98,7 +117,7 @@ public class UserService /*implements UserDetailsService*/ {
         return borrowedBooks;
     }
 
-    List<Book> getFavedBooks(User user){
+    public List<Book> getFavedBooks(User user){
         List<Integer> bookIds = bfRepository.findAll().stream()
                 .filter(bf->bf.getUserId()==user.getId())
                 .map(BookFav::getBookId)
@@ -107,23 +126,9 @@ public class UserService /*implements UserDetailsService*/ {
         return favedBooks;
     }
 
-    /*@Override //??
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = repository.findByUsername(username);
-
-        org.springframework.security.core.userdetails.User.UserBuilder builder = null;
-
-        if(user!=null) {
-            builder=user.(username);
-            builder.disabled(false);
-            builder.password(user.getPassword());
-            builder.authorities(new SimpleGrantedAuthority(user.getRole()));
-        }
-        else {
-            throw new UsernameNotFoundException("Usuario no encontrado");
-        }
-        return builder.build();
-    }*/
+    public List<User> getUsers(){
+        return repository.findAll().stream().collect(Collectors.toList());
+    }
 
 
 

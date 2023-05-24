@@ -32,41 +32,30 @@ public class UserController {
     private AuthenticationManager authenticationManager;
 
 
-    @PostMapping("/register") //TO-DO: Security - Email/username/dni duplicado
+    @PostMapping("/register")
     public User register(@RequestBody User user){
         return service.register(user);
     }
 
-    /*@PostMapping("/register") ?????
-    public User Register(@RequestBody User user) {
-        return repository.save(user);
-    }*/
-
     @PostMapping("/login")
-    public User login(@RequestParam("user") String username, @RequestParam("password") String password){
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(username,password));
+    public User login(@RequestBody User user){
+        Authentication authentication = authenticationManager.
+                authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        User user = service.getUserByUsername(username);
-        String token = getJWTToken(username);
+        User user2 = service.getUserByUsername(user.getUsername());
+        String token = getJWTToken(user.getUsername());
         if(user.getActive()==1 && user.getDeleted()==0) {
             user.setToken(token);
-            return user;
+            return user2;
         } else {
             throw new SecurityException("Invalid operation: User " + user.getId() + " deleted or not yet activated by ADMIN.");
         }
     }
 
-    /*@PostMapping("/login") ?????
-    public User Login(@RequestBody User user) {
-        User oldUser = repository.findByUsername(user.getUsername());
-        return oldUser;
-    }*/
-
     private String getJWTToken(String username){
         String secretKey = "mySecretKey";
         List<GrantedAuthority> grantedAuthorities = AuthorityUtils
-                .commaSeparatedStringToAuthorityList("USER, ADMIN");
+                .commaSeparatedStringToAuthorityList("USER");
         String token = Jwts.builder()
                 .setId("softtekJWT")
                 .setSubject(username)

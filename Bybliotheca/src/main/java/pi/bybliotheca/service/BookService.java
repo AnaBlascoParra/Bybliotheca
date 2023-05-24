@@ -15,7 +15,7 @@ public class BookService {
     private BookRepository repository;
 
     public List<Book> getBooks(){
-        return repository.findAll();
+        return repository.findAll().stream().collect(Collectors.toList());
     }
 
     public Book saveBook(Book book) {
