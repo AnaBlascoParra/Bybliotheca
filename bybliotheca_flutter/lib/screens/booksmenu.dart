@@ -22,7 +22,7 @@ class BooksMenuScreen extends StatelessWidget {
             ),
             Center(
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 40),
+                padding: const EdgeInsets.symmetric(horizontal: 40),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -34,7 +34,7 @@ class BooksMenuScreen extends StatelessWidget {
                         Navigator.pushReplacementNamed(context, '/allbooks');
                       },
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     buildButton(
                       image: _byauthor,
                       label: "Books by Author",
@@ -42,7 +42,7 @@ class BooksMenuScreen extends StatelessWidget {
                         Navigator.pushReplacementNamed(context, '/byauthor');
                       },
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     buildButton(
                       image: _bygenre,
                       label: "Books by Genre",
@@ -84,7 +84,7 @@ class BooksMenuScreen extends StatelessWidget {
             child: Center(
               child: Text(
                 label,
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
