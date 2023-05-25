@@ -25,7 +25,8 @@ class AllBooksScreenState extends State<AllBooksScreen> {
 
   // allbooks
   Future<void> fetchBooks() async {
-    final response = await http.get(Uri.parse('/allbooks'));
+    final response =
+        await http.get(Uri.parse('http://localhost:8080/allbooks'));
     if (response.statusCode == 200) {
       // Success
       final List<dynamic> bookData = json.decode(response.body);

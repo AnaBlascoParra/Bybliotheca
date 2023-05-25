@@ -1,41 +1,31 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:bybliotheca_flutter/screens/screens.dart';
+import '../entities/user.dart';
 
-class RegisterScreen extends StatelessWidget {
-  final TextEditingController _usernameController = TextEditingController();
-  final TextEditingController _dniController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _surnameController = TextEditingController();
+class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({super.key});
 
+  @override
+  // ignore: library_private_types_in_public_api
+  _RegisterScreenState createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends State<RegisterScreen> {
   final _background = const AssetImage("assets/background.png");
+  User user = User("", "", "", "", "", "");
+  String url = "http://localhost:8080/register";
 
-  RegisterScreen({super.key});
-
-  Future<void> _register(BuildContext context) async {
-    final url = 'http://localhost:8080/register';
-    final response = await http.post(
-      Uri.parse(url),
-      body: {
-        'username': _usernameController.text,
-        'dni': _dniController.text,
-        'email': _emailController.text,
-        'password': _passwordController.text,
-        'name': _nameController.text,
-        'surname': _surnameController.text,
-      },
-    );
-
-    if (response.statusCode == 200) {
-      //print('Account created. Please wait for the admin to verify it.');
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const MainMenu()),
-      );
-    } else {
-      //print('Error!');
+  Future _register() async {
+    var res = await http.post(Uri.parse(url),
+        headers: {'Content-Type': 'application/json'},
+        body: json
+            .encode({'username': user.username, 'password': user.password}));
+    if (res.body != null) {
+      // ignore: use_build_context_synchronously
+      Navigator.pushReplacementNamed(context, '/mainmenu');
     }
   }
 
@@ -59,28 +49,40 @@ class RegisterScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 TextField(
-                  controller: _usernameController,
+                  controller: TextEditingController(text: user.username),
+                  onChanged: (val) {
+                    user.username = val;
+                  },
                   decoration: const InputDecoration(
                     labelText: 'Username',
                   ),
                 ),
                 const SizedBox(height: 16.0),
                 TextField(
-                  controller: _dniController,
+                  controller: TextEditingController(text: user.dni),
+                  onChanged: (val) {
+                    user.dni = val;
+                  },
                   decoration: const InputDecoration(
                     labelText: 'DNI',
                   ),
                 ),
                 const SizedBox(height: 16.0),
                 TextField(
-                  controller: _emailController,
+                  controller: TextEditingController(text: user.email),
+                  onChanged: (val) {
+                    user.email = val;
+                  },
                   decoration: const InputDecoration(
                     labelText: 'Email',
                   ),
                 ),
                 const SizedBox(height: 16.0),
                 TextField(
-                  controller: _passwordController,
+                  controller: TextEditingController(text: user.password),
+                  onChanged: (val) {
+                    user.password = val;
+                  },
                   obscureText: true,
                   decoration: const InputDecoration(
                     labelText: 'Password',
@@ -88,23 +90,30 @@ class RegisterScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 16.0),
                 TextField(
-                  controller: _nameController,
+                  controller: TextEditingController(text: user.name),
+                  onChanged: (val) {
+                    user.name = val;
+                  },
                   decoration: const InputDecoration(
                     labelText: 'Name',
                   ),
                 ),
                 const SizedBox(height: 16.0),
                 TextField(
-                  controller: _surnameController,
+                  controller: TextEditingController(text: user.surname),
+                  onChanged: (val) {
+                    user.surname = val;
+                  },
                   decoration: const InputDecoration(
                     labelText: 'Surname',
                   ),
                 ),
                 const SizedBox(height: 16.0),
                 ElevatedButton(
-                  child: Text('Sign up'),
-                  onPressed: () => _register(context),
-                ),
+                    child: Text('Sign up'),
+                    onPressed: () {
+                      _register();
+                    }),
               ],
             ),
           ),

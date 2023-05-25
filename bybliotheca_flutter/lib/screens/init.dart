@@ -30,7 +30,7 @@ class _InitScreenState extends State<InitScreen> {
             body: Stack(fit: StackFit.expand, children: [
           Image(
             image: _frontcover,
-            fit: BoxFit.cover,
+            fit: BoxFit.fill,
           )
         ])));
   }

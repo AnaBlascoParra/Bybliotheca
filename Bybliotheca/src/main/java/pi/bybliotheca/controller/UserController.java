@@ -31,7 +31,7 @@ public class UserController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
-
+    @CrossOrigin(origins = "*")
     @PostMapping("/register")
     public User register(@RequestBody User user){
         return service.register(user);
@@ -57,7 +57,7 @@ public class UserController {
     private String getJWTToken(String username){
         String secretKey = "mySecretKey";
         List<GrantedAuthority> grantedAuthorities = AuthorityUtils
-                .commaSeparatedStringToAuthorityList("USER");
+                .commaSeparatedStringToAuthorityList("ROLE_USER");
         String token = Jwts.builder()
                 .setId("softtekJWT")
                 .setSubject(username)
