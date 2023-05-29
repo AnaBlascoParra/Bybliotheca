@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:bybliotheca_flutter/entities/book.dart';
+import 'package:bybliotheca_flutter/models/models.dart';
 import 'package:bybliotheca_flutter/screens/screens.dart';
 import 'package:http/http.dart' as http;
 

@@ -1,10 +1,8 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:bybliotheca_flutter/screens/screens.dart';
 import '../api.dart';
-import '../entities/user.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});

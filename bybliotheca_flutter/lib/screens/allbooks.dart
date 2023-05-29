@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:bybliotheca_flutter/entities/book.dart';
+import 'package:bybliotheca_flutter/models/models.dart';
 import 'package:bybliotheca_flutter/screens/screens.dart';
 import 'package:http/http.dart' as http;
+
+import '../api.dart';
 
 class AllBooksScreen extends StatefulWidget {
   const AllBooksScreen({super.key});
@@ -21,9 +23,7 @@ class AllBooksScreenState extends State<AllBooksScreen> {
     fetchBooks();
   }
 
-  //ENDPOINTS
-
-  // allbooks
+  // GET AllBooks
   Future<void> fetchBooks() async {
     final response =
         await http.get(Uri.parse('http://localhost:8080/allbooks'));

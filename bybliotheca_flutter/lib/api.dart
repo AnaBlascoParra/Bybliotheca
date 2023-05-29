@@ -91,9 +91,8 @@ class Api{
   }
 
   //Delete
-  Future deleteBook(String id) async {
-    int bookId = int.parse(id);
-    var url = 'http://localhost:8080/deleteBook/$bookId';
+  Future deleteBook(int id) async {
+    var url = 'http://localhost:8080/deleteBook/$id';
 
     var response =
         await http.delete(Uri.parse(url), headers: {"Content-Type": "application/json"});
