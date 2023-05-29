@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:bybliotheca_flutter/screens/screens.dart';
+import 'package:bybliotheca_flutter/models/models.dart';
 import '../api.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -15,7 +16,7 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
   Api api = new Api();
   final _background = const AssetImage("assets/background.png");
-  //User user = User("", "", "", "", "", "");
+  User user = User("", "", "", "", "", "");
 
   final TextEditingController usernameController = new TextEditingController();
   final TextEditingController dniController = new TextEditingController();
@@ -46,9 +47,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 TextField(
                   controller:
                       usernameController, //en vez de TextEditingController(text: user.username)
-                  /*onChanged: (val) {
+                  onChanged: (val) {
                     user.username = val;
-                  },*/
+                  },
                   decoration: const InputDecoration(
                     labelText: 'Username',
                   ),
@@ -56,19 +57,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 const SizedBox(height: 16.0),
                 TextField(
                   controller: dniController,
-                  /*onChanged: (val) {
+                  onChanged: (val) {
                     user.dni = val;
-                  },*/
+                  },
                   decoration: const InputDecoration(
-                    labelText: 'DNI',
+                    labelText: 'Dni',
                   ),
                 ),
                 const SizedBox(height: 16.0),
                 TextField(
                   controller: emailController,
-                  /*onChanged: (val) {
-                    user.dni = val;
-                  },*/
+                  onChanged: (val) {
+                    user.email = val;
+                  },
                   decoration: const InputDecoration(
                     labelText: 'Email',
                   ),
@@ -76,9 +77,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 const SizedBox(height: 16.0),
                 TextField(
                   controller: passwordController,
-                  /*onChanged: (val) {
-                    user.dni = val;
-                  },*/
+                  onChanged: (val) {
+                    user.password = val;
+                  },
                   obscureText: true,
                   decoration: const InputDecoration(
                     labelText: 'Password',
@@ -87,9 +88,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 const SizedBox(height: 16.0),
                 TextField(
                   controller: nameController,
-                  /*onChanged: (val) {
-                    user.dni = val;
-                  },*/
+                  onChanged: (val) {
+                    user.name = val;
+                  },
                   decoration: const InputDecoration(
                     labelText: 'Name',
                   ),
@@ -97,9 +98,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 const SizedBox(height: 16.0),
                 TextField(
                   controller: surnameController,
-                  /*onChanged: (val) {
-                    user.dni = val;
-                  },*/
+                  onChanged: (val) {
+                    user.surname = val;
+                  },
                   decoration: const InputDecoration(
                     labelText: 'Surname',
                   ),
@@ -108,13 +109,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ElevatedButton(
                     child: Text('Sign up'),
                     onPressed: () {
-                      api.register(
-                          usernameController.text.trim(),
-                          dniController.text.trim(),
-                          emailController.text.trim(),
-                          passwordController.text.trim(),
-                          nameController.text.trim(),
-                          surnameController.text.trim());
+                      api.register(user.username, user.dni, user.email,
+                          user.password, user.name, user.surname);
                       Navigator.pushReplacementNamed(context, '/mainmenu');
                     }),
               ],
