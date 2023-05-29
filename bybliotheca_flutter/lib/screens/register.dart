@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:bybliotheca_flutter/screens/screens.dart';
+import '../api.dart';
 import '../entities/user.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -14,9 +15,18 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  Api api = new Api();
   final _background = const AssetImage("assets/background.png");
   User user = User("", "", "", "", "", "");
-  String url = "http://localhost:8080/register";
+
+  final TextEditingController usernameController = new TextEditingController();
+  final TextEditingController dniController = new TextEditingController();
+  final TextEditingController emailController = new TextEditingController();
+    final TextEditingController passwordController = new TextEditingController();
+  final TextEditingController nameController = new TextEditingController();
+  final TextEditingController surnameController = new TextEditingController();
+
+  /*String url = "http://localhost:8080/register";
 
   Future _register() async {
     var res = await http.post(Uri.parse(url),
@@ -27,7 +37,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       // ignore: use_build_context_synchronously
       Navigator.pushReplacementNamed(context, '/mainmenu');
     }
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -49,40 +59,40 @@ class _RegisterScreenState extends State<RegisterScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 TextField(
-                  controller: TextEditingController(text: user.username),
-                  onChanged: (val) {
+                  controller: usernameController, //en vez de TextEditingController(text: user.username)
+                  /*onChanged: (val) {
                     user.username = val;
-                  },
+                  },*/
                   decoration: const InputDecoration(
                     labelText: 'Username',
                   ),
                 ),
                 const SizedBox(height: 16.0),
                 TextField(
-                  controller: TextEditingController(text: user.dni),
-                  onChanged: (val) {
+                  controller: dniController,
+                  /*onChanged: (val) {
                     user.dni = val;
-                  },
+                  },*/
                   decoration: const InputDecoration(
                     labelText: 'DNI',
                   ),
                 ),
                 const SizedBox(height: 16.0),
                 TextField(
-                  controller: TextEditingController(text: user.email),
-                  onChanged: (val) {
-                    user.email = val;
-                  },
+                  controller: emailController,
+                  /*onChanged: (val) {
+                    user.dni = val;
+                  },*/
                   decoration: const InputDecoration(
                     labelText: 'Email',
                   ),
                 ),
                 const SizedBox(height: 16.0),
                 TextField(
-                  controller: TextEditingController(text: user.password),
-                  onChanged: (val) {
-                    user.password = val;
-                  },
+                  controller: passwordController,
+                  /*onChanged: (val) {
+                    user.dni = val;
+                  },*/
                   obscureText: true,
                   decoration: const InputDecoration(
                     labelText: 'Password',
@@ -90,20 +100,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
                 const SizedBox(height: 16.0),
                 TextField(
-                  controller: TextEditingController(text: user.name),
-                  onChanged: (val) {
-                    user.name = val;
-                  },
+                  controller: nameController,
+                  /*onChanged: (val) {
+                    user.dni = val;
+                  },*/
                   decoration: const InputDecoration(
                     labelText: 'Name',
                   ),
                 ),
                 const SizedBox(height: 16.0),
                 TextField(
-                  controller: TextEditingController(text: user.surname),
-                  onChanged: (val) {
-                    user.surname = val;
-                  },
+                  controller: surnameController,
+                  /*onChanged: (val) {
+                    user.dni = val;
+                  },*/
                   decoration: const InputDecoration(
                     labelText: 'Surname',
                   ),
@@ -112,7 +122,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ElevatedButton(
                     child: Text('Sign up'),
                     onPressed: () {
-                      _register();
+                      api.register(usernameController.text.trim(), dniController.text.trim(), emailController.text.trim(), 
+                        passwordController.text.trim(), nameController.text.trim(), surnameController.text.trim());
+                      Navigator.pushNamed(context, 'mainmenu');
                     }),
               ],
             ),
