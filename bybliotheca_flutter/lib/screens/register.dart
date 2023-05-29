@@ -24,19 +24,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController nameController = new TextEditingController();
   final TextEditingController surnameController = new TextEditingController();
 
-  /*String url = "http://localhost:8080/register";
-
-  Future _register() async {
-    var res = await http.post(Uri.parse(url),
-        headers: {'Content-Type': 'application/json'},
-        body: json
-            .encode({'username': user.username, 'password': user.password}));
-    if (res.body != null) {
-      // ignore: use_build_context_synchronously
-      Navigator.pushReplacementNamed(context, '/mainmenu');
-    }
-  }*/
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,7 +44,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 TextField(
-                  controller: usernameController, //en vez de TextEditingController(text: user.username)
+                  controller:
+                      usernameController, //en vez de TextEditingController(text: user.username)
                   /*onChanged: (val) {
                     user.username = val;
                   },*/
@@ -120,9 +108,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ElevatedButton(
                     child: Text('Sign up'),
                     onPressed: () {
-                      api.register(usernameController.text.trim(), dniController.text.trim(), emailController.text.trim(), 
-                        passwordController.text.trim(), nameController.text.trim(), surnameController.text.trim());
-                      Navigator.pushReplacementNamed(context, 'mainmenu');
+                      api.register(
+                          usernameController.text.trim(),
+                          dniController.text.trim(),
+                          emailController.text.trim(),
+                          passwordController.text.trim(),
+                          nameController.text.trim(),
+                          surnameController.text.trim());
+                      Navigator.pushReplacementNamed(context, '/mainmenu');
                     }),
               ],
             ),

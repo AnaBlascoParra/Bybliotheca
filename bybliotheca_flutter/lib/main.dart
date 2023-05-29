@@ -22,6 +22,8 @@ class BybliothecaApp extends StatelessWidget {
       home: const InitScreen(),
       routes: {
         '/mainmenu': (context) => MainMenu(),
+        '/login': (context) => LoginScreen(),
+        '/register': (context) => RegisterScreen(),
         '/allbooks': (context) => AllBooksScreen(),
         '/byauthor': (context) => ByAuthorScreen(),
         '/bygenre': (context) => ByGenreScreen()
