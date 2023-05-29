@@ -11,7 +11,7 @@ class BybliothecaApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(
         primaryColor: const Color.fromARGB(255, 51, 32, 14),
-        accentColor: const Color.fromARGB(255, 184, 160, 91),
+        hintColor: const Color.fromARGB(255, 184, 160, 91),
         appBarTheme: const AppBarTheme(color: Color.fromARGB(255, 51, 32, 14)),
         bottomNavigationBarTheme: const BottomNavigationBarThemeData(
           backgroundColor: Color.fromARGB(255, 51, 32, 14),

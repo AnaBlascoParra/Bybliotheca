@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:bybliotheca_flutter/screens/screens.dart';
 import 'package:http/http.dart' as http;
 
+import '../api.dart';
+
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
   @override
@@ -9,11 +11,13 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  Api api = new Api();
   final _background = const AssetImage("assets/background.png");
-  final TextEditingController _usernameController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  
+  final TextEditingController usernameController = new TextEditingController();
+  final TextEditingController passwordController = new TextEditingController();
 
-  void _login() async {
+  /*void _login() async {
     final String username = _usernameController.text;
     final String password = _passwordController.text;
 
@@ -30,7 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
     } else {
       // Failed login
     }
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 TextFormField(
-                  controller: _usernameController,
+                  controller: usernameController,
                   decoration: InputDecoration(
                     labelText: 'Username',
                   ),
@@ -60,7 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(height: 16.0),
                 TextFormField(
                   obscureText: true,
-                  controller: _passwordController,
+                  controller: passwordController,
                   decoration: InputDecoration(
                     labelText: 'Password',
                   ),
@@ -68,8 +72,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(height: 16.0),
                 ElevatedButton(
                   child: const Text('Login'),
-                  onPressed: _login,
-                ),
+                  onPressed: () {
+                      api.login(usernameController.text.trim(),passwordController.text.trim());
+                      Navigator.pushReplacementNamed(context, 'mainmenu');
+                    }),
                 TextButton(
                   child: const Text('Sign up'),
                   onPressed: () {
@@ -78,7 +84,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       MaterialPageRoute(builder: (context) => RegisterScreen()),
                     );
                   },
-                ),
+                ),           
               ],
             ),
           ),

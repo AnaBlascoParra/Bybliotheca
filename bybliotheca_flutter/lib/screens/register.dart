@@ -17,12 +17,12 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
   Api api = new Api();
   final _background = const AssetImage("assets/background.png");
-  User user = User("", "", "", "", "", "");
+  //User user = User("", "", "", "", "", "");
 
   final TextEditingController usernameController = new TextEditingController();
   final TextEditingController dniController = new TextEditingController();
   final TextEditingController emailController = new TextEditingController();
-    final TextEditingController passwordController = new TextEditingController();
+  final TextEditingController passwordController = new TextEditingController();
   final TextEditingController nameController = new TextEditingController();
   final TextEditingController surnameController = new TextEditingController();
 
@@ -124,7 +124,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     onPressed: () {
                       api.register(usernameController.text.trim(), dniController.text.trim(), emailController.text.trim(), 
                         passwordController.text.trim(), nameController.text.trim(), surnameController.text.trim());
-                      Navigator.pushNamed(context, 'mainmenu');
+                      Navigator.pushReplacementNamed(context, 'mainmenu');
                     }),
               ],
             ),

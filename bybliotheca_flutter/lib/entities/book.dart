@@ -9,15 +9,15 @@ class Book {
   int qty;
 
   Book({
-    required this.id,
-    required this.title,
-    required this.author,
-    required this.summary,
-    required this.genre,
-    required this.npages,
-    required this.year,
-    required this.qty,
-  });
+    this.id,
+    this.title,
+    this.author,
+    this.summary,
+    this.genre,
+    this.npages,
+    this.year,
+    this.qty,
+});
 
   factory Book.fromJson(Map<String, dynamic> json) {
     return Book(
@@ -31,4 +31,5 @@ class Book {
       qty: json['qty'],
     );
   }
+  
 }
