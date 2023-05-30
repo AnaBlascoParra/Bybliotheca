@@ -56,7 +56,7 @@ public class BookController {
 
 
 
-    @GetMapping("/allbooks")
+    @GetMapping("/books")
     public List<Book> getBooks(){
         return service.getBooks();
     }

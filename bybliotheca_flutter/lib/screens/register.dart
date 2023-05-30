@@ -14,15 +14,37 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  final _background = const AssetImage("assets/background.png");
-  late User? user = User();
+  final formKey = GlobalKey<FormState>();
+  final user = User(
+      username: '', dni: '', email: '', password: '', name: '', surname: '');
+  final background = const AssetImage("assets/background.png");
 
-  final TextEditingController usernameController = new TextEditingController();
-  final TextEditingController dniController = new TextEditingController();
-  final TextEditingController emailController = new TextEditingController();
-  final TextEditingController passwordController = new TextEditingController();
-  final TextEditingController nameController = new TextEditingController();
-  final TextEditingController surnameController = new TextEditingController();
+  Future<void> register() async {
+    if (formKey.currentState!.validate()) {
+      formKey.currentState!.save();
+
+      final url = 'http://localhost:8080/register';
+
+      try {
+        final response = await http.post(
+          Uri.parse(url),
+          headers: <String, String>{
+            'Content-type': 'application/json',
+            'Accept': 'application/json',
+            "Authorization": "Some token",
+            'Access-Control-Allow-Origin': '*',
+          },
+          body: jsonEncode(user.toJson()),
+        );
+
+        if (response.statusCode == 200) {
+          Navigator.pushReplacementNamed(context, '/login');
+        }
+      } catch (e) {
+        print('Connection error: $e');
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,86 +56,77 @@ class _RegisterScreenState extends State<RegisterScreen> {
         fit: StackFit.expand,
         children: [
           Image(
-            image: _background,
+            image: background,
             fit: BoxFit.cover,
           ),
           Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                TextField(
-                  controller:
-                      usernameController, //en vez de TextEditingController(text: user.username)
-                  onChanged: (val) {
-                    user!.username = val;
-                  },
-                  decoration: const InputDecoration(
-                    labelText: 'Username',
+            child: Form(
+              key: formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  TextFormField(
+                    autocorrect: false,
+                    keyboardType: TextInputType.name,
+                    onSaved: (value) => user.username = value!,
+                    decoration: const InputDecoration(
+                      labelText: 'Username',
+                    ),
                   ),
-                ),
-                const SizedBox(height: 16.0),
-                TextField(
-                  controller: dniController,
-                  onChanged: (val) {
-                    user!.dni = val;
-                  },
-                  decoration: const InputDecoration(
-                    labelText: 'Dni',
+                  // const SizedBox(height: 16.0),
+                  TextFormField(
+                    autocorrect: false,
+                    keyboardType: TextInputType.name,
+                    onSaved: (value) => user.name = value!,
+                    decoration: const InputDecoration(
+                      labelText: 'Name',
+                    ),
                   ),
-                ),
-                const SizedBox(height: 16.0),
-                TextField(
-                  controller: emailController,
-                  onChanged: (val) {
-                    user!.email = val;
-                  },
-                  decoration: const InputDecoration(
-                    labelText: 'Email',
+                  // const SizedBox(height: 16.0),
+                  TextFormField(
+                    onSaved: (value) => user.surname = value!,
+                    decoration: const InputDecoration(
+                      labelText: 'Surname',
+                    ),
                   ),
-                ),
-                const SizedBox(height: 16.0),
-                TextField(
-                  controller: passwordController,
-                  onChanged: (val) {
-                    user!.password = val;
-                  },
-                  obscureText: true,
-                  decoration: const InputDecoration(
-                    labelText: 'Password',
+                  // const SizedBox(height: 16.0),
+                  TextFormField(
+                    autocorrect: false,
+                    keyboardType: TextInputType.emailAddress,
+                    onSaved: (value) => user.email = value!,
+                    decoration: const InputDecoration(
+                      labelText: 'Email',
+                    ),
                   ),
-                ),
-                const SizedBox(height: 16.0),
-                TextField(
-                  controller: nameController,
-                  onChanged: (val) {
-                    user!.name = val;
-                  },
-                  decoration: const InputDecoration(
-                    labelText: 'Name',
+                  // const SizedBox(height: 16.0),
+                  TextFormField(
+                    autocorrect: false,
+                    keyboardType: TextInputType.name,
+                    onSaved: (value) => user.dni = value!,
+                    decoration: const InputDecoration(
+                      labelText: 'Dni',
+                    ),
                   ),
-                ),
-                const SizedBox(height: 16.0),
-                TextField(
-                  controller: surnameController,
-                  onChanged: (val) {
-                    user!.surname = val;
-                  },
-                  decoration: const InputDecoration(
-                    labelText: 'Surname',
+                  // const SizedBox(height: 16.0),
+                  TextFormField(
+                    autocorrect: false,
+                    obscureText: true,
+                    keyboardType: TextInputType.visiblePassword,
+                    onSaved: (value) => user.password = value!,
+                    decoration: const InputDecoration(
+                      labelText: 'Password',
+                    ),
                   ),
-                ),
-                const SizedBox(height: 16.0),
-                ElevatedButton(
-                    child: Text('Sign up'),
-                    onPressed: () {
-                      UserService().register(user!.username, user!.dni, user!.email,
-                          user!.password, user!.name, user!.surname);
-                      //PRINT: Please wait for the admin to verify your account ...  (??)
-                      Navigator.pushReplacementNamed(context, '/login');
-                    }),
-              ],
+                  // const SizedBox(height: 16.0),
+                  ElevatedButton(
+                      child: Text('Sign up'),
+                      onPressed: () {
+                        register;
+                      }),
+                ],
+              ),
             ),
           ),
         ],

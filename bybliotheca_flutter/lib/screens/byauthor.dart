@@ -15,13 +15,13 @@ class ByAuthorScreen extends StatefulWidget {
 class ByAuthorScreenState extends State<AuthorsScreen> {
   late List<Book>? books = [];
 
-   @override
+  @override
   void initState() {
     super.initState();
-    fetchBooksByAuthor(widget.author);
+    //fetchBooksByAuthor(widget.author);
   }
 
-    void fetchBooksByAuthor(String author) async {
+  void fetchBooksByAuthor(String author) async {
     books = (await BookService().getBooksByAuthor(author))!;
     Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {}));
   }

@@ -39,7 +39,7 @@ class BooksMenuScreen extends StatelessWidget {
                       image: _byauthor,
                       label: "Books by Author",
                       onTap: () {
-                        Navigator.pushReplacementNamed(context, '/byauthor');
+                        Navigator.pushReplacementNamed(context, '/authors');
                       },
                     ),
                     const SizedBox(height: 16),
@@ -47,7 +47,7 @@ class BooksMenuScreen extends StatelessWidget {
                       image: _bygenre,
                       label: "Books by Genre",
                       onTap: () {
-                        Navigator.pushReplacementNamed(context, '/bygenre');
+                        Navigator.pushReplacementNamed(context, '/genres');
                       },
                     ),
                   ],
