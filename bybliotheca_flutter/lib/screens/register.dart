@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:bybliotheca_flutter/screens/screens.dart';
 import 'package:bybliotheca_flutter/models/models.dart';
-import '../api.dart';
+import '../services/services.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -14,9 +14,8 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  Api api = new Api();
   final _background = const AssetImage("assets/background.png");
-  User user = User("", "", "", "", "", "");
+  late User? user = User();
 
   final TextEditingController usernameController = new TextEditingController();
   final TextEditingController dniController = new TextEditingController();
@@ -48,7 +47,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   controller:
                       usernameController, //en vez de TextEditingController(text: user.username)
                   onChanged: (val) {
-                    user.username = val;
+                    user!.username = val;
                   },
                   decoration: const InputDecoration(
                     labelText: 'Username',
@@ -58,7 +57,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 TextField(
                   controller: dniController,
                   onChanged: (val) {
-                    user.dni = val;
+                    user!.dni = val;
                   },
                   decoration: const InputDecoration(
                     labelText: 'Dni',
@@ -68,7 +67,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 TextField(
                   controller: emailController,
                   onChanged: (val) {
-                    user.email = val;
+                    user!.email = val;
                   },
                   decoration: const InputDecoration(
                     labelText: 'Email',
@@ -78,7 +77,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 TextField(
                   controller: passwordController,
                   onChanged: (val) {
-                    user.password = val;
+                    user!.password = val;
                   },
                   obscureText: true,
                   decoration: const InputDecoration(
@@ -89,7 +88,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 TextField(
                   controller: nameController,
                   onChanged: (val) {
-                    user.name = val;
+                    user!.name = val;
                   },
                   decoration: const InputDecoration(
                     labelText: 'Name',
@@ -99,7 +98,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 TextField(
                   controller: surnameController,
                   onChanged: (val) {
-                    user.surname = val;
+                    user!.surname = val;
                   },
                   decoration: const InputDecoration(
                     labelText: 'Surname',
@@ -109,9 +108,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ElevatedButton(
                     child: Text('Sign up'),
                     onPressed: () {
-                      api.register(user.username, user.dni, user.email,
-                          user.password, user.name, user.surname);
-                      Navigator.pushReplacementNamed(context, '/mainmenu');
+                      UserService().register(user!.username, user!.dni, user!.email,
+                          user!.password, user!.name, user!.surname);
+                      //PRINT: Please wait for the admin to verify your account ...  (??)
+                      Navigator.pushReplacementNamed(context, '/login');
                     }),
               ],
             ),

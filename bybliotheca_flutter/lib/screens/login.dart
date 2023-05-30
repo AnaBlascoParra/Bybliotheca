@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:bybliotheca_flutter/screens/screens.dart';
 import 'package:http/http.dart' as http;
 
-import '../api.dart';
+import '../services/user_service.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -11,7 +11,6 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  Api api = new Api();
   final _background = const AssetImage("assets/background.png");
   
   final TextEditingController usernameController = new TextEditingController();
@@ -73,16 +72,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 ElevatedButton(
                   child: const Text('Login'),
                   onPressed: () {
-                      api.login(usernameController.text.trim(),passwordController.text.trim());
-                      Navigator.pushReplacementNamed(context, 'mainmenu');
+                      UserService().login(usernameController.text.trim(),passwordController.text.trim());
+                      Navigator.pushReplacementNamed(context, '/mainmenu');
                     }),
                 TextButton(
                   child: const Text('Sign up'),
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => RegisterScreen()),
-                    );
+                    Navigator.pushReplacementNamed(context, '/register');
                   },
                 ),           
               ],

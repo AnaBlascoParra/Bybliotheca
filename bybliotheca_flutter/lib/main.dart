@@ -25,8 +25,8 @@ class BybliothecaApp extends StatelessWidget {
         '/login': (context) => LoginScreen(),
         '/register': (context) => RegisterScreen(),
         '/allbooks': (context) => AllBooksScreen(),
-        '/byauthor': (context) => ByAuthorScreen(),
-        '/bygenre': (context) => ByGenreScreen()
+        '/authors': (context) => AuthorsScreen(),
+        '/genres': (context) => GenresScreen()
       },
     );
   }

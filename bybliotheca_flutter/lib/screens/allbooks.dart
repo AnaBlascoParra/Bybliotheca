@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:bybliotheca_flutter/models/models.dart';
 import 'package:bybliotheca_flutter/screens/screens.dart';
 import 'package:http/http.dart' as http;
-
-import '../api.dart';
+import '../services/services.dart';
 
 class AllBooksScreen extends StatefulWidget {
   const AllBooksScreen({super.key});
@@ -14,7 +13,7 @@ class AllBooksScreen extends StatefulWidget {
 }
 
 class AllBooksScreenState extends State<AllBooksScreen> {
-  List<Book> books = [];
+  late List<Book>? books = [];
   final _background = const AssetImage("assets/background.png");
 
   @override
@@ -23,10 +22,15 @@ class AllBooksScreenState extends State<AllBooksScreen> {
     fetchBooks();
   }
 
-  // GET AllBooks
+  void fetchBooks() async {
+    books = (await BookService().getBooks())!;
+    Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {}));
+  }
+
+  /*// GET AllBooks
   Future<void> fetchBooks() async {
     final response =
-        await http.get(Uri.parse('http://localhost:8080/allbooks'));
+        await http.get(Uri.parse('http://localhost:8080/books'));
     if (response.statusCode == 200) {
       // Success
       final List<dynamic> bookData = json.decode(response.body);
@@ -37,7 +41,7 @@ class AllBooksScreenState extends State<AllBooksScreen> {
       // Failure
       throw Exception('Error! Could not load books from API.');
     }
-  }
+  }*/
 
   void navigateToBookDetails(int bookId) {
     Navigator.push(
@@ -62,15 +66,19 @@ class AllBooksScreenState extends State<AllBooksScreen> {
             fit: BoxFit.cover,
           ),
         ),
-        child: ListView.builder(
-          itemCount: books.length,
+        child: books == null || books!.isEmpty
+        ? const Center(
+          child: CircularProgressIndicator(),
+        )
+        :ListView.builder(
+          itemCount: books!.length,
           itemBuilder: (context, index) {
-            final book = books[index];
+            final book = books![index];
             return ListTile(
               title: Text(book.title),
               onTap: () async {
-                if (books.isNotEmpty) {
-                  navigateToBookDetails(books[0].id);
+                if (books!.isNotEmpty) {
+                  navigateToBookDetails(book.id);
                 }
               },
               subtitle: Text(book.author),
@@ -81,12 +89,13 @@ class AllBooksScreenState extends State<AllBooksScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const MainMenu(),
-            ),
-          );
+          Navigator.pushReplacementNamed(context, '/mainmenu');
+          // Navigator.push(
+          //   context,
+          //   MaterialPageRoute(
+          //     builder: (context) => const MainMenu(),
+          //   ),
+          // );
         },
         child: Icon(Icons.arrow_back),
       ),
