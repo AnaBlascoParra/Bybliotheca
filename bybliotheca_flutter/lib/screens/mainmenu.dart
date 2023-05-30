@@ -33,7 +33,7 @@ class _MainMenuState extends State<MainMenu> {
       _widgetOptions = <Widget>[
         const BooksMenuScreen(),
         MyAccountScreen(userId: loggedUserId),
-        MyBorrowingsScreen()
+        MyBorrowingsScreen(userId: loggedUserId)
       ];
     });
   }
