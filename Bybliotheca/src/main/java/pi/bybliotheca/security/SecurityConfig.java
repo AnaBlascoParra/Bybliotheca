@@ -23,9 +23,7 @@ public class SecurityConfig {
                 .addFilterBefore(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
                 .antMatchers("/register","/login").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .rememberMe().tokenValiditySeconds(604800);;
+                .anyRequest().authenticated();
         return http.build();
     }
 

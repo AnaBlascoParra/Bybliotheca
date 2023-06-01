@@ -123,7 +123,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ElevatedButton(
                       child: Text('Sign up'),
                       onPressed: () {
-                        register;
+                        register();
                       }),
                 ],
               ),
