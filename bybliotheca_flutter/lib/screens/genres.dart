@@ -47,7 +47,7 @@ class GenresScreenState extends State<GenresScreen> {
     }
   }
 
-  void navigateToGenreBooks(String genre) {
+  void navigateToBooksByGenre(String genre) {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -93,7 +93,7 @@ class GenresScreenState extends State<GenresScreen> {
             return ListTile(
               title: Text(genre),
               onTap: () async {
-                navigateToGenreBooks(genre);
+                navigateToBooksByGenre(genre);
               },
             );
           },

@@ -52,8 +52,17 @@ class AuthorsScreenState extends State<AuthorsScreen> {
       final jsonData = json.decode(response.body);
       return List<Book>.from(jsonData.map((item) => Book.fromJson(item)));
     } else {
-      throw Exception('Error! Could not fetch books from genre.');
+      throw Exception('Error! Could not fetch books from author.');
     }
+  }
+
+  void navigateToBooksByAuthor(String author) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => BooksByAuthorScreen(author: author),
+      ),
+    );
   }
 
   @override
@@ -82,7 +91,7 @@ class AuthorsScreenState extends State<AuthorsScreen> {
             return ListTile(
               title: Text(author),
               onTap: () async {
-                //final books = await fetchBooksByAuthor(author);
+                navigateToBooksByAuthor(author);
               },
             );
           },

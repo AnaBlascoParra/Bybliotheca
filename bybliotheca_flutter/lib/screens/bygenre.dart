@@ -25,7 +25,7 @@ class _BooksByGenreScreenState extends State<BooksByGenreScreen> {
   }
 
   Future<void> fetchBooksByGenre(String genre) async {
-    final url = 'http://localhost:8080/books/${Uri.encodeComponent(genre)}';
+    final url = 'http://localhost:8080/books/genre/$genre';
     String? token = await UserService().readToken();
     final response = await http.get(Uri.parse(url), headers: {
       'Content-type': 'application/json',
@@ -35,7 +35,7 @@ class _BooksByGenreScreenState extends State<BooksByGenreScreen> {
     if (response.statusCode == 200) {
       final jsonData = json.decode(response.body);
       final List<Book> fetchedBooks =
-          jsonData.map((item) => Book.fromJson(item)).toList();
+          List<Book>.from(jsonData.map((item) => Book.fromJson(item)));
       setState(() {
         books = fetchedBooks;
       });
