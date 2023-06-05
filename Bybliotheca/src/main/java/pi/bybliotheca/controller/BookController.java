@@ -76,6 +76,17 @@ public class BookController {
         }
     }
 
+    @GetMapping("/books/title/{title}")
+    public Book getBook(@PathVariable String title){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User loggedUser = userRepository.findByUsername(auth.getPrincipal().toString());
+        if(loggedUser.getRole().equals("ADMIN") || loggedUser.getRole().equals("USER")) {
+            return service.getBookByTitle(title);
+        } else {
+            throw new SecurityException("Invalid operation");
+        }
+    }
+
     @GetMapping("/books/author/{author}")
     public List<Book> getBooksByAuthor(@PathVariable String author){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

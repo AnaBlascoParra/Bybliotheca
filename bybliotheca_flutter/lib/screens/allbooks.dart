@@ -44,32 +44,26 @@ class AllBooksScreenState extends State<AllBooksScreen> {
     fetchBooks();
   }
 
-  void navigateToBookDetails(int? bookId) async {
-    if (bookId != null) {
-      try {
-        String? token = await UserService().readToken();
-        final url = 'http://localhost:8080/books/id/$bookId';
-        final response = await http.get(Uri.parse(url), headers: {
-          'Content-type': 'application/json',
-          'Accept': 'application/json',
-          "Authorization": token!
-        });
+  void navigateToBookDetails(String title) async {
+    String? token = await UserService().readToken();
+    final url = 'http://localhost:8080/books/title/$title';
+    final response = await http.get(Uri.parse(url), headers: {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+      "Authorization": token!
+    });
 
-        if (response.statusCode == 200) {
-          final jsonData = json.decode(response.body);
-          final book = Book.fromJson(jsonData);
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => BookDetailsScreen(id: book.id),
-            ),
-          );
-        } else {
-          throw Exception('Could not fetch book details');
-        }
-      } catch (e) {
-        print('Error: $e');
-      }
+    if (response.statusCode == 200) {
+      final jsonData = json.decode(response.body);
+      final book = Book.fromJson(jsonData);
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => BookDetailsScreen(title: book.title),
+        ),
+      );
+    } else {
+      throw Exception('Could not fetch book details');
     }
   }
 
@@ -100,7 +94,7 @@ class AllBooksScreenState extends State<AllBooksScreen> {
             return ListTile(
               title: Text(book.title),
               onTap: () async {
-                navigateToBookDetails(book.id);
+                navigateToBookDetails(book.title);
               },
               subtitle: Text(book.author),
               //TO-DO: imagen preview
@@ -111,3 +105,32 @@ class AllBooksScreenState extends State<AllBooksScreen> {
     );
   }
 }
+
+  // void navigateToBookDetails(int? bookId) async {
+  //   if (bookId != null) {
+  //     try {
+  //       String? token = await UserService().readToken();
+  //       final url = 'http://localhost:8080/books/id/$bookId';
+  //       final response = await http.get(Uri.parse(url), headers: {
+  //         'Content-type': 'application/json',
+  //         'Accept': 'application/json',
+  //         "Authorization": token!
+  //       });
+
+  //       if (response.statusCode == 200) {
+  //         final jsonData = json.decode(response.body);
+  //         final book = Book.fromJson(jsonData);
+  //         Navigator.push(
+  //           context,
+  //           MaterialPageRoute(
+  //             builder: (context) => BookDetailsScreen(id: book.id),
+  //           ),
+  //         );
+  //       } else {
+  //         throw Exception('Could not fetch book details');
+  //       }
+  //     } catch (e) {
+  //       print('Error: $e');
+  //     }
+  //   }
+  // }

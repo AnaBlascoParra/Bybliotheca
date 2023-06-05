@@ -6,9 +6,9 @@ import 'package:bybliotheca_flutter/models/models.dart';
 import '../services/services.dart';
 
 class BookDetailsScreen extends StatefulWidget {
-  final int? id;
+  final String title;
 
-  BookDetailsScreen({required this.id});
+  BookDetailsScreen({required this.title});
 
   @override
   _BookDetailsScreenState createState() => _BookDetailsScreenState();
@@ -21,11 +21,11 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
   @override
   void initState() {
     super.initState();
-    _bookFuture = fetchBookDetails(widget.id);
+    _bookFuture = fetchBookDetails(widget.title);
   }
 
-  Future<Book> fetchBookDetails(int? id) async {
-    final url = 'http://localhost:8080/books/id/$id';
+  Future<Book> fetchBookDetails(String title) async {
+    final url = 'http://localhost:8080/books/title/$title';
     String? token = await UserService().readToken();
     final response = await http.get(Uri.parse(url), headers: {
       'Content-type': 'application/json',
