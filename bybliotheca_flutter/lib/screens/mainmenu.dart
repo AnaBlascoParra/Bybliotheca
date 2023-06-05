@@ -12,31 +12,37 @@ class MainMenu extends StatefulWidget {
 
 class _MainMenuState extends State<MainMenu> {
   int _selectedIndex = 0;
-  late String loggedUserId;
-  late List<Widget> _widgetOptions;
+  // late String loggedUserId;
+  // late List<Widget> _widgetOptions;
 
-  @override
-  void initState() {
-    super.initState();
-    _extractUserIdFromToken();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _extractUserIdFromToken();
+  // }
 
-  Future<void> _extractUserIdFromToken() async {
-    final prefs = await SharedPreferences.getInstance();
-    final jwttoken = prefs.getString('jwt_token');
-    final token = jwttoken;
+  // Future<void> _extractUserIdFromToken() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   final jwttoken = prefs.getString('jwt_token');
+  //   final token = jwttoken;
 
-    final Map<String, dynamic> decodedToken = JwtDecoder.decode(token!);
+  //   final Map<String, dynamic> decodedToken = JwtDecoder.decode(token!);
 
-    setState(() {
-      loggedUserId = decodedToken['sub'];
-      _widgetOptions = <Widget>[
-        const BooksMenuScreen(),
-        MyAccountScreen(userId: loggedUserId),
-        MyBorrowingsScreen(userId: loggedUserId)
-      ];
-    });
-  }
+  //   setState(() {
+  //     loggedUserId = decodedToken['sub'];
+  //     _widgetOptions = <Widget>[
+  //       const BooksMenuScreen(),
+  //       MyAccountScreen(userId: loggedUserId),
+  //       MyBorrowingsScreen(userId: loggedUserId)
+  //     ];
+  //   });
+  // }
+
+  static final List<Widget> _widgetOptions = <Widget>[
+    const BooksMenuScreen(),
+    MyAccountScreen(),
+    MyBorrowingsScreen()
+  ];
 
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);

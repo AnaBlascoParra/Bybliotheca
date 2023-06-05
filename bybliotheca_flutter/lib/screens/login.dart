@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:bybliotheca_flutter/screens/screens.dart';
 import 'package:http/http.dart' as http;
@@ -12,28 +14,30 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _background = const AssetImage("assets/background.png");
-  
+
   final TextEditingController usernameController = new TextEditingController();
   final TextEditingController passwordController = new TextEditingController();
 
-  /*void _login() async {
-    final String username = _usernameController.text;
-    final String password = _passwordController.text;
+  void login(String username, String password) async {
+    final url = 'http://localhost:8080/login';
 
-    // Make an HTTP POST request to the Java Spring API
-    final response = await http.post(
+    Map data = {
+      'username': '$username',
+      'password': '$password',
+    };
+
+    var body = json.encode(data);
+
+    var response = await http.post(
       Uri.parse('http://localhost:8080/login'),
       headers: {'Content-Type': 'application/json'},
-      body: {'username': username, 'password': password},
+      body: body,
     );
 
     if (response.statusCode == 200) {
-      // Successful login
       Navigator.pushReplacementNamed(context, '/mainmenu');
-    } else {
-      // Failed login
     }
-  }*/
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,17 +74,25 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 const SizedBox(height: 16.0),
                 ElevatedButton(
-                  child: const Text('Login'),
-                  onPressed: () {
-                      UserService().login(usernameController.text.trim(),passwordController.text.trim());
-                      Navigator.pushReplacementNamed(context, '/mainmenu');
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                          Color.fromARGB(255, 48, 25, 6)),
+                    ),
+                    child: const Text('Login'),
+                    onPressed: () {
+                      login(usernameController.text.trim(),
+                          passwordController.text.trim());
+                      // UserService().login(usernameController.text.trim(),passwordController.text.trim());
                     }),
                 TextButton(
-                  child: const Text('Sign up'),
+                  child: const Text(
+                    'Sign up',
+                    style: TextStyle(color: Color.fromARGB(255, 48, 25, 6)),
+                  ),
                   onPressed: () {
                     Navigator.pushReplacementNamed(context, '/register');
                   },
-                ),           
+                ),
               ],
             ),
           ),

@@ -121,7 +121,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   // const SizedBox(height: 16.0),
                   ElevatedButton(
-                      child: Text('Sign up'),
+                      child: const Text(
+                        'Sign up',
+                        style: TextStyle(color: Color.fromARGB(255, 48, 25, 6)),
+                      ),
                       onPressed: () {
                         register();
                       }),

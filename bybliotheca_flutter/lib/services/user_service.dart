@@ -7,32 +7,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../models/models.dart';
 
 class UserService {
-  // Future<void> register(String? username, String? dni, String? email,
-  //     String? password, String? name, String? surname) async {
-  //   try {
-  //     var url = 'http://localhost:8080/register';
-  //     var data = {
-  //       "username": username,
-  //       "dni": dni,
-  //       "email": email,
-  //       "password": password,
-  //       "name": name,
-  //       "surname": surname,
-  //     };
-  //     var body = json.encode(data);
-  //     var response = await http.post(Uri.parse(url),
-  //         headers: {"Content-Type": "application/json"}, body: body);
-  //   } catch (e) {
-  //     log(e.toString());
-  //   }
-  // }
-
-  void login(String usernameController, String passwordController) async {
+  void login(String username, String password) async {
     var url = 'http://localhost:8080/login';
 
     Map data = {
-      'username': '$usernameController',
-      'password': '$passwordController',
+      'username': '$username',
+      'password': '$password',
     };
 
     var body = json.encode(data);

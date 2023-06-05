@@ -1,18 +1,56 @@
 import 'package:flutter/material.dart';
 
-class MyBorrowingsScreen extends StatefulWidget {
-  final String userId;
+import '../models/models.dart';
 
-  MyBorrowingsScreen({required this.userId});
+class MyBorrowingsScreen extends StatefulWidget {
+  //final String userId;
+
+  //MyBorrowingsScreen({required this.userId});
 
   @override
   MyBorrowingsScreenState createState() => MyBorrowingsScreenState();
 }
 
 class MyBorrowingsScreenState extends State<MyBorrowingsScreen> {
+  late List<Book>? books = [];
+  final _background = const AssetImage("assets/background.png");
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('My Borrowings'),
+      ),
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: _background,
+            fit: BoxFit.cover,
+          ),
+        ),
+        // child: ListView.builder(
+        //   itemCount: authors.length,
+        //   itemBuilder: (context, index) {
+        //     final author = authors[index];
+        //     return ListTile(
+        //       title: Text(author),
+        //       onTap: () async {
+        //         Navigator.pushReplacementNamed(context, '/byauthor');
+        //         //books = await fetchBooksByAuthor(author);
+        //         // if (books!.isNotEmpty) {
+        //         //   navigateToBookDetails(books![0].id);
+        //         // }
+        //       },
+        //     );
+        //   },
+        // ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.pushReplacementNamed(context, '/mainmenu');
+        },
+        child: Icon(Icons.arrow_back),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+    );
   }
 }

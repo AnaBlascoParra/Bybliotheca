@@ -67,35 +67,29 @@ class AllBooksScreenState extends State<AllBooksScreen> {
           ),
         ),
         child: books == null || books!.isEmpty
-        ? const Center(
-          child: CircularProgressIndicator(),
-        )
-        :ListView.builder(
-          itemCount: books!.length,
-          itemBuilder: (context, index) {
-            final book = books![index];
-            return ListTile(
-              title: Text(book.title),
-              onTap: () async {
-                if (books!.isNotEmpty) {
-                  navigateToBookDetails(book.id);
-                }
-              },
-              subtitle: Text(book.author),
-              //TO-DO: imagen preview
-            );
-          },
-        ),
+            ? const Center(
+                child: CircularProgressIndicator(),
+              )
+            : ListView.builder(
+                itemCount: books!.length,
+                itemBuilder: (context, index) {
+                  final book = books![index];
+                  return ListTile(
+                    title: Text(book.title),
+                    onTap: () async {
+                      if (books!.isNotEmpty) {
+                        navigateToBookDetails(book.id);
+                      }
+                    },
+                    subtitle: Text(book.author),
+                    //TO-DO: imagen preview
+                  );
+                },
+              ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.pushReplacementNamed(context, '/mainmenu');
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(
-          //     builder: (context) => const MainMenu(),
-          //   ),
-          // );
         },
         child: Icon(Icons.arrow_back),
       ),
