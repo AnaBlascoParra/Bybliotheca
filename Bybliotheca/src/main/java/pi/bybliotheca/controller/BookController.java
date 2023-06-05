@@ -43,7 +43,7 @@ public class BookController {
         }
     }
 
-    @DeleteMapping("/deleteBook/{id}")
+    @DeleteMapping("/deleteBook/id/{id}")
     public void deleteBook(@PathVariable int id){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = userRepository.findByUsername(auth.getPrincipal().toString());
@@ -54,36 +54,48 @@ public class BookController {
         }
     }
 
-
-
     @GetMapping("/books")
     public List<Book> getBooks(){
-        return service.getBooks();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User loggedUser = userRepository.findByUsername(auth.getPrincipal().toString());
+        if(loggedUser.getRole().equals("ADMIN") || loggedUser.getRole().equals("USER")) {
+            return service.getBooks();
+        } else {
+            throw new SecurityException("Invalid operation");
+        }
     }
 
-    @GetMapping("/authors")
-    public List<String> getAuthors(){
-        return service.getAuthors();
-    }
-
-    @GetMapping("/genres")
-    public List<String> getGenres(){
-        return service.getGenres();
-    }
-
-    @GetMapping("/books/{id}")
+    @GetMapping("/books/id/{id}")
     public Book getBook(@PathVariable int id){
-        return service.getBookById(id);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User loggedUser = userRepository.findByUsername(auth.getPrincipal().toString());
+        if(loggedUser.getRole().equals("ADMIN") || loggedUser.getRole().equals("USER")) {
+            return service.getBookById(id);
+        } else {
+            throw new SecurityException("Invalid operation");
+        }
     }
 
-    @GetMapping("/books/{author}")
+    @GetMapping("/books/author/{author}")
     public List<Book> getBooksByAuthor(@PathVariable String author){
-        return service.getBooksByAuthor(author);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User loggedUser = userRepository.findByUsername(auth.getPrincipal().toString());
+        if(loggedUser.getRole().equals("ADMIN") || loggedUser.getRole().equals("USER")) {
+            return service.getBooksByAuthor(author);
+        } else {
+            throw new SecurityException("Invalid operation");
+        }
     }
 
-    @GetMapping("/books/{genre}")
+    @GetMapping("/books/genre/{genre}")
     public List<Book> getBooksByGenre(@PathVariable String genre){
-        return service.getBooksByGenre(genre);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User loggedUser = userRepository.findByUsername(auth.getPrincipal().toString());
+        if(loggedUser.getRole().equals("ADMIN") || loggedUser.getRole().equals("USER")) {
+            return service.getBooksByGenre(genre);
+        } else {
+            throw new SecurityException("Invalid operation");
+        }
     }
 
 

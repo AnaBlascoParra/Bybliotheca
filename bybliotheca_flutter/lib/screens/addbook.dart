@@ -20,26 +20,33 @@ class _AddBookScreenState extends State<AddBookScreen> {
       author: '',
       summary: '',
       genre: '',
-      npages: '',
-      year: '',
-      qty: '');
+      npages: 0,
+      year: 0,
+      qty: 0);
   final background = const AssetImage("assets/background.png");
 
-  Future addbook() async {
-    // if (formKey.currentState!.validate()) {
-    formKey.currentState!.save();
+  addbook() async {
+    if (formKey.currentState!.validate()) {
+      formKey.currentState!.save();
 
-    final url = 'http://localhost:8080/addBook';
+      final url = 'http://localhost:8080/addBook';
+      String? token = await UserService().readToken();
+      final body = jsonEncode(book.toJson());
 
-    var body = json.encode(book);
+      final response = await http.post(
+        Uri.parse(url),
+        headers: {
+          'Content-type': 'application/json',
+          'Accept': 'application/json',
+          "Authorization": token!
+        },
+        body: jsonEncode(book.toJson()),
+      );
 
-    var response = await http.post(Uri.parse(url),
-        headers: {"Content-Type": "application/json"}, body: body);
-
-    if (response.statusCode == 200) {
-      Navigator.pushReplacementNamed(context, '/mainmenu');
+      if (response.statusCode == 200) {
+        Navigator.pushReplacementNamed(context, '/mainmenu');
+      }
     }
-    // }
   }
 
   @override
@@ -47,6 +54,12 @@ class _AddBookScreenState extends State<AddBookScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Add book'),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pushReplacementNamed(context, '/mainmenu');
+          },
+        ),
       ),
       body: Stack(
         fit: StackFit.expand,
@@ -99,8 +112,8 @@ class _AddBookScreenState extends State<AddBookScreen> {
                   // const SizedBox(height: 16.0),
                   TextFormField(
                     autocorrect: false,
-                    keyboardType: TextInputType.name,
-                    onSaved: (value) => book.npages = value!,
+                    keyboardType: TextInputType.number,
+                    onSaved: (value) => book.npages = int.parse(value!),
                     decoration: const InputDecoration(
                       labelText: 'Number of pages',
                     ),
@@ -108,8 +121,8 @@ class _AddBookScreenState extends State<AddBookScreen> {
                   // const SizedBox(height: 16.0),
                   TextFormField(
                     autocorrect: false,
-                    keyboardType: TextInputType.visiblePassword,
-                    onSaved: (value) => book.year = value!,
+                    keyboardType: TextInputType.number,
+                    onSaved: (value) => book.year = int.parse(value!),
                     decoration: const InputDecoration(
                       labelText: 'Publication year',
                     ),
@@ -117,8 +130,8 @@ class _AddBookScreenState extends State<AddBookScreen> {
                   // const SizedBox(height: 16.0),
                   TextFormField(
                     autocorrect: false,
-                    keyboardType: TextInputType.visiblePassword,
-                    onSaved: (value) => book.qty = value!,
+                    keyboardType: TextInputType.number,
+                    onSaved: (value) => book.qty = int.parse(value!),
                     decoration: const InputDecoration(
                       labelText: 'Stock',
                     ),

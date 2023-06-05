@@ -10,6 +10,7 @@ class User {
   String password;
   String name;
   String surname;
+  String? role;
 
   User(
       {required this.username,

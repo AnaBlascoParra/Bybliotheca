@@ -44,7 +44,7 @@ public class UserController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         User user2 = service.getUserByUsername(user.getUsername());
         String token = getJWTToken(user.getUsername());
-        user.setToken(token);
+        user2.setToken(token);
         return user2;
         /*if(user.getActive()==1 && user.getDeleted()==0) {
             user.setToken(token);

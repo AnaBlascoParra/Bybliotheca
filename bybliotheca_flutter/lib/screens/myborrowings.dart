@@ -19,6 +19,12 @@ class MyBorrowingsScreenState extends State<MyBorrowingsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('My Borrowings'),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pushReplacementNamed(context, '/mainmenu');
+          },
+        ),
       ),
       body: Container(
         decoration: BoxDecoration(

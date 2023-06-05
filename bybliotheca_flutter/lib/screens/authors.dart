@@ -12,8 +12,7 @@ class AuthorsScreen extends StatefulWidget {
 
 class AuthorsScreenState extends State<AuthorsScreen> {
   List<String> authors = [];
-  late List<Book>? books = [];
-  final _background = const AssetImage("assets/background.png");
+  final background = const AssetImage("assets/background.png");
 
   @override
   void initState() {
@@ -21,59 +20,58 @@ class AuthorsScreenState extends State<AuthorsScreen> {
     fetchAuthors();
   }
 
-  void fetchAuthors() async {
-    authors = (await BookService().getAuthors())!;
-    Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {}));
+  Future<void> fetchAuthors() async {
+    final url = 'http://localhost:8080/books';
+    String? token = await UserService().readToken();
+    final response = await http.get(Uri.parse(url), headers: {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+      "Authorization": token!
+    });
+
+    if (response.statusCode == 200) {
+      final List<dynamic> jsonResponse = json.decode(response.body);
+      final List<String> fetchedAuthors = [];
+      for (final bookData in jsonResponse) {
+        final Book book = Book.fromJson(bookData);
+        if (!fetchedAuthors.contains(book.author)) {
+          fetchedAuthors.add(book.author);
+        }
+      }
+
+      setState(() {
+        authors = fetchedAuthors;
+      });
+    }
   }
 
-  void fetchBooksByAuthor(String author) async {
-    books = (await BookService().getBooksByAuthor(author))!;
-    Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {}));
+  Future<List<Book>> fetchBooksByAuthor(String author) async {
+    final response =
+        await http.get(Uri.parse('http://localhost:8080/books/$author'));
+    if (response.statusCode == 200) {
+      final jsonData = json.decode(response.body);
+      return List<Book>.from(jsonData.map((item) => Book.fromJson(item)));
+    } else {
+      throw Exception('Error! Could not fetch books from genre.');
+    }
   }
 
-  // Future<void> fetchAuthors() async {
-  //   final response = await http.get(Uri.parse('http://localhost:8080/authors'));
-  //   if (response.statusCode == 200) {
-  //     // Success
-  //     setState(() {
-  //       authors = List<String>.from(json.decode(response.body));
-  //     });
-  //   } else {
-  //     // Failure
-  //     throw Exception('Error! Could not load authors from API.');
-  //   }
-  // }
-
-  // Future<List<Book>> fetchBooksByAuthor(String author) async {
-  //   final response = await http.get(Uri.parse('/books/$author'));
-  //   if (response.statusCode == 200) {
-  //     final jsonData = json.decode(response.body);
-  //     return List<Book>.from(jsonData.map((item) => Book.fromJson(item)));
-  //   } else {
-  //     throw Exception('Error! Could not fetch books by author.');
-  //   }
-  // }
-
-  void navigateToBookDetails(int bookId) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => BookDetailsScreen(bookId: bookId),
-      ),
-    );
-  }
-
-  //UI
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Authors'),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pushReplacementNamed(context, '/mainmenu');
+          },
+        ),
       ),
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: _background,
+            image: background,
             fit: BoxFit.cover,
           ),
         ),
@@ -84,23 +82,12 @@ class AuthorsScreenState extends State<AuthorsScreen> {
             return ListTile(
               title: Text(author),
               onTap: () async {
-                Navigator.pushReplacementNamed(context, '/byauthor');
-                //books = await fetchBooksByAuthor(author);
-                // if (books!.isNotEmpty) {
-                //   navigateToBookDetails(books![0].id);
-                // }
+                //final books = await fetchBooksByAuthor(author);
               },
             );
           },
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushReplacementNamed(context, '/mainmenu');
-        },
-        child: Icon(Icons.arrow_back),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }

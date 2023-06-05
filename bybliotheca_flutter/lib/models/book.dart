@@ -16,9 +16,9 @@ class Book {
   String author;
   String summary;
   String genre;
-  String npages;
-  String year;
-  String qty;
+  int npages;
+  int year;
+  int qty;
 
   Book({
     required this.title,

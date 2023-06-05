@@ -16,11 +16,6 @@ public class AdminController {
 
     @Autowired
     private UserRepository repository;
-
-    //TO-DO: Register
-
-    //TO-DO: Login
-
     @DeleteMapping("/deleteUser/{id}")
     public void deleteUser(@PathVariable int id){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

@@ -13,34 +13,36 @@ class AllBooksScreen extends StatefulWidget {
 }
 
 class AllBooksScreenState extends State<AllBooksScreen> {
-  late List<Book>? books = [];
-  final _background = const AssetImage("assets/background.png");
+  List<Book> books = [];
+  final background = const AssetImage("assets/background.png");
+
+  Future<void> fetchBooks() async {
+    final url = 'http://localhost:8080/books';
+    String? token = await UserService().readToken();
+
+    final response = await http.get(Uri.parse(url), headers: {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+      "Authorization": token!
+    });
+
+    if (response.statusCode == 200) {
+      final List<dynamic> jsonResponse = json.decode(response.body);
+      final List<Book> fetchedBooks =
+          jsonResponse.map((data) => Book.fromJson(data)).toList();
+
+      setState(() {
+        books = fetchedBooks;
+      });
+    }
+  }
 
   @override
   void initState() {
     super.initState();
+    books.clear();
     fetchBooks();
   }
-
-  void fetchBooks() async {
-    books = (await BookService().getBooks())!;
-    Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {}));
-  }
-
-  // Future<void> fetchBooks() async {
-  //   final response =
-  //       await http.get(Uri.parse('http://localhost:8080/books'));
-  //   if (response.statusCode == 200) {
-  //     // Success
-  //     final List<dynamic> bookData = json.decode(response.body);
-  //     setState(() {
-  //       books = bookData.map((data) => Book.fromJson(data)).toList();
-  //     });
-  //   } else {
-  //     // Failure
-  //     throw Exception('Error! Could not load books from API.');
-  //   }
-  // }
 
   void navigateToBookDetails(int? bookId) {
     Navigator.push(
@@ -57,42 +59,37 @@ class AllBooksScreenState extends State<AllBooksScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('All books'),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pushReplacementNamed(context, '/mainmenu');
+          },
+        ),
       ),
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: _background,
+            image: background,
             fit: BoxFit.cover,
           ),
         ),
-        child: books == null || books!.isEmpty
-            ? const Center(
-                child: CircularProgressIndicator(),
-              )
-            : ListView.builder(
-                itemCount: books!.length,
-                itemBuilder: (context, index) {
-                  final book = books![index];
-                  return ListTile(
-                    title: Text(book.title),
-                    onTap: () async {
-                      if (books!.isNotEmpty) {
-                        navigateToBookDetails(book.id);
-                      }
-                    },
-                    subtitle: Text(book.author),
-                    //TO-DO: imagen preview
-                  );
-                },
-              ),
+        child: ListView.builder(
+          itemCount: books.length,
+          itemBuilder: (context, index) {
+            final book = books[index];
+            return ListTile(
+              title: Text(book.title),
+              // onTap: () async {
+              //   if (books.isNotEmpty) {
+              //     navigateToBookDetails(book.id);
+              //   }
+              // },
+              subtitle: Text(book.author),
+              //TO-DO: imagen preview
+            );
+          },
+        ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushReplacementNamed(context, '/mainmenu');
-        },
-        child: Icon(Icons.arrow_back),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }

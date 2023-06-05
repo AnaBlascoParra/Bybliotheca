@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:bybliotheca_flutter/screens/screens.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 
 import '../services/user_service.dart';
@@ -14,14 +15,15 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _background = const AssetImage("assets/background.png");
+  final storage = const FlutterSecureStorage();
 
   final TextEditingController usernameController = new TextEditingController();
   final TextEditingController passwordController = new TextEditingController();
 
-  void login(String username, String password) async {
+  Future<String?> login(String username, String password) async {
     final url = 'http://localhost:8080/login';
 
-    Map data = {
+    final Map<String, dynamic> data = {
       'username': '$username',
       'password': '$password',
     };
@@ -30,12 +32,23 @@ class _LoginScreenState extends State<LoginScreen> {
 
     var response = await http.post(
       Uri.parse('http://localhost:8080/login'),
-      headers: {'Content-Type': 'application/json'},
+      headers: {
+        'Content-type': 'application/json',
+        'Accept': 'application/json',
+        "Authorization": "Some token"
+      },
       body: body,
     );
 
-    if (response.statusCode == 200) {
+    final Map<String, dynamic> decodedResponse = json.decode(response.body);
+
+    if (decodedResponse['status'] == 403) {
+      return 'Password or user incorrect';
+    } else {
+      await storage.write(key: 'token', value: decodedResponse['token']);
+      await storage.write(key: 'id', value: decodedResponse['id'].toString());
       Navigator.pushReplacementNamed(context, '/mainmenu');
+      return decodedResponse['role'];
     }
   }
 

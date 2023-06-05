@@ -40,6 +40,12 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('My Account'),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pushReplacementNamed(context, '/mainmenu');
+          },
+        ),
       ),
       body: Stack(
         fit: StackFit.expand,

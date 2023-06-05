@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:bybliotheca_flutter/models/models.dart';
 import 'package:bybliotheca_flutter/screens/screens.dart';
 import 'package:http/http.dart' as http;
+import '../services/services.dart';
 
 class GenresScreen extends StatefulWidget {
   const GenresScreen({super.key});
@@ -13,7 +14,7 @@ class GenresScreen extends StatefulWidget {
 
 class GenresScreenState extends State<GenresScreen> {
   List<String> genres = [];
-  final _background = const AssetImage("assets/background.png");
+  final background = const AssetImage("assets/background.png");
 
   @override
   void initState() {
@@ -21,26 +22,43 @@ class GenresScreenState extends State<GenresScreen> {
     fetchGenres();
   }
 
-  //ENDPOINTS
-
-  // genres
   Future<void> fetchGenres() async {
-    final response = await http.get(Uri.parse('/genres'));
+    final url = 'http://localhost:8080/books';
+    String? token = await UserService().readToken();
+    final response = await http.get(Uri.parse(url), headers: {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+      "Authorization": token!
+    });
 
     if (response.statusCode == 200) {
-      // Success
+      final List<dynamic> jsonResponse = json.decode(response.body);
+      final List<String> fetchedGenres = [];
+      for (final bookData in jsonResponse) {
+        final Book book = Book.fromJson(bookData);
+        if (!fetchedGenres.contains(book.genre)) {
+          fetchedGenres.add(book.genre);
+        }
+      }
+
       setState(() {
-        genres = List<String>.from(json.decode(response.body));
+        genres = fetchedGenres;
       });
-    } else {
-      // Failure
-      throw Exception('Error! Could not load genres from API.');
     }
   }
 
-  // books/{genre}
+  void navigateToGenreBooks(String genre) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => BooksByGenreScreen(genre: genre),
+      ),
+    );
+  }
+
   Future<List<Book>> fetchBooksByGenre(String genre) async {
-    final response = await http.get(Uri.parse('/books/$genre'));
+    final response =
+        await http.get(Uri.parse('http://localhost:8080/books/$genre'));
     if (response.statusCode == 200) {
       final jsonData = json.decode(response.body);
       return List<Book>.from(jsonData.map((item) => Book.fromJson(item)));
@@ -49,27 +67,22 @@ class GenresScreenState extends State<GenresScreen> {
     }
   }
 
-  void navigateToBookDetails(int? bookId) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => BookDetailsScreen(bookId: bookId),
-      ),
-    );
-  }
-
-  //UI
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Genres'),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pushReplacementNamed(context, '/mainmenu');
+          },
+        ),
       ),
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: _background,
+            image: background,
             fit: BoxFit.cover,
           ),
         ),
@@ -80,27 +93,12 @@ class GenresScreenState extends State<GenresScreen> {
             return ListTile(
               title: Text(genre),
               onTap: () async {
-                final books = await fetchBooksByGenre(genre);
-                if (books.isNotEmpty) {
-                  navigateToBookDetails(books[0].id);
-                }
+                navigateToGenreBooks(genre);
               },
             );
           },
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const MainMenu(),
-            ),
-          );
-        },
-        child: Icon(Icons.arrow_back),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }

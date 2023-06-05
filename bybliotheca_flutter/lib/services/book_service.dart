@@ -4,20 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import '../models/models.dart';
+import 'services.dart';
 
 class BookService {
-  Future<List<Book>?> getBooks() async {
-    try {
-      var url = 'http://localhost:8080/books';
-      var response = await http.get(Uri.parse(url));
-      if (response.statusCode == 200) {
-        List<Book> books = booksFromJson(response.body);
-        return books;
-      }
-    } catch (e) {
-      log(e.toString());
-    }
-  }
+  final List<Book> books = [];
 
   Future<List<String>?> getAuthors() async {
     try {
