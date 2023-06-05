@@ -59,6 +59,14 @@ class _MainMenuState extends State<MainMenu> {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const Text('Bybliotheca'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.add),
+            onPressed: () {
+              Navigator.pushReplacementNamed(context, '/addbook');
+            },
+          ),
+        ],
       ),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),

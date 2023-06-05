@@ -6,70 +6,55 @@ import 'package:http/http.dart' as http;
 import '../models/models.dart';
 
 class BookService {
-
-  Future addBook(String titleController, String authorController, String summaryController, String genreController, int pagesController, int yearController, int qtyController) async {
-    var url = 'http://localhost:8080/addBook';
-
-    Map data = {
-      'title': '$titleController',
-      'author': '$authorController',
-      'summary': '$summaryController',
-      'genre': '$genreController',
-      'nPages': '$pagesController',
-      'year': '$yearController',
-      'qty': '$qtyController'
-    };
-
-    var body = json.encode(data);
-
-    var response = await http.post(Uri.parse(url),
-        headers: {"Content-Type": "application/json"}, body: body);
-  }
-
-  
   Future<List<Book>?> getBooks() async {
-    try{
+    try {
       var url = 'http://localhost:8080/books';
       var response = await http.get(Uri.parse(url));
-      if(response.statusCode == 200){
+      if (response.statusCode == 200) {
         List<Book> books = booksFromJson(response.body);
         return books;
       }
-    } catch (e){
+    } catch (e) {
       log(e.toString());
     }
   }
 
-   Future<List<String>?> getAuthors() async {
-    try{
+  Future<List<String>?> getAuthors() async {
+    try {
       var url = 'http://localhost:8080/authors';
       var response = await http.get(Uri.parse(url));
-      if(response.statusCode == 200){
+      if (response.statusCode == 200) {
         List<Book> books = booksFromJson(response.body);
         List<String> authors = books.map((book) => book.author).toList();
         return authors;
       }
-    } catch (e){
+    } catch (e) {
       log(e.toString());
     }
   }
 
-    Future<List<Book>?> getBooksByAuthor(String author) async {
-    try{
+  Future<List<Book>?> getBooksByAuthor(String author) async {
+    try {
       var url = 'http://localhost:8080/books/$author';
       var response = await http.get(Uri.parse(url));
-      if(response.statusCode == 200){
+      if (response.statusCode == 200) {
         List<Book> books = booksFromJson(response.body);
         return books;
       }
-    } catch (e){
+    } catch (e) {
       log(e.toString());
     }
   }
 
-
-  
-  Future editBook(String id, String titleController, String authorController, String summaryController, String genreController, int pagesController, int yearController, int qtyController) async {
+  Future editBook(
+      String id,
+      String titleController,
+      String authorController,
+      String summaryController,
+      String genreController,
+      int pagesController,
+      int yearController,
+      int qtyController) async {
     var url = 'http://localhost:8080/updateBook';
 
     int bookId = int.parse(id);
@@ -91,12 +76,10 @@ class BookService {
         headers: {"Content-Type": "application/json"}, body: body);
   }
 
-  
   Future deleteBook(int id) async {
     var url = 'http://localhost:8080/deleteBook/$id';
 
-    var response =
-        await http.delete(Uri.parse(url), headers: {"Content-Type": "application/json"});
+    var response = await http
+        .delete(Uri.parse(url), headers: {"Content-Type": "application/json"});
   }
-
 }

@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:bybliotheca_flutter/models/models.dart';
 
 class BookDetailsScreen extends StatefulWidget {
-  final int bookId;
+  final int? bookId;
 
   BookDetailsScreen({required this.bookId});
 
@@ -22,7 +22,7 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
     _bookFuture = fetchBookDetails(widget.bookId);
   }
 
-  Future<Book> fetchBookDetails(int bookId) async {
+  Future<Book> fetchBookDetails(int? bookId) async {
     final response = await http.get(Uri.parse('/books/$bookId'));
 
     if (response.statusCode == 200) {
@@ -33,14 +33,14 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
     }
   }
 
-  Future<void> updateBook(int bookId) async {
+  Future<void> updateBook(int? bookId) async {
     final url = Uri.parse('/updateBook');
     final client = http.Client();
 
     try {
       final response = await client.put(url);
       if (response.statusCode == 200) {
-          // Success
+        // Success
       } else {
         throw Exception('Error! Could not update book.');
       }
@@ -49,7 +49,7 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
     }
   }
 
-  Future<void> deleteBook(int bookId) async {
+  Future<void> deleteBook(int? bookId) async {
     final url = Uri.parse('/deleteBook/$bookId');
     final client = http.Client();
 
@@ -64,7 +64,6 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
       client.close();
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -139,5 +138,3 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
     );
   }
 }
-
-

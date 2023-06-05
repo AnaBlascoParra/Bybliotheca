@@ -27,23 +27,22 @@ class AllBooksScreenState extends State<AllBooksScreen> {
     Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {}));
   }
 
-  /*// GET AllBooks
-  Future<void> fetchBooks() async {
-    final response =
-        await http.get(Uri.parse('http://localhost:8080/books'));
-    if (response.statusCode == 200) {
-      // Success
-      final List<dynamic> bookData = json.decode(response.body);
-      setState(() {
-        books = bookData.map((data) => Book.fromJson(data)).toList();
-      });
-    } else {
-      // Failure
-      throw Exception('Error! Could not load books from API.');
-    }
-  }*/
+  // Future<void> fetchBooks() async {
+  //   final response =
+  //       await http.get(Uri.parse('http://localhost:8080/books'));
+  //   if (response.statusCode == 200) {
+  //     // Success
+  //     final List<dynamic> bookData = json.decode(response.body);
+  //     setState(() {
+  //       books = bookData.map((data) => Book.fromJson(data)).toList();
+  //     });
+  //   } else {
+  //     // Failure
+  //     throw Exception('Error! Could not load books from API.');
+  //   }
+  // }
 
-  void navigateToBookDetails(int bookId) {
+  void navigateToBookDetails(int? bookId) {
     Navigator.push(
       context,
       MaterialPageRoute(

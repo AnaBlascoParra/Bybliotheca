@@ -5,52 +5,48 @@ import 'package:bybliotheca_flutter/screens/screens.dart';
 import 'package:bybliotheca_flutter/models/models.dart';
 import '../services/services.dart';
 
-class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({super.key});
+class AddBookScreen extends StatefulWidget {
+  const AddBookScreen({super.key});
 
   @override
   // ignore: library_private_types_in_public_api
-  _RegisterScreenState createState() => _RegisterScreenState();
+  _AddBookScreenState createState() => _AddBookScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
+class _AddBookScreenState extends State<AddBookScreen> {
   final formKey = GlobalKey<FormState>();
-  final user = User(
-      username: '', dni: '', email: '', password: '', name: '', surname: '');
+  final book = Book(
+      title: '',
+      author: '',
+      summary: '',
+      genre: '',
+      npages: '',
+      year: '',
+      qty: '');
   final background = const AssetImage("assets/background.png");
 
-  Future<void> register() async {
-    if (formKey.currentState!.validate()) {
-      formKey.currentState!.save();
+  Future addbook() async {
+    // if (formKey.currentState!.validate()) {
+    formKey.currentState!.save();
 
-      final url = 'http://localhost:8080/register';
+    final url = 'http://localhost:8080/addBook';
 
-      try {
-        final response = await http.post(
-          Uri.parse(url),
-          headers: <String, String>{
-            'Content-type': 'application/json',
-            'Accept': 'application/json',
-            "Authorization": "Some token",
-            'Access-Control-Allow-Origin': '*',
-          },
-          body: jsonEncode(user.toJson()),
-        );
+    var body = json.encode(book);
 
-        if (response.statusCode == 200) {
-          Navigator.pushReplacementNamed(context, '/login');
-        }
-      } catch (e) {
-        print('Connection error: $e');
-      }
+    var response = await http.post(Uri.parse(url),
+        headers: {"Content-Type": "application/json"}, body: body);
+
+    if (response.statusCode == 200) {
+      Navigator.pushReplacementNamed(context, '/mainmenu');
     }
+    // }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Register'),
+        title: const Text('Add book'),
       ),
       body: Stack(
         fit: StackFit.expand,
@@ -70,64 +66,72 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   TextFormField(
                     autocorrect: false,
                     keyboardType: TextInputType.name,
-                    onSaved: (value) => user.username = value!,
+                    onSaved: (value) => book.title = value!,
                     decoration: const InputDecoration(
-                      labelText: 'Username',
+                      labelText: 'Title',
                     ),
                   ),
                   // const SizedBox(height: 16.0),
                   TextFormField(
                     autocorrect: false,
                     keyboardType: TextInputType.name,
-                    onSaved: (value) => user.name = value!,
+                    onSaved: (value) => book.author = value!,
                     decoration: const InputDecoration(
-                      labelText: 'Name',
+                      labelText: 'Author',
                     ),
                   ),
                   // const SizedBox(height: 16.0),
                   TextFormField(
-                    onSaved: (value) => user.surname = value!,
+                    onSaved: (value) => book.summary = value!,
                     decoration: const InputDecoration(
-                      labelText: 'Surname',
+                      labelText: 'Summary',
                     ),
                   ),
                   // const SizedBox(height: 16.0),
                   TextFormField(
                     autocorrect: false,
                     keyboardType: TextInputType.emailAddress,
-                    onSaved: (value) => user.email = value!,
+                    onSaved: (value) => book.genre = value!,
                     decoration: const InputDecoration(
-                      labelText: 'Email',
+                      labelText: 'Genre',
                     ),
                   ),
                   // const SizedBox(height: 16.0),
                   TextFormField(
                     autocorrect: false,
                     keyboardType: TextInputType.name,
-                    onSaved: (value) => user.dni = value!,
+                    onSaved: (value) => book.npages = value!,
                     decoration: const InputDecoration(
-                      labelText: 'Dni',
+                      labelText: 'Number of pages',
                     ),
                   ),
                   // const SizedBox(height: 16.0),
                   TextFormField(
                     autocorrect: false,
-                    obscureText: true,
                     keyboardType: TextInputType.visiblePassword,
-                    onSaved: (value) => user.password = value!,
+                    onSaved: (value) => book.year = value!,
                     decoration: const InputDecoration(
-                      labelText: 'Password',
+                      labelText: 'Publication year',
                     ),
                   ),
                   // const SizedBox(height: 16.0),
+                  TextFormField(
+                    autocorrect: false,
+                    keyboardType: TextInputType.visiblePassword,
+                    onSaved: (value) => book.qty = value!,
+                    decoration: const InputDecoration(
+                      labelText: 'Stock',
+                    ),
+                  ),
+                  const SizedBox(height: 16.0),
                   ElevatedButton(
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(
                             Color.fromARGB(255, 48, 25, 6)),
                       ),
-                      child: Text('Sign up'),
+                      child: Text('Add'),
                       onPressed: () {
-                        register();
+                        addbook();
                       }),
                 ],
               ),

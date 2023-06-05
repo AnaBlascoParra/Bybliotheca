@@ -49,7 +49,7 @@ class GenresScreenState extends State<GenresScreen> {
     }
   }
 
-  void navigateToBookDetails(int bookId) {
+  void navigateToBookDetails(int? bookId) {
     Navigator.push(
       context,
       MaterialPageRoute(
