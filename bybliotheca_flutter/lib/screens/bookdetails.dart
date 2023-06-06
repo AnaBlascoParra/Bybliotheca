@@ -44,7 +44,7 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Book Details'),
+        title: Text('Book Details',style: TextStyle(fontFamily:'Enchanted Land')),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {

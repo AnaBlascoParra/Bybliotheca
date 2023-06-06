@@ -39,7 +39,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('My Account'),
+        title: const Text('My Account',style: TextStyle(fontFamily:'Enchanted Land')),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {

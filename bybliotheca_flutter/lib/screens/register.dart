@@ -50,7 +50,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Register'),
+        title: const Text('Register',style: TextStyle(fontFamily:'Enchanted Land')),
       ),
       body: Stack(
         fit: StackFit.expand,

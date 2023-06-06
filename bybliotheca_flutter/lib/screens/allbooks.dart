@@ -72,7 +72,7 @@ class AllBooksScreenState extends State<AllBooksScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('All books'),
+        title: const Text('All books',style: TextStyle(fontFamily:'Enchanted Land')),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {

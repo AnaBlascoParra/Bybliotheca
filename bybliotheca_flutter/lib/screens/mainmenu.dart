@@ -12,31 +12,6 @@ class MainMenu extends StatefulWidget {
 
 class _MainMenuState extends State<MainMenu> {
   int _selectedIndex = 0;
-  // late String loggedUserId;
-  // late List<Widget> _widgetOptions;
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _extractUserIdFromToken();
-  // }
-
-  // Future<void> _extractUserIdFromToken() async {
-  //   final prefs = await SharedPreferences.getInstance();
-  //   final jwttoken = prefs.getString('jwt_token');
-  //   final token = jwttoken;
-
-  //   final Map<String, dynamic> decodedToken = JwtDecoder.decode(token!);
-
-  //   setState(() {
-  //     loggedUserId = decodedToken['sub'];
-  //     _widgetOptions = <Widget>[
-  //       const BooksMenuScreen(),
-  //       MyAccountScreen(userId: loggedUserId),
-  //       MyBorrowingsScreen(userId: loggedUserId)
-  //     ];
-  //   });
-  // }
 
   static final List<Widget> _widgetOptions = <Widget>[
     const BooksMenuScreen(),
@@ -58,7 +33,7 @@ class _MainMenuState extends State<MainMenu> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: const Text('Bybliotheca'),
+        title: const Text('Bybliotheca', style: TextStyle(fontFamily:'Enchanted Land')),
         actions: [
           IconButton(
             icon: Icon(Icons.add),

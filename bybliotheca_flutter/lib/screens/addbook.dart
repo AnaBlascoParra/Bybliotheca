@@ -53,7 +53,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add book'),
+        title: const Text('Add book',style: TextStyle(fontFamily:'Enchanted Land')),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {

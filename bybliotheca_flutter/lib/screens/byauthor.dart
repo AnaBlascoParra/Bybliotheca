@@ -46,7 +46,7 @@ class _BooksByAuthorScreenState extends State<BooksByAuthorScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.author),
+        title: Text(widget.author,style: TextStyle(fontFamily:'Enchanted Land')),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {

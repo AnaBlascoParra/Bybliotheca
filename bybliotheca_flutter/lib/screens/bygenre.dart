@@ -46,7 +46,7 @@ class _BooksByGenreScreenState extends State<BooksByGenreScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.genre),
+        title: Text(widget.genre,style: TextStyle(fontFamily:'Enchanted Land')),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
