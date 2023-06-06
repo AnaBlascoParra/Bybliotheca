@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:bybliotheca_flutter/models/models.dart';
 import '../services/services.dart';
+import 'screens.dart';
 
 class BookDetailsScreen extends StatefulWidget {
   final String title;
@@ -39,6 +40,29 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
       throw Exception('Could not fetch book');
     }
   }
+
+    void navigateToEditScreen(String title) async {
+      String? token = await UserService().readToken();
+      final url = 'http://localhost:8080/books/updatebook/$title';
+      final response = await http.put(Uri.parse(url), headers: {
+        'Content-type': 'application/json',
+        'Accept': 'application/json',
+        "Authorization": token!
+      });
+       if (response.statusCode == 200) {
+      final jsonData = json.decode(response.body);
+      final book = Book.fromJson(jsonData);
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => EditBookScreen(title: book.title),
+        ),
+      );
+    } else {
+      throw Exception('Could not fetch book details');
+    }
+    }
+    
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +126,9 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                       style: TextStyle(fontSize: 16),
                     ),
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        navigateToEditScreen(book.title);
+                      },
                       icon: Icon(Icons.edit),
                     ),
                     IconButton(
