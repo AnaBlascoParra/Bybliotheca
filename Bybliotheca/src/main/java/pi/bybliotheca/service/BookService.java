@@ -22,12 +22,12 @@ public class BookService {
         return repository.save(book);
     }
 
-    public void deleteBook(int id) {
-        repository.deleteById(id);
+    public void deleteBook(Book book) {
+        repository.deleteById(book.getId());
     }
 
     public Book updateBook(Book book) {
-        Book existingBook = repository.findById(book.getId());
+        Book existingBook = repository.findByTitle(book.getTitle());
         existingBook.setTitle(book.getTitle());
         existingBook.setAuthor(book.getAuthor());
         existingBook.setSummary(book.getSummary());
@@ -46,14 +46,6 @@ public class BookService {
         return repository.findByTitle(title);
     }
 
-    /*public List<Book> getBooksByAuthor(String author) {
-        List<Book> books = repository.findAll();
-        List<Book> booksByAuthor = books.stream()
-                .filter(book -> book.getAuthor().equals(author))
-                .collect(Collectors.toList());
-        return booksByAuthor;
-    }*/
-
     public List<Book> getBooksByAuthor(String author) {
         return repository.findByAuthor(author);
     }
@@ -61,15 +53,6 @@ public class BookService {
     public List<Book> getBooksByGenre(String genre) {
         return repository.findByGenre(genre);
     }
-
-
-    /*public List<Book> getBooksByGenre(String genre) {
-        List<Book> books = repository.findAll();
-        List<Book> booksByGenre = books.stream()
-                .filter(book -> book.getGenre().equals(genre))
-                .collect(Collectors.toList());
-        return booksByGenre;
-    }*/
 
     public void reduceQuantity(int id){
         Book book = repository.findById(id);

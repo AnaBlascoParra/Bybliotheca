@@ -41,34 +41,43 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
     }
   }
 
-    void navigateToEditScreen(String title) async {
-      String? token = await UserService().readToken();
-      final url = 'http://localhost:8080/books/updatebook/$title';
-      final response = await http.put(Uri.parse(url), headers: {
-        'Content-type': 'application/json',
-        'Accept': 'application/json',
-        "Authorization": token!
-      });
-       if (response.statusCode == 200) {
-      final jsonData = json.decode(response.body);
-      final book = Book.fromJson(jsonData);
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => EditBookScreen(title: book.title),
-        ),
-      );
-    } else {
-      throw Exception('Could not fetch book details');
-    }
-    }
-    
+  void navigateToEditScreen(String title) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => EditBookScreen(title: title),
+      ),
+    );
+  }
+
+  // void navigateToEditScreen(String title) async {
+  //   String? token = await UserService().readToken();
+  //   final url = 'http://localhost:8080/books/updatebook/$title';
+  //   final response = await http.put(Uri.parse(url), headers: {
+  //     'Content-type': 'application/json',
+  //     'Accept': 'application/json',
+  //     "Authorization": token!
+  //   });
+  //   if (response.statusCode == 200) {
+  //     final jsonData = json.decode(response.body);
+  //     final book = Book.fromJson(jsonData);
+  //     Navigator.push(
+  //       context,
+  //       MaterialPageRoute(
+  //         builder: (context) => EditBookScreen(title: book.title),
+  //       ),
+  //     );
+  //   } else {
+  //     throw Exception('Could not fetch book details');
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Book Details',style: TextStyle(fontFamily:'Enchanted Land')),
+        title: Text('Book Details',
+            style: TextStyle(fontFamily: 'Enchanted Land', fontSize: 40)),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {

@@ -1,68 +1,63 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:bybliotheca_flutter/screens/screens.dart';
 import 'package:bybliotheca_flutter/models/models.dart';
 import '../services/services.dart';
+import 'screens.dart';
 
 class EditBookScreen extends StatefulWidget {
   final String title;
+
   EditBookScreen({required this.title});
 
   @override
-  // ignore: library_private_types_in_public_api
   _EditBookScreenState createState() => _EditBookScreenState();
 }
 
 class _EditBookScreenState extends State<EditBookScreen> {
-  final formKey = GlobalKey<FormState>();
-  final book = Book(
-      title: '',
-      author: '',
-      summary: '',
-      genre: '',
-      npages: 0,
-      year: 0,
-      qty: 0);
+  late Future<Book> _bookFuture;
   final background = const AssetImage("assets/background.png");
 
-Future<void> updateBook(String title) async {
-    final url = 'http://localhost:8080/books/updatebook/$title';
-    final client = http.Client();
+  @override
+  void initState() {
+    super.initState();
+    _bookFuture = fetchBookDetails(widget.title);
+  }
 
-    try {
-      final response = await client.put(Uri.parse(url));
-      if (response.statusCode == 200) {
-        // Success
-      } else {
-        throw Exception('Error! Could not update book.');
-      }
-    } finally {
-      client.close();
+  Future<Book> fetchBookDetails(String title) async {
+    final url = 'http://localhost:8080/books/title/$title';
+    String? token = await UserService().readToken();
+    final response = await http.get(Uri.parse(url), headers: {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+      "Authorization": token!
+    });
+    if (response.statusCode == 200) {
+      final jsonData = json.decode(response.body);
+      return Book.fromJson(jsonData);
+    } else {
+      throw Exception('Could not fetch book details');
     }
   }
 
-  addbook() async {
-    if (formKey.currentState!.validate()) {
-      formKey.currentState!.save();
-
-      final url = 'http://localhost:8080/addBook';
-      String? token = await UserService().readToken();
-      final body = jsonEncode(book.toJson());
-
-      final response = await http.post(
-        Uri.parse(url),
+  Future<void> updateBookDetails(Book updatedBook) async {
+    String? token = await UserService().readToken();
+    final url = 'http://localhost:8080/books/updatebook';
+    final response = await http.put(Uri.parse(url),
         headers: {
           'Content-type': 'application/json',
           'Accept': 'application/json',
-          "Authorization": token!
+          'Authorization': token!
         },
-        body: jsonEncode(book.toJson()),
-      );
-
-      if (response.statusCode == 200) {
-        Navigator.pushReplacementNamed(context, '/mainmenu');
-      }
+        body: json.encode(updatedBook.toJson()));
+    if (response.statusCode == 200) {
+      final jsonData = json.decode(response.body);
+      final updatedBook = Book.fromJson(jsonData);
+      Navigator.pop(context, updatedBook);
+      Navigator.pushReplacementNamed(context, '/allbooks');
+    } else {
+      throw Exception('Failed to update book details');
     }
   }
 
@@ -70,104 +65,102 @@ Future<void> updateBook(String title) async {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add book',style: TextStyle(fontFamily:'Enchanted Land')),
+        title: Text(
+          'Edit Book',
+          style: TextStyle(fontFamily: 'Enchanted Land', fontSize: 40),
+        ),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.pushReplacementNamed(context, '/mainmenu');
+            Navigator.pop(context);
           },
         ),
       ),
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          Image(
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
             image: background,
             fit: BoxFit.cover,
           ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Form(
-              key: formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  TextFormField(
-                    autocorrect: false,
-                    keyboardType: TextInputType.name,
-                    onSaved: (value) => book.title = value!,
-                    decoration: const InputDecoration(
-                      labelText: 'Title',
+        ),
+        child: FutureBuilder<Book>(
+          future: _bookFuture,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              final book = snapshot.data!;
+              return Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 8),
+                    Text(
+                      'Title: ${book.title}',
+                      style: TextStyle(fontSize: 16),
                     ),
-                  ),
-                  // const SizedBox(height: 16.0),
-                  TextFormField(
-                    autocorrect: false,
-                    keyboardType: TextInputType.name,
-                    onSaved: (value) => book.author = value!,
-                    decoration: const InputDecoration(
-                      labelText: 'Author',
+                    TextFormField(
+                      initialValue: book.author,
+                      decoration: InputDecoration(labelText: 'Author'),
+                      onChanged: (value) {
+                        book.author = value;
+                      },
                     ),
-                  ),
-                  // const SizedBox(height: 16.0),
-                  TextFormField(
-                    onSaved: (value) => book.summary = value!,
-                    decoration: const InputDecoration(
-                      labelText: 'Summary',
+                    TextFormField(
+                      initialValue: book.summary,
+                      decoration: InputDecoration(labelText: 'Summary'),
+                      onChanged: (value) {
+                        book.summary = value;
+                      },
                     ),
-                  ),
-                  // const SizedBox(height: 16.0),
-                  TextFormField(
-                    autocorrect: false,
-                    keyboardType: TextInputType.emailAddress,
-                    onSaved: (value) => book.genre = value!,
-                    decoration: const InputDecoration(
-                      labelText: 'Genre',
+                    TextFormField(
+                      initialValue: book.genre,
+                      decoration: InputDecoration(labelText: 'Genre'),
+                      onChanged: (value) {
+                        book.genre = value;
+                      },
                     ),
-                  ),
-                  // const SizedBox(height: 16.0),
-                  TextFormField(
-                    autocorrect: false,
-                    keyboardType: TextInputType.number,
-                    onSaved: (value) => book.npages = int.parse(value!),
-                    decoration: const InputDecoration(
-                      labelText: 'Number of pages',
+                    TextFormField(
+                      initialValue: book.npages.toString(),
+                      decoration: InputDecoration(labelText: 'Number of Pages'),
+                      onChanged: (value) {
+                        book.npages = int.parse(value);
+                      },
                     ),
-                  ),
-                  // const SizedBox(height: 16.0),
-                  TextFormField(
-                    autocorrect: false,
-                    keyboardType: TextInputType.number,
-                    onSaved: (value) => book.year = int.parse(value!),
-                    decoration: const InputDecoration(
-                      labelText: 'Publication year',
+                    TextFormField(
+                      initialValue: book.year.toString(),
+                      decoration: InputDecoration(labelText: 'Year'),
+                      onChanged: (value) {
+                        book.year = int.parse(value);
+                      },
                     ),
-                  ),
-                  // const SizedBox(height: 16.0),
-                  TextFormField(
-                    autocorrect: false,
-                    keyboardType: TextInputType.number,
-                    onSaved: (value) => book.qty = int.parse(value!),
-                    decoration: const InputDecoration(
-                      labelText: 'Stock',
+                    TextFormField(
+                      initialValue: book.qty.toString(),
+                      decoration: InputDecoration(labelText: 'Stock'),
+                      onChanged: (value) {
+                        book.qty = int.parse(value);
+                      },
                     ),
-                  ),
-                  const SizedBox(height: 16.0),
-                  ElevatedButton(
+                    SizedBox(height: 8),
+                    ElevatedButton(
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(
                             Color.fromARGB(255, 48, 25, 6)),
                       ),
-                      child: Text('Add'),
                       onPressed: () {
-                        addbook();
-                      }),
-                ],
-              ),
-            ),
-          ),
-        ],
+                        updateBookDetails(book);
+                      },
+                      child: Text('Update Book'),
+                    ),
+                  ],
+                ),
+              );
+            } else if (snapshot.hasError) {
+              return Text('Error: ${snapshot.error}');
+            } else {
+              return CircularProgressIndicator();
+            }
+          },
+        ),
       ),
     );
   }

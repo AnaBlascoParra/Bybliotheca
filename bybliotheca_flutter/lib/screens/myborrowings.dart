@@ -18,7 +18,8 @@ class MyBorrowingsScreenState extends State<MyBorrowingsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('My Borrowings',style: TextStyle(fontFamily:'Enchanted Land')),
+        title: Text('My Borrowings',
+            style: TextStyle(fontFamily: 'Enchanted Land', fontSize: 40)),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {

@@ -56,7 +56,8 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Login',style: TextStyle(fontFamily:'Enchanted Land')),
+        title: const Text('Login',
+            style: TextStyle(fontFamily: 'Enchanted Land', fontSize: 40)),
       ),
       body: Stack(
         fit: StackFit.expand,

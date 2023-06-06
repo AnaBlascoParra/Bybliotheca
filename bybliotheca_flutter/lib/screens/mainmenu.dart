@@ -19,9 +19,6 @@ class _MainMenuState extends State<MainMenu> {
     MyBorrowingsScreen()
   ];
 
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -33,7 +30,8 @@ class _MainMenuState extends State<MainMenu> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: const Text('Bybliotheca', style: TextStyle(fontFamily:'Enchanted Land')),
+        title: const Text('Bybliotheca',
+            style: TextStyle(fontFamily: 'Enchanted Land', fontSize: 40)),
         actions: [
           IconButton(
             icon: Icon(Icons.add),

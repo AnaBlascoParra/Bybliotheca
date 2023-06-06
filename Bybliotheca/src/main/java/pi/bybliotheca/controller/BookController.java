@@ -6,6 +6,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import pi.bybliotheca.entity.Book;
 import pi.bybliotheca.entity.User;
+import pi.bybliotheca.repository.BookRepository;
 import pi.bybliotheca.repository.UserRepository;
 import pi.bybliotheca.service.BookService;
 import pi.bybliotheca.service.BorrowingService;
@@ -21,6 +22,9 @@ public class BookController {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    BookRepository repository;
+
     @PostMapping("/addBook")
     public Book addBook(@RequestBody Book book){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -32,7 +36,7 @@ public class BookController {
         }
     }
 
-    @PutMapping("/updateBook")
+    @PutMapping("/books/updatebook")
     public Book updateBook(@RequestBody Book book){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = userRepository.findByUsername(auth.getPrincipal().toString());
@@ -43,12 +47,12 @@ public class BookController {
         }
     }
 
-    @DeleteMapping("/deleteBook/id/{id}")
-    public void deleteBook(@PathVariable int id){
+    @DeleteMapping("/books/deletebook")
+    public void deleteBook(@RequestBody Book book){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = userRepository.findByUsername(auth.getPrincipal().toString());
         if(loggedUser.getRole().equals("ADMIN")) {
-            service.deleteBook(id);
+            service.deleteBook(book);
         } else {
             throw new SecurityException("Invalid operation");
         }

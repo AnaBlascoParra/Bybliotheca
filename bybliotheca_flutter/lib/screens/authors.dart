@@ -69,7 +69,8 @@ class AuthorsScreenState extends State<AuthorsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Authors',style: TextStyle(fontFamily:'Enchanted Land')),
+        title: Text('Authors',
+            style: TextStyle(fontFamily: 'Enchanted Land', fontSize: 40)),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
