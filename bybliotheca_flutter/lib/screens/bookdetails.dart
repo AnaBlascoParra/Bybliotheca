@@ -50,27 +50,24 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
     );
   }
 
-  // void navigateToEditScreen(String title) async {
-  //   String? token = await UserService().readToken();
-  //   final url = 'http://localhost:8080/books/updatebook/$title';
-  //   final response = await http.put(Uri.parse(url), headers: {
-  //     'Content-type': 'application/json',
-  //     'Accept': 'application/json',
-  //     "Authorization": token!
-  //   });
-  //   if (response.statusCode == 200) {
-  //     final jsonData = json.decode(response.body);
-  //     final book = Book.fromJson(jsonData);
-  //     Navigator.push(
-  //       context,
-  //       MaterialPageRoute(
-  //         builder: (context) => EditBookScreen(title: book.title),
-  //       ),
-  //     );
-  //   } else {
-  //     throw Exception('Could not fetch book details');
-  //   }
-  // }
+  Future<void> deleteBook(Book book) async {
+    String? token = await UserService().readToken();
+    final url = 'http://localhost:8080/books/deletebook';
+    final response = await http.delete(
+      Uri.parse(url),
+      headers: {
+        'Content-type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': token!
+      },
+      body: json.encode(book.toJson()),
+    );
+    if (response.statusCode == 200) {
+      Navigator.pop(context, true);
+    } else {
+      throw Exception('Failed to delete book');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -141,7 +138,33 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                       icon: Icon(Icons.edit),
                     ),
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text('Confirm Delete'),
+                              content: Text(
+                                  'Are you sure you want to delete this book?'),
+                              actions: [
+                                TextButton(
+                                  child: Text('Cancel'),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                                TextButton(
+                                  child: Text('Delete'),
+                                  onPressed: () {
+                                    deleteBook(book);
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
                       icon: Icon(Icons.delete_forever),
                     ),
                   ],
@@ -158,36 +181,3 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
     );
   }
 }
-
-
-  // Future<void> updateBook(int? id) async {
-  //   final url = Uri.parse('/updateBook');
-  //   final client = http.Client();
-
-  //   try {
-  //     final response = await client.put(url);
-  //     if (response.statusCode == 200) {
-  //       // Success
-  //     } else {
-  //       throw Exception('Error! Could not update book.');
-  //     }
-  //   } finally {
-  //     client.close();
-  //   }
-  // }
-
-  // Future<void> deleteBook(int? bookId) async {
-  //   final url = Uri.parse('/deleteBook/$bookId');
-  //   final client = http.Client();
-
-  //   try {
-  //     final response = await client.delete(url);
-  //     if (response.statusCode == 200) {
-  //       // Success
-  //     } else {
-  //       throw Exception('Error! Could not delete book.');
-  //     }
-  //   } finally {
-  //     client.close();
-  //   }
-  // }

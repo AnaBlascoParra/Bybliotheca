@@ -3,6 +3,8 @@ import 'package:bybliotheca_flutter/screens/screens.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../services/services.dart';
+
 class MainMenu extends StatefulWidget {
   const MainMenu({super.key});
 
@@ -13,9 +15,20 @@ class MainMenu extends StatefulWidget {
 class _MainMenuState extends State<MainMenu> {
   int _selectedIndex = 0;
 
+  void navigateToMyAccount() async {
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => MyAccountScreen(username: ,),
+        ),
+      );
+    }
+  
+
   static final List<Widget> _widgetOptions = <Widget>[
     const BooksMenuScreen(),
-    MyAccountScreen(),
+    //MyAccountScreen(),
     MyBorrowingsScreen()
   ];
 

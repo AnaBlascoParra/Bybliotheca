@@ -82,8 +82,13 @@ public class UserController {
     }
 
     @GetMapping("/users/id/{id}")
-    public User profile(@PathVariable int id){
+    public User getUserById(@PathVariable int id){
         return service.getUserById(id);
+    }
+
+    @GetMapping("/users/username/{username}")
+    public User getUserByUsername(@PathVariable String username){
+        return service.getUserByUsername(username);
     }
 
     //??: tengo que hacer un endpoint para /users/{dni} también? creo que no, porque si busco *hipoteticamente* en la barra de busqueda de la app un dni me sale el

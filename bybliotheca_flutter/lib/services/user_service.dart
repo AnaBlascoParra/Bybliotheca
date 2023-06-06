@@ -22,21 +22,15 @@ class UserService {
     return await storage.read(key: 'id') ?? '';
   }
 
-  Future<User> fetchUser(String id) async {
-    var url = 'http://localhost:8080/users/$id';
+  Future<User> getUserById(int userId) async {
+    final url = 'http://localhost:8080/users/id/$userId';
     final response = await http.get(Uri.parse(url));
+
     if (response.statusCode == 200) {
-      final userData = json.decode(response.body);
-      return User(
-        username: userData['username'],
-        dni: userData['dni'],
-        email: userData['email'],
-        password: userData['password'],
-        name: userData['name'],
-        surname: userData['surname'],
-      );
+      final jsonData = json.decode(response.body);
+      return User.fromJson(jsonData);
     } else {
-      throw Exception('Error obtaining user data');
+      throw Exception('Failed to fetch user data');
     }
   }
 
