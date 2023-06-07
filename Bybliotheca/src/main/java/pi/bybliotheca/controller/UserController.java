@@ -70,11 +70,11 @@ public class UserController {
         return "Bearer " + token;
     }
 
-    @PutMapping("/updateUser")
+    @PutMapping("/users/updateuser")
     public User updateUser(@RequestBody User user){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = repository.findByUsername(auth.getPrincipal().toString());
-        if(loggedUser.getId()==user.getId()) {
+        if(loggedUser.getRole().equals("ADMIN") || loggedUser.getRole().equals("USER")) {
             return service.updateUser(user);
         } else {
             throw new SecurityException("Invalid operation");

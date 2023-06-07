@@ -79,12 +79,9 @@ public class UserService implements UserDetailsService {
     }
 
     public User updateUser(User user) {
-        User existingUser = repository.findById(user.getId());
+        User existingUser = repository.findByUsername(user.getUsername());
         existingUser.setUsername(user.getUsername());
         existingUser.setEmail(user.getEmail());
-        existingUser.setPassword(user.getPassword());
-        existingUser.setName(user.getName());
-        existingUser.setSurname(user.getSurname());
         return repository.save(existingUser);
     }
 
