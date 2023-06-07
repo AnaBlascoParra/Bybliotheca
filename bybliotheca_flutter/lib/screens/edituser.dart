@@ -73,7 +73,7 @@ class _EditUserScreenState extends State<EditUserScreen> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.pushReplacementNamed(context, '/myaccount');
           },
         ),
       ),
