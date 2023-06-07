@@ -14,16 +14,16 @@ class MainMenu extends StatefulWidget {
 class _MainMenuState extends State<MainMenu> {
   int _selectedIndex = 0;
 
-  void navigateToMyAccount() async {
-    String loggedUserId = await UserService().readId();
-    // ignore: use_build_context_synchronously
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => MyAccountScreen(), //userId: loggedUserId
-      ),
-    );
-  }
+  // void navigateToMyAccount() async {
+  //   String loggedUserId = await UserService().readId();
+  //   // ignore: use_build_context_synchronously
+  //   Navigator.push(
+  //     context,
+  //     MaterialPageRoute(
+  //       builder: (context) => MyAccountScreen(userId: loggedUserId),
+  //     ),
+  //   );
+  // }
 
   void navigateToMyBorrowings() async {
     String loggedUserId = await UserService().readId();
@@ -38,7 +38,7 @@ class _MainMenuState extends State<MainMenu> {
 
   static final List<Widget> _widgetOptions = <Widget>[
     const BooksMenuScreen(),
-    MyAccountScreen(), //userId: UserService().readId()
+    MyAccountScreen(),
     MyBorrowingsScreen()
   ];
 

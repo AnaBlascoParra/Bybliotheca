@@ -104,10 +104,6 @@ public class UserService implements UserDetailsService {
         return repository.findByUsername(username);
     }
 
-    public User getUserByDni(String dni) {
-        return repository.findByDni(dni);
-    }
-
     public List<Book> getBorrowedBooks(User user){
         List<Integer> bookIds = brRepository.findAll().stream()
                 .filter(borrowing->borrowing.getUserId()==user.getId())

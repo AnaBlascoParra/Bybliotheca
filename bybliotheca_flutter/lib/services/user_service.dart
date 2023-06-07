@@ -22,19 +22,6 @@ class UserService {
     return await storage.read(key: 'id') ?? '';
   }
 
-  Future<User> getUserById(String userId) async {
-    int id = int.parse(userId);
-    final url = 'http://localhost:8080/users/id/$id';
-    final response = await http.get(Uri.parse(url));
-
-    if (response.statusCode == 200) {
-      final jsonData = json.decode(response.body);
-      return User.fromJson(jsonData);
-    } else {
-      throw Exception('Failed to fetch user data');
-    }
-  }
-
   Future logout() async {
     await storage.deleteAll();
     return;

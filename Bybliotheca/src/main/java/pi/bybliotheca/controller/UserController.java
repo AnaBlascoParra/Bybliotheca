@@ -83,7 +83,13 @@ public class UserController {
 
     @GetMapping("/users/id/{id}")
     public User getUserById(@PathVariable int id){
-        return service.getUserById(id);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User loggedUser = repository.findByUsername(auth.getPrincipal().toString());
+        if(loggedUser.getRole().equals("ADMIN") || loggedUser.getRole().equals("USER")) {
+            return service.getUserById(id);
+        } else {
+            throw new SecurityException("Invalid operation");
+        }
     }
 
     @GetMapping("/users/username/{username}")
