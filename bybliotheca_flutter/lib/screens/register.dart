@@ -64,6 +64,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             padding: const EdgeInsets.all(16.0),
             child: Form(
               key: formKey,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -72,7 +73,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     autocorrect: false,
                     keyboardType: TextInputType.name,
                     onSaved: (value) => user.username = value!,
+                    validator: (value) {
+                      return (value != null && value.length >= 3)
+                          ? null
+                          : 'Username must have more than 6 characters';
+                    },
                     decoration: const InputDecoration(
+                      hintText: 'Username',
                       labelText: 'Username',
                     ),
                   ),
@@ -82,6 +89,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     keyboardType: TextInputType.name,
                     onSaved: (value) => user.name = value!,
                     decoration: const InputDecoration(
+                      hintText: 'First name',
                       labelText: 'Name',
                     ),
                   ),
@@ -89,6 +97,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   TextFormField(
                     onSaved: (value) => user.surname = value!,
                     decoration: const InputDecoration(
+                      hintText: 'Last name',
                       labelText: 'Surname',
                     ),
                   ),
@@ -96,31 +105,61 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   TextFormField(
                     autocorrect: false,
                     keyboardType: TextInputType.emailAddress,
-                    onSaved: (value) => user.email = value!,
                     decoration: const InputDecoration(
                       labelText: 'Email',
+                      hintText: 'Email Address'
                     ),
+                    onSaved: (value) => user.email = value!,
                   ),
                   // const SizedBox(height: 16.0),
                   TextFormField(
                     autocorrect: false,
                     keyboardType: TextInputType.name,
-                    onSaved: (value) => user.dni = value!,
                     decoration: const InputDecoration(
                       labelText: 'Dni',
                     ),
+                    onSaved: (value) => user.dni = value!,
+                    validator: (value) {
+                      String pattern = r'^[A-Za-z]{8}[0-9]$';
+                      RegExp regExp = RegExp(pattern);
+                      return regExp.hasMatch(value ?? '')
+                          ? null
+                          : 'DNI must consist of 8 letters and 1 number';
+                    }
                   ),
                   // const SizedBox(height: 16.0),
                   TextFormField(
                     autocorrect: false,
                     obscureText: true,
                     keyboardType: TextInputType.visiblePassword,
-                    onSaved: (value) => user.password = value!,
-                    decoration: const InputDecoration(
+                     decoration: const InputDecoration(
+                      hintText: '*******',
                       labelText: 'Password',
                     ),
+                    onSaved: (value) => user.password = value!,
+                    validator: (value) {
+                      String pattern = r'(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)';
+                      RegExp regExp = RegExp(pattern);
+                      return regExp.hasMatch(value ?? '')
+                          ? null
+                          : 'Password must have atleast 1 uppercase letter, 1 lowercase letter, numbers & a special character ';
+                    },
                   ),
                   // const SizedBox(height: 16.0),
+                  TextFormField(
+                    autocorrect: false,
+                    obscureText: true,
+                    keyboardType: TextInputType.visiblePassword,
+                    decoration: const InputDecoration(
+                      hintText: '*******',
+                      labelText: 'Confirm Password',
+                    ),
+                    validator: (value) {
+                      return (value != null && value == user.password)
+                          ? null
+                          : 'The password and the c_password must be the same';
+                    }, 
+                  ),
                   ElevatedButton(
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(
