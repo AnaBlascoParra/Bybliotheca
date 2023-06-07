@@ -26,6 +26,10 @@ public class Book {
     private int year;
     private int qty;
 
+    private String img;
+
+    private String imgTitle = title;
+
     public Book(String title, String author, String summary, String genre, int npages, int year, int qty) {
         this.title = title;
         this.author = author;
