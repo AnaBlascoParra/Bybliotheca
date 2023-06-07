@@ -35,7 +35,6 @@ public class BookService {
         existingBook.setNpages(book.getNpages());
         existingBook.setYear(book.getYear());
         existingBook.setImg(book.getImg());
-        existingBook.setImgTitle(book.getTitle());
         return repository.save(existingBook);
     }
 
