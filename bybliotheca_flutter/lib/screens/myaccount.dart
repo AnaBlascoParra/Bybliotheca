@@ -25,7 +25,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
   }
 
   void _fetchUser() async {
-    _user = await UserService().getUserById(widget.userId);
+    _user = await UserService().getUserById(widget.username);
     setState(() {});
   }
 

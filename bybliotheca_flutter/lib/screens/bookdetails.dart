@@ -50,7 +50,7 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
     );
   }
 
-  Future<void> deleteBook(Book book) async {
+  deleteBook(Book book) async {
     String? token = await UserService().readToken();
     final url = 'http://localhost:8080/books/deletebook';
     final response = await http.delete(
@@ -60,13 +60,7 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
         'Accept': 'application/json',
         'Authorization': token!
       },
-      body: json.encode(book.toJson()),
     );
-    if (response.statusCode == 200) {
-      Navigator.pop(context, true);
-    } else {
-      throw Exception('Failed to delete book');
-    }
   }
 
   @override

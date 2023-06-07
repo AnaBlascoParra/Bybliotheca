@@ -48,6 +48,12 @@ class _LoginScreenState extends State<LoginScreen> {
       await storage.write(key: 'token', value: decodedResponse['token']);
       await storage.write(key: 'id', value: decodedResponse['id'].toString());
       Navigator.pushReplacementNamed(context, '/mainmenu');
+      // Navigator.push(
+      //   context,
+      //   MaterialPageRoute(
+      //     builder: (context) => MainMenu(username: username),
+      //   ),
+      // );
       return decodedResponse['role'];
     }
   }

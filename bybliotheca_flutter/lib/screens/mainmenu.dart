@@ -6,7 +6,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../services/services.dart';
 
 class MainMenu extends StatefulWidget {
-  const MainMenu({super.key});
+  final String username;
+
+  MainMenu({required this.username});
 
   @override
   State<MainMenu> createState() => _MainMenuState();
@@ -20,7 +22,7 @@ class _MainMenuState extends State<MainMenu> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => MyAccountScreen(username: ,),
+          builder: (context) => MyAccountScreen(username: widget.username),
         ),
       );
     }

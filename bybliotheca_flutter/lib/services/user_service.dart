@@ -22,8 +22,8 @@ class UserService {
     return await storage.read(key: 'id') ?? '';
   }
 
-  Future<User> getUserById(int userId) async {
-    final url = 'http://localhost:8080/users/id/$userId';
+  Future<User> getUserByUsername(String username) async {
+    final url = 'http://localhost:8080/users/username/$username';
     final response = await http.get(Uri.parse(url));
 
     if (response.statusCode == 200) {
