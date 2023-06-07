@@ -1,10 +1,9 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:bybliotheca_flutter/screens/screens.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
-
+import 'package:shared_preferences/shared_preferences.dart';
 import '../services/user_service.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -14,6 +13,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  
   final _background = const AssetImage("assets/background.png");
   final storage = const FlutterSecureStorage();
 
@@ -22,7 +22,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<String?> login(String username, String password) async {
     final url = 'http://localhost:8080/login';
-
+    // final SharedPreferences _prefs = await prefs;
+    
     final Map<String, dynamic> data = {
       'username': '$username',
       'password': '$password',
@@ -48,13 +49,6 @@ class _LoginScreenState extends State<LoginScreen> {
       await storage.write(key: 'token', value: decodedResponse['token']);
       await storage.write(key: 'id', value: decodedResponse['id'].toString());
       Navigator.pushReplacementNamed(context, '/mainmenu');
-      // Navigator.push(
-      //   context,
-      //   MaterialPageRoute(
-      //     builder: (context) => MainMenu(username: username),
-      //   ),
-      // );
-      return decodedResponse['role'];
     }
   }
 

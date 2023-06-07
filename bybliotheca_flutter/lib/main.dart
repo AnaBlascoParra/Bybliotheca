@@ -1,6 +1,8 @@
 import 'package:bybliotheca_flutter/screens/screens.dart';
 import 'package:flutter/material.dart';
 
+import 'services/services.dart';
+
 void main() => runApp(const BybliothecaApp());
 
 class BybliothecaApp extends StatelessWidget {
@@ -21,7 +23,7 @@ class BybliothecaApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: const InitScreen(),
       routes: {
-        //'/mainmenu': (context) => MainMenu(),
+        '/mainmenu': (context) => MainMenu(),
         '/login': (context) => LoginScreen(),
         '/register': (context) => RegisterScreen(),
         '/addbook': (context) => AddBookScreen(),

@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import '../models/models.dart';
 
 class MyBorrowingsScreen extends StatefulWidget {
-  //final String userId;
+  final String? userId;
 
-  //MyBorrowingsScreen({required this.userId});
+  MyBorrowingsScreen({required this.userId});
 
   @override
   MyBorrowingsScreenState createState() => MyBorrowingsScreenState();
@@ -51,13 +51,6 @@ class MyBorrowingsScreenState extends State<MyBorrowingsScreen> {
         //   },
         // ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushReplacementNamed(context, '/mainmenu');
-        },
-        child: Icon(Icons.arrow_back),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }

@@ -6,10 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../services/services.dart';
 
 class MainMenu extends StatefulWidget {
-  final String username;
-
-  MainMenu({required this.username});
-
+  const MainMenu({super.key});
   @override
   State<MainMenu> createState() => _MainMenuState();
 }
@@ -18,20 +15,32 @@ class _MainMenuState extends State<MainMenu> {
   int _selectedIndex = 0;
 
   void navigateToMyAccount() async {
-
+    String loggedUserId = await UserService().readId();
+      // ignore: use_build_context_synchronously
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => MyAccountScreen(username: widget.username),
+          builder: (context) => MyAccountScreen(userId: loggedUserId),
         ),
       );
-    }
+  }
+ 
+  void navigateToMyBorrowings() async {
+    String loggedUserId = await UserService().readId();
+      // ignore: use_build_context_synchronously
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => MyBorrowingsScreen(userId: loggedUserId),
+        ),
+      );
+  }
   
 
   static final List<Widget> _widgetOptions = <Widget>[
     const BooksMenuScreen(),
-    //MyAccountScreen(),
-    MyBorrowingsScreen()
+    MyAccountScreen(userId: UserService().readId()), //??: No sé cómo pasarle el userId aquí, no sé si está bien
+    MyBorrowingsScreen(userId: UserService().readId())
   ];
 
   void _onItemTapped(int index) {
