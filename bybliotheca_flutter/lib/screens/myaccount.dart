@@ -4,9 +4,9 @@ import '../models/models.dart';
 import '../services/services.dart';
 
 class MyAccountScreen extends StatefulWidget {
-  final String userId;
+  //final String userId;
 
-  MyAccountScreen({required this.userId});
+  //MyAccountScreen({required this.userId});
 
   @override
   _MyAccountScreenState createState() => _MyAccountScreenState();
@@ -21,13 +21,13 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
   void initState() {
     super.initState();
     userService = UserService();
-    _fetchUser();
+    //_fetchUser();
   }
 
-  void _fetchUser() async {
-    _user = await UserService().getUserById(widget.userId);
-    setState(() {});
-  }
+  // void _fetchUser() async {
+  //   _user = await UserService().getUserById(widget.userId);
+  //   setState(() {});
+  // }
 
   @override
   Widget build(BuildContext context) {

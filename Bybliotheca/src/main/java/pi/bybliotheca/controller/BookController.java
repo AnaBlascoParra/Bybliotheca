@@ -25,7 +25,7 @@ public class BookController {
     @Autowired
     BookRepository repository;
 
-    @PostMapping("/addBook")
+    @PostMapping("/books/addbook")
     public Book addBook(@RequestBody Book book){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = userRepository.findByUsername(auth.getPrincipal().toString());
@@ -47,12 +47,12 @@ public class BookController {
         }
     }
 
-    @DeleteMapping("/books/deletebook")
-    public void deleteBook(@RequestBody Book book){
+    @DeleteMapping("/books/deletebook/{title}")
+    public void deleteBook(@PathVariable String title){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = userRepository.findByUsername(auth.getPrincipal().toString());
         if(loggedUser.getRole().equals("ADMIN")) {
-            service.deleteBook(book);
+            service.deleteByTitle(title);
         } else {
             throw new SecurityException("Invalid operation");
         }

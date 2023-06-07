@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import '../models/models.dart';
 
 class MyBorrowingsScreen extends StatefulWidget {
-  final String? userId;
+  // final String? userId;
 
-  MyBorrowingsScreen({required this.userId});
+  // MyBorrowingsScreen({required this.userId});
 
   @override
   MyBorrowingsScreenState createState() => MyBorrowingsScreenState();

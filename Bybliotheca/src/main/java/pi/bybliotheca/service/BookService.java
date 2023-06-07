@@ -26,6 +26,10 @@ public class BookService {
         repository.deleteById(book.getId());
     }
 
+    public void deleteByTitle(String title){
+        repository.deleteByTitle(title);
+    }
+
     public Book updateBook(Book book) {
         Book existingBook = repository.findByTitle(book.getTitle());
         existingBook.setTitle(book.getTitle());

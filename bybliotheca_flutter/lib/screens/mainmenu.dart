@@ -16,31 +16,30 @@ class _MainMenuState extends State<MainMenu> {
 
   void navigateToMyAccount() async {
     String loggedUserId = await UserService().readId();
-      // ignore: use_build_context_synchronously
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => MyAccountScreen(userId: loggedUserId),
-        ),
-      );
+    // ignore: use_build_context_synchronously
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => MyAccountScreen(), //userId: loggedUserId
+      ),
+    );
   }
- 
+
   void navigateToMyBorrowings() async {
     String loggedUserId = await UserService().readId();
-      // ignore: use_build_context_synchronously
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => MyBorrowingsScreen(userId: loggedUserId),
-        ),
-      );
+    // ignore: use_build_context_synchronously
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => MyBorrowingsScreen(), //userId: loggedUserId
+      ),
+    );
   }
-  
 
   static final List<Widget> _widgetOptions = <Widget>[
     const BooksMenuScreen(),
-    MyAccountScreen(userId: UserService().readId()), //??: No sé cómo pasarle el userId aquí, no sé si está bien
-    MyBorrowingsScreen(userId: UserService().readId())
+    MyAccountScreen(), //userId: UserService().readId()
+    MyBorrowingsScreen()
   ];
 
   void _onItemTapped(int index) {

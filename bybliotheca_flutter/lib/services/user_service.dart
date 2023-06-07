@@ -23,8 +23,8 @@ class UserService {
   }
 
   Future<User> getUserById(String userId) async {
-    userId = await readId();
-    final url = 'http://localhost:8080/users/id/$userId';
+    int id = int.parse(userId);
+    final url = 'http://localhost:8080/users/id/$id';
     final response = await http.get(Uri.parse(url));
 
     if (response.statusCode == 200) {

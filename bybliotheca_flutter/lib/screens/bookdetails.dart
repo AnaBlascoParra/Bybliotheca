@@ -50,9 +50,9 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
     );
   }
 
-  deleteBook(Book book) async {
+  deleteBook(String title) async {
     String? token = await UserService().readToken();
-    final url = 'http://localhost:8080/books/deletebook';
+    final url = 'http://localhost:8080/books/deletebook/$title';
     final response = await http.delete(
       Uri.parse(url),
       headers: {
@@ -61,6 +61,11 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
         'Authorization': token!
       },
     );
+    if (response.statusCode == 200) {
+      Navigator.pushReplacementNamed(context, '/allbooks');
+    } else {
+      throw Exception('Could not fetch book');
+    }
   }
 
   @override
@@ -150,7 +155,7 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                                 TextButton(
                                   child: Text('Delete'),
                                   onPressed: () {
-                                    deleteBook(book);
+                                    deleteBook(book.title);
                                     Navigator.of(context).pop();
                                   },
                                 ),
