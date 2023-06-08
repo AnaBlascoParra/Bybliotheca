@@ -141,7 +141,13 @@ class UserListScreenState extends State<UserListScreen> {
                   IconButton(
                     icon: Icon(Icons.edit),
                     onPressed: () {
-                      updateUser(user);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              EditAnotherUserScreen(username: user.username),
+                        ),
+                      );
                     },
                   ),
                   IconButton(

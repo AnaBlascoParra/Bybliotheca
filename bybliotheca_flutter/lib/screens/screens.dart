@@ -9,6 +9,7 @@ export 'package:bybliotheca_flutter/screens/allbooks.dart';
 export 'package:bybliotheca_flutter/screens/addbook.dart';
 export 'package:bybliotheca_flutter/screens/editbook.dart';
 export 'package:bybliotheca_flutter/screens/edituser.dart';
+export 'package:bybliotheca_flutter/screens/editanotheruser.dart';
 export 'package:bybliotheca_flutter/screens/byauthor.dart';
 export 'package:bybliotheca_flutter/screens/bygenre.dart';
 export 'package:bybliotheca_flutter/screens/genres.dart';
