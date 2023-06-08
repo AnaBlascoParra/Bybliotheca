@@ -18,7 +18,7 @@ public class AdminController {
 
     @Autowired
     private UserRepository repository;
-    @DeleteMapping("users/deleteuser")
+    @PutMapping("users/deleteuser")
     public void deleteUser(@RequestBody User user){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = repository.findByUsername(auth.getPrincipal().toString());
@@ -45,7 +45,7 @@ public class AdminController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = repository.findByUsername(auth.getPrincipal().toString());
         if(loggedUser.getRole().equals("ADMIN")) {
-            return service.getUsers();
+            return service.getActiveUsers();
         } else {
             throw new SecurityException("Invalid operation.");
         }

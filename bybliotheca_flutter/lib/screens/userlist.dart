@@ -16,7 +16,7 @@ class UserListScreenState extends State<UserListScreen> {
   List<User> users = [];
   final background = const AssetImage("assets/background.png");
 
-  Future<void> getUsers() async {
+  Future<void> getActiveUsers() async {
     final url = 'http://localhost:8080/users';
     String? token = await UserService().readToken();
 
@@ -41,7 +41,7 @@ class UserListScreenState extends State<UserListScreen> {
   void initState() {
     super.initState();
     users.clear();
-    getUsers();
+    getActiveUsers();
   }
 
   Future<void> updateUser(User updatedUser) async {
@@ -63,46 +63,24 @@ class UserListScreenState extends State<UserListScreen> {
     }
   }
 
-  deleteUser(User deletedUser) async {
+  Future<void> deleteUser(User deletedUser) async {
     String? token = await UserService().readToken();
-    final url = 'http://localhost:8080/books/deleteuser';
-    final response = await http.delete(
-      Uri.parse(url),
-      headers: {
-        'Content-type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': token!
-      },
-    );
+    final url = 'http://localhost:8080/users/deleteuser';
+    final response = await http.put(Uri.parse(url),
+        headers: {
+          'Content-type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': token!
+        },
+        body: json.encode(deletedUser.toJson()));
     if (response.statusCode == 200) {
+      final jsonData = json.decode(response.body);
+      final deletedUser = User.fromJson(jsonData);
       Navigator.pushReplacementNamed(context, '/userlist');
     } else {
       throw Exception('Could not delete user');
     }
   }
-
-  // void navigateToUserProfile(String username) async {
-  //   String? token = await UserService().readToken();
-  //   final url = 'http://localhost:8080/users/username/$username';
-  //   final response = await http.get(Uri.parse(url), headers: {
-  //     'Content-type': 'application/json',
-  //     'Accept': 'application/json',
-  //     "Authorization": token!
-  //   });
-
-  //   if (response.statusCode == 200) {
-  //     final jsonData = json.decode(response.body);
-  //     final user = User.fromJson(jsonData);
-  //     Navigator.push(
-  //       context,
-  //       MaterialPageRoute(
-  //         builder: (context) => OtherAccountScreen(username: user.username),
-  //       ),
-  //     );
-  //   } else {
-  //     throw Exception('Could not fetch user details');
-  //   }
-  // }
 
   //UI
   @override

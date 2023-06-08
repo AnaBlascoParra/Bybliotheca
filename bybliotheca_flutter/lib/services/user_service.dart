@@ -14,6 +14,10 @@ class UserService {
     return user.role == 'ADMIN';
   }
 
+  readRole() async {
+    return await storage.read(key: 'role') ?? '';
+  }
+
   readToken() async {
     return await storage.read(key: 'token') ?? '';
   }

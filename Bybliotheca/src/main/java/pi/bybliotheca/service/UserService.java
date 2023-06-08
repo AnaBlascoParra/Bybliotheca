@@ -71,10 +71,10 @@ public class UserService implements UserDetailsService {
         return repository.save(user);
     }
 
-    public void deleteUser(User user) {
+    public User deleteUser(User user) {
         user.setActive(0);
         user.setDeleted(1);
-        System.out.print("User successfully deleted.");
+        return repository.save(user);
     }
 
     public User updateUser(User user) {
@@ -118,8 +118,10 @@ public class UserService implements UserDetailsService {
         return favedBooks;
     }
 
-    public List<User> getUsers(){
-        return repository.findAll().stream().collect(Collectors.toList());
+    public List<User> getActiveUsers(){
+        return repository.findAll().stream()
+                .filter(x->x.getDeleted()==0)
+                .collect(Collectors.toList());
     }
 
 

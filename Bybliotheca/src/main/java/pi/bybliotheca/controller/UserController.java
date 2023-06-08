@@ -97,9 +97,6 @@ public class UserController {
         return service.getUserByUsername(username);
     }
 
-    //??: tengo que hacer un endpoint para /users/{dni} también? creo que no, porque si busco *hipoteticamente* en la barra de busqueda de la app un dni me sale el
-    // usuario y le doy click y cuando muestra su perfil es a traves de la id, que la coge, pero no sé cómo manejar eso
-
     //TO-DO: FAVOURITES
 
     //TO-DO: BORROWED
