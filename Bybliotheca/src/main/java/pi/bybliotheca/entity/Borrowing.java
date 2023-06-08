@@ -19,13 +19,13 @@ public class  Borrowing {
     @GeneratedValue
     private int id;
     private int userId;
-    private int bookId;
+    private String bookTitle;
     private LocalDate borrowDate;
     private LocalDate returnDate;
 
-    public Borrowing(int userId, int bookId, LocalDate borrowDate, LocalDate returnDate) {
+    public Borrowing(int userId, String bookTitle, LocalDate borrowDate, LocalDate returnDate) {
         this.userId = userId;
-        this.bookId = bookId;
+        this.bookTitle = bookTitle;
         this.borrowDate = borrowDate;
         this.returnDate = returnDate;
     }

@@ -1,24 +1,80 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
-
-import '../models/models.dart';
+import 'package:bybliotheca_flutter/models/models.dart';
+import 'package:bybliotheca_flutter/screens/screens.dart';
+import 'package:http/http.dart' as http;
+import '../services/services.dart';
 
 class MyBorrowingsScreen extends StatefulWidget {
-  // final String? userId;
-
-  // MyBorrowingsScreen({required this.userId});
+  const MyBorrowingsScreen({super.key});
 
   @override
   MyBorrowingsScreenState createState() => MyBorrowingsScreenState();
 }
 
 class MyBorrowingsScreenState extends State<MyBorrowingsScreen> {
-  late List<Book>? books = [];
-  final _background = const AssetImage("assets/background.png");
+  List<Book> books = [];
+  final background = const AssetImage("assets/background.png");
+
+  Future<void> fetchBorrowedBooks() async {
+    String id = await UserService().readId();
+    int userId = int.parse(id);
+    final url = 'http://localhost:8080/"users/id/$id/borrowed';
+    String? token = await UserService().readToken();
+
+    final response = await http.get(Uri.parse(url), headers: {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+      "Authorization": token!
+    });
+
+    if (response.statusCode == 200) {
+      final List<dynamic> jsonResponse = json.decode(response.body);
+      final List<Book> fetchedBooks =
+          jsonResponse.map((data) => Book.fromJson(data)).toList();
+
+      setState(() {
+        books = fetchedBooks;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    books.clear();
+    fetchBorrowedBooks();
+  }
+
+  void navigateToBookDetails(String title) async {
+    String? token = await UserService().readToken();
+    final url = 'http://localhost:8080/books/title/$title';
+    final response = await http.get(Uri.parse(url), headers: {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+      "Authorization": token!
+    });
+
+    if (response.statusCode == 200) {
+      final jsonData = json.decode(response.body);
+      final book = Book.fromJson(jsonData);
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => BookDetailsScreen(title: book.title),
+        ),
+      );
+    } else {
+      throw Exception('Could not fetch book details');
+    }
+  }
+
+  //UI
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('My Borrowings',
+        title: const Text('My Borrowed Books',
             style: TextStyle(fontFamily: 'Enchanted Land', fontSize: 40)),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
@@ -30,26 +86,24 @@ class MyBorrowingsScreenState extends State<MyBorrowingsScreen> {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: _background,
+            image: background,
             fit: BoxFit.cover,
           ),
         ),
-        // child: ListView.builder(
-        //   itemCount: authors.length,
-        //   itemBuilder: (context, index) {
-        //     final author = authors[index];
-        //     return ListTile(
-        //       title: Text(author),
-        //       onTap: () async {
-        //         Navigator.pushReplacementNamed(context, '/byauthor');
-        //         //books = await fetchBooksByAuthor(author);
-        //         // if (books!.isNotEmpty) {
-        //         //   navigateToBookDetails(books![0].id);
-        //         // }
-        //       },
-        //     );
-        //   },
-        // ),
+        child: ListView.builder(
+          itemCount: books.length,
+          itemBuilder: (context, index) {
+            final book = books[index];
+            return ListTile(
+              title: Text(book.title),
+              onTap: () async {
+                navigateToBookDetails(book.title);
+              },
+              subtitle: Text(book.author),
+              //TO-DO: imagen preview
+            );
+          },
+        ),
       ),
     );
   }

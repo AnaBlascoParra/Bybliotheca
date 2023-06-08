@@ -3,12 +3,13 @@ package pi.bybliotheca.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import pi.bybliotheca.entity.Book;
 import pi.bybliotheca.entity.User;
 import pi.bybliotheca.repository.UserRepository;
 import pi.bybliotheca.service.BorrowingService;
+
+import java.util.List;
 
 @RestController
 public class BorrowingController {
@@ -19,23 +20,34 @@ public class BorrowingController {
     private UserRepository userRepository;
 
 
-    @PutMapping("/books/{id}/borrow")
-    public void borrowBook(@PathVariable int id, int userId){
+    @PostMapping("/books/title/{bookTitle}/borrow/{userId}")
+    public void borrowBook(@PathVariable String bookTitle, int userId){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = userRepository.findByUsername(auth.getPrincipal().toString());
-        if(loggedUser.getId()==userId || loggedUser.getRole().equals("USER")) {
-            service.borrowBook(id,userId);
+        if(loggedUser.getRole().equals("USER")) {
+            service.borrowBook(bookTitle,userId);
         } else {
             throw new SecurityException("Invalid operation");
         }
     }
 
-    @PutMapping("/user/{userId}/borrowed/{id}/return")
-    public void returnBook(@PathVariable int id, int userId){
+    @PutMapping("/user/id/{userId}/borrowed/{brId}/return")
+    public void returnBook(@PathVariable int brId, int userId){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = userRepository.findByUsername(auth.getPrincipal().toString());
         if(loggedUser.getId()==userId || loggedUser.getRole().equals("USER")){
-            service.returnBook(id);
+            service.returnBook(brId);
+        } else {
+            throw new SecurityException("Invalid operation");
+        }
+    }
+
+    @GetMapping("users/id/{userId}/borrowed")
+    public List<Book> getBorrowedBooks(@PathVariable int userId){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User loggedUser = userRepository.findByUsername(auth.getPrincipal().toString());
+        if(loggedUser.getRole().equals("ADMIN") || loggedUser.getRole().equals("USER")) {
+            return service.getBorrowedBooks(userId);
         } else {
             throw new SecurityException("Invalid operation");
         }

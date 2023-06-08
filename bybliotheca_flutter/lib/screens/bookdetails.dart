@@ -68,6 +68,26 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
     }
   }
 
+  borrowBook(String title) async {
+    String _userId = await UserService().readId();
+    int userId = int.parse(_userId);
+    String? token = await UserService().readToken();
+    final url = 'http://localhost:8080/books/title/$title/borrow/$userId';
+    final response = await http.post(
+      Uri.parse(url),
+      headers: {
+        'Content-type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': token!
+      },
+    );
+    if (response.statusCode == 200) {
+      Navigator.pushReplacementNamed(context, '/allbooks');
+    } else {
+      throw Exception('Could not borrow book');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -106,65 +126,159 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                       ),
                     ),
                     SizedBox(height: 8),
-                    Text(
-                      'Author: ${book.author}',
-                      style: TextStyle(fontSize: 16),
+                    Text.rich(
+                      TextSpan(
+                        children: [
+                          TextSpan(
+                            text: 'Author: ',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          TextSpan(
+                            text: '${book.author}',
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        ],
+                      ),
                     ),
-                    Text(
-                      'Summary: ${book.summary}',
-                      style: TextStyle(fontSize: 16),
+                    Text.rich(
+                      TextSpan(
+                        children: [
+                          TextSpan(
+                            text: 'Summary: ',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          TextSpan(
+                            text: '${book.summary}',
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        ],
+                      ),
                     ),
-                    Text(
-                      'Genre: ${book.genre}',
-                      style: TextStyle(fontSize: 16),
+                    Text.rich(
+                      TextSpan(
+                        children: [
+                          TextSpan(
+                            text: 'Genre: ',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          TextSpan(
+                            text: '${book.genre}',
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        ],
+                      ),
                     ),
-                    Text(
-                      'Number of Pages: ${book.npages}',
-                      style: TextStyle(fontSize: 16),
+                    Text.rich(
+                      TextSpan(
+                        children: [
+                          TextSpan(
+                            text: 'Pages: ',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          TextSpan(
+                            text: '${book.npages}',
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        ],
+                      ),
                     ),
-                    Text(
-                      'Year: ${book.year}',
-                      style: TextStyle(fontSize: 16),
+                    Text.rich(
+                      TextSpan(
+                        children: [
+                          TextSpan(
+                            text: 'Year: ',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          TextSpan(
+                            text: '${book.year}',
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        ],
+                      ),
                     ),
-                    Text(
-                      'Stock: ${book.qty}',
-                      style: TextStyle(fontSize: 16),
+                    Text.rich(
+                      TextSpan(
+                        children: [
+                          TextSpan(
+                            text: 'Stock: ',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          TextSpan(
+                            text: '${book.qty}',
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        ],
+                      ),
                     ),
-                    IconButton(
-                      onPressed: () {
-                        navigateToEditScreen(book.title);
-                      },
-                      icon: Icon(Icons.edit),
-                    ),
-                    IconButton(
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: Text('Confirm Delete'),
-                              content: Text(
-                                  'Are you sure you want to delete this book?'),
-                              actions: [
-                                TextButton(
-                                  child: Text('Cancel'),
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                ),
-                                TextButton(
-                                  child: Text('Delete'),
-                                  onPressed: () {
-                                    deleteBook(book.title);
-                                    Navigator.of(context).pop();
-                                  },
-                                ),
-                              ],
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                              Color.fromARGB(255, 48, 25, 6),
+                            ),
+                          ),
+                          child: const Text('Borrow book'),
+                          onPressed: () {
+                            borrowBook(book.title);
+                          },
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            navigateToEditScreen(book.title);
+                          },
+                          icon: Icon(Icons.edit),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text('Confirm Delete'),
+                                  content: Text(
+                                      'Are you sure you want to delete this book?'),
+                                  actions: [
+                                    TextButton(
+                                      child: Text('Cancel'),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                    TextButton(
+                                      child: Text('Delete'),
+                                      onPressed: () {
+                                        deleteBook(book.title);
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                  ],
+                                );
+                              },
                             );
                           },
-                        );
-                      },
-                      icon: Icon(Icons.delete_forever),
+                          icon: Icon(Icons.delete_forever),
+                        ),
+                      ],
                     ),
                   ],
                 ),

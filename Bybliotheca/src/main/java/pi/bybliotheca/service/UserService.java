@@ -101,15 +101,6 @@ public class UserService implements UserDetailsService {
         return repository.findByUsername(username);
     }
 
-    public List<Book> getBorrowedBooks(User user){
-        List<Integer> bookIds = brRepository.findAll().stream()
-                .filter(borrowing->borrowing.getUserId()==user.getId())
-                .map(Borrowing::getBookId)
-                .collect(Collectors.toList());
-        List<Book> borrowedBooks = bookRepository.findAllById(bookIds);
-        return borrowedBooks;
-    }
-
     public List<Book> getFavedBooks(User user){
         List<Integer> bookIds = bfRepository.findAll().stream()
                 .filter(bf->bf.getUserId()==user.getId())

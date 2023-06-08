@@ -58,8 +58,8 @@ public class BookService {
         return repository.findByGenre(genre);
     }
 
-    public void reduceQuantity(int id){
-        Book book = repository.findById(id);
+    public void reduceQuantity(String title){
+        Book book = repository.findByTitle(title);
         if(book.getQty() == 0){
             throw new ArithmeticException("No existences left.");
         } else {
@@ -68,8 +68,8 @@ public class BookService {
         }
     }
 
-    public void increaseQuantity(int id){
-        Book book = repository.findById(id);
+    public void increaseQuantity(String title){
+        Book book = repository.findByTitle(title);
         book.setQty(book.getQty()+1);
         repository.save(book);
     }
