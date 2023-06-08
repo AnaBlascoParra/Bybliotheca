@@ -13,7 +13,6 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  
   final _background = const AssetImage("assets/background.png");
   final storage = const FlutterSecureStorage();
 
@@ -22,8 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<String?> login(String username, String password) async {
     final url = 'http://localhost:8080/login';
-    // final SharedPreferences _prefs = await prefs;
-    
+
     final Map<String, dynamic> data = {
       'username': '$username',
       'password': '$password',

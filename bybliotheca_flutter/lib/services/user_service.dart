@@ -14,8 +14,8 @@ class UserService {
     return user.role == 'ADMIN';
   }
 
-  readRole() async {
-    return await storage.read(key: 'role') ?? '';
+  readDeleted() async {
+    return await storage.read(key: 'deleted') ?? '';
   }
 
   readToken() async {

@@ -46,12 +46,6 @@ public class UserController {
         String token = getJWTToken(user.getUsername());
         user2.setToken(token);
         return user2;
-        /*if(user.getActive()==1 && user.getDeleted()==0) {
-            user.setToken(token);
-            return user2;
-        } else {
-            throw new SecurityException("Invalid operation: User " + user.getId() + " deleted or not yet activated by ADMIN.");
-        }*/
     }
 
     private String getJWTToken(String username){
