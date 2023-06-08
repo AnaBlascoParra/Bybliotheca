@@ -6,7 +6,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../services/services.dart';
 
 class MainMenu extends StatefulWidget {
-  const MainMenu({super.key});
+  const MainMenu({Key? key}) : super(key: key);
+
   @override
   State<MainMenu> createState() => _MainMenuState();
 }
@@ -28,12 +29,13 @@ class _MainMenuState extends State<MainMenu> {
   static final List<Widget> _widgetOptions = <Widget>[
     const BooksMenuScreen(),
     MyAccountScreen(),
-    MyBorrowingsScreen()
+    // MyBorrowingsScreen() // Eliminamos el tercer elemento
   ];
 
   void _onItemTapped(int index) {
     setState(() {
-      _selectedIndex = index;
+      // Ajustamos el manejo de índices si el tercer elemento fue eliminado
+      _selectedIndex = index < 2 ? index : index + 1;
     });
   }
 
@@ -85,10 +87,11 @@ class _MainMenuState extends State<MainMenu> {
             icon: Icon(Icons.account_box),
             label: 'My Account',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.school),
-            label: 'My Borrowings',
-          ),
+          // Eliminamos el tercer elemento
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.school),
+          //   label: 'My Borrowings',
+          // ),
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.amber[800],
