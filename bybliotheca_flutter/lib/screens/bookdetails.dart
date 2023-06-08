@@ -238,17 +238,17 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        ElevatedButton(
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(
-                              Color.fromARGB(255, 48, 25, 6),
-                            ),
-                          ),
-                          child: const Text('Borrow book'),
-                          onPressed: () {
-                            borrowBook(book.title);
-                          },
-                        ),
+                        // ElevatedButton(
+                        //   style: ButtonStyle(
+                        //     backgroundColor: MaterialStateProperty.all<Color>(
+                        //       Color.fromARGB(255, 48, 25, 6),
+                        //     ),
+                        //   ),
+                        //   child: const Text('Borrow book'),
+                        //   onPressed: () {
+                        //     borrowBook(book.title);
+                        //   },
+                        // ),
                         if (UserService().isAdmin() == true)
                           IconButton(
                             onPressed: () {

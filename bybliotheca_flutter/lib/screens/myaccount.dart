@@ -57,22 +57,23 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
           },
         ),
         actions: [
-          ElevatedButton(
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all<Color>(
-                  Color.fromARGB(255, 48, 25, 6)),
-            ),
-            onPressed: () {
-              Navigator.pushReplacementNamed(context, '/userlist');
-            },
-            child: Text(
-              'User List →',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 15,
+          if (UserService().isAdmin() == true)
+            ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(
+                    Color.fromARGB(255, 48, 25, 6)),
+              ),
+              onPressed: () {
+                Navigator.pushReplacementNamed(context, '/userlist');
+              },
+              child: Text(
+                'User List →',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 15,
+                ),
               ),
             ),
-          ),
         ],
       ),
       body: Container(
@@ -99,13 +100,17 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                           TextSpan(
                             text: 'Username: ',
                             style: TextStyle(
-                              fontSize: 16,
+                              fontSize: 20,
+                              fontFamily: 'Times New Roman',
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                           TextSpan(
                             text: '${user.username}',
-                            style: TextStyle(fontSize: 16),
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontFamily: 'Times New Roman',
+                            ),
                           ),
                         ],
                       ),
@@ -117,13 +122,17 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                           TextSpan(
                             text: 'Name: ',
                             style: TextStyle(
-                              fontSize: 16,
+                              fontSize: 20,
+                              fontFamily: 'Times New Roman',
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                           TextSpan(
                             text: '${user.name}',
-                            style: TextStyle(fontSize: 16),
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontFamily: 'Times New Roman',
+                            ),
                           ),
                         ],
                       ),
@@ -135,13 +144,17 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                           TextSpan(
                             text: 'Surname: ',
                             style: TextStyle(
-                              fontSize: 16,
+                              fontSize: 20,
+                              fontFamily: 'Times New Roman',
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                           TextSpan(
                             text: '${user.surname}',
-                            style: TextStyle(fontSize: 16),
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontFamily: 'Times New Roman',
+                            ),
                           ),
                         ],
                       ),
@@ -153,13 +166,17 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                           TextSpan(
                             text: 'Email: ',
                             style: TextStyle(
-                              fontSize: 16,
+                              fontSize: 20,
+                              fontFamily: 'Times New Roman',
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                           TextSpan(
                             text: '${user.email}',
-                            style: TextStyle(fontSize: 16),
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontFamily: 'Times New Roman',
+                            ),
                           ),
                         ],
                       ),
@@ -171,13 +188,17 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                           TextSpan(
                             text: 'DNI: ',
                             style: TextStyle(
-                              fontSize: 16,
+                              fontSize: 20,
+                              fontFamily: 'Times New Roman',
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                           TextSpan(
                             text: '${user.dni}',
-                            style: TextStyle(fontSize: 16),
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontFamily: 'Times New Roman',
+                            ),
                           ),
                         ],
                       ),

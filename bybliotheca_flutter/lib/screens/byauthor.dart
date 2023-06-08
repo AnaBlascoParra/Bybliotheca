@@ -42,6 +42,29 @@ class _BooksByAuthorScreenState extends State<BooksByAuthorScreen> {
     }
   }
 
+  void navigateToBookDetails(String title) async {
+    String? token = await UserService().readToken();
+    final url = 'http://localhost:8080/books/title/$title';
+    final response = await http.get(Uri.parse(url), headers: {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+      "Authorization": token!
+    });
+
+    if (response.statusCode == 200) {
+      final jsonData = json.decode(response.body);
+      final book = Book.fromJson(jsonData);
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => BookDetailsScreen(title: book.title),
+        ),
+      );
+    } else {
+      throw Exception('Could not fetch book details');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,11 +90,19 @@ class _BooksByAuthorScreenState extends State<BooksByAuthorScreen> {
           itemBuilder: (context, index) {
             final book = books[index];
             return ListTile(
-              title: Text(book.title),
-              subtitle: Text(book.author),
-              onTap: () {
-                // navigateToBookDetails ..
+              title: Text(
+                '- ${book.title}',
+                style: TextStyle(
+                  fontFamily: 'Times New Roman',
+                  fontSize: 20,
+                ),
+              ),
+              onTap: () async {
+                navigateToBookDetails(book.title);
               },
+              subtitle: Text(book.author,
+                  style: TextStyle(fontStyle: FontStyle.italic)),
+              //TO-DO: imagen preview
             );
           },
         ),
