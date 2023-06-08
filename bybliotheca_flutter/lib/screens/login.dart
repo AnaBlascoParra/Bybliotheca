@@ -42,9 +42,17 @@ class _LoginScreenState extends State<LoginScreen> {
     final Map<String, dynamic> decodedResponse = json.decode(response.body);
 
     if (decodedResponse['status'] == 403) {
-      return 'Password or user incorrect';
+      final snackBar = SnackBar(
+        content: Text('Password or user incorrect.'),
+        backgroundColor: Colors.red,
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
     } else if (decodedResponse['deleted'] == 1) {
-      return 'User deleted. Please contact the library manager.';
+      final snackBar = SnackBar(
+        content: Text('User deleted. Please contact the library manager.'),
+        backgroundColor: Colors.red,
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
     } else {
       await storage.write(key: 'token', value: decodedResponse['token']);
       await storage.write(key: 'id', value: decodedResponse['id'].toString());
