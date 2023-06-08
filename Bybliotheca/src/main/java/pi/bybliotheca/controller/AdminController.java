@@ -19,11 +19,11 @@ public class AdminController {
     @Autowired
     private UserRepository repository;
     @PutMapping("users/deleteuser")
-    public void deleteUser(@RequestBody User user){
+    public User deleteUser(@RequestBody User user){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = repository.findByUsername(auth.getPrincipal().toString());
         if(loggedUser.getRole().equals("ADMIN")) {
-            service.deleteUser(user);
+            return service.deleteUser(user);
         } else {
             throw new SecurityException("Invalid operation.");
         }
