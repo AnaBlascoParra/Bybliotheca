@@ -31,17 +31,6 @@ public class AdminController {
         }
     }
 
-    @PutMapping("/users/activateUser")
-    public void activate(@RequestBody User user){
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User loggedUser = repository.findByUsername(auth.getPrincipal().toString());
-        if(loggedUser.getRole().equals("ADMIN")) {
-            service.activateUser(user);
-        } else {
-            throw new SecurityException("Invalid operation.");
-        }
-    }
-
     @GetMapping("/users")
     public List<User> getUsers(){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

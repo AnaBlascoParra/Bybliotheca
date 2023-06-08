@@ -15,26 +15,13 @@ class MainMenu extends StatefulWidget {
 class _MainMenuState extends State<MainMenu> {
   int _selectedIndex = 0;
 
-  void navigateToMyBorrowings() async {
-    String loggedUserId = await UserService().readId();
-    // ignore: use_build_context_synchronously
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => MyBorrowingsScreen(), //userId: loggedUserId
-      ),
-    );
-  }
-
   static final List<Widget> _widgetOptions = <Widget>[
     const BooksMenuScreen(),
     MyAccountScreen(),
-    // MyBorrowingsScreen() // Eliminamos el tercer elemento
   ];
 
   void _onItemTapped(int index) {
     setState(() {
-      // Ajustamos el manejo de índices si el tercer elemento fue eliminado
       _selectedIndex = index < 2 ? index : index + 1;
     });
   }
@@ -66,7 +53,7 @@ class _MainMenuState extends State<MainMenu> {
                     },
                   );
                 } else {
-                  return Container(); // Si no es administrador, no muestra ningún contenido
+                  return Container();
                 }
               }
             },
@@ -87,11 +74,6 @@ class _MainMenuState extends State<MainMenu> {
             icon: Icon(Icons.account_box),
             label: 'My Account',
           ),
-          // Eliminamos el tercer elemento
-          // BottomNavigationBarItem(
-          //   icon: Icon(Icons.school),
-          //   label: 'My Borrowings',
-          // ),
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.amber[800],

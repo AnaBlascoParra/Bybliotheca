@@ -67,7 +67,7 @@ class _EditAnotherUserScreenState extends State<EditAnotherUserScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Edit Book',
+          'Edit User',
           style: TextStyle(fontFamily: 'Enchanted Land', fontSize: 40),
         ),
         leading: IconButton(

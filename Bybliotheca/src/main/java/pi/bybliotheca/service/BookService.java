@@ -58,21 +58,6 @@ public class BookService {
         return repository.findByGenre(genre);
     }
 
-    public void reduceQuantity(String title){
-        Book book = repository.findByTitle(title);
-        if(book.getQty() == 0){
-            throw new ArithmeticException("No existences left.");
-        } else {
-            book.setQty(book.getQty()-1);
-            repository.save(book);
-        }
-    }
-
-    public void increaseQuantity(String title){
-        Book book = repository.findByTitle(title);
-        book.setQty(book.getQty()+1);
-        repository.save(book);
-    }
 
 }
 

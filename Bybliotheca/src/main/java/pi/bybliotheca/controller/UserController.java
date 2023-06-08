@@ -91,10 +91,6 @@ public class UserController {
         return service.getUserByUsername(username);
     }
 
-    //TO-DO: FAVOURITES
-
-    //TO-DO: BORROWED
-
 
 
 

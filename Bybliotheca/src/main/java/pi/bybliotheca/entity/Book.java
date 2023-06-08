@@ -28,8 +28,6 @@ public class Book {
 
     private String img;
 
-    private String imgTitle = title;
-
     public Book(String title, String author, String summary, String genre, int npages, int year, int qty) {
         this.title = title;
         this.author = author;

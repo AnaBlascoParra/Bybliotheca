@@ -9,12 +9,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import pi.bybliotheca.entity.Book;
-import pi.bybliotheca.entity.BookFav;
-import pi.bybliotheca.entity.Borrowing;
 import pi.bybliotheca.entity.User;
-import pi.bybliotheca.repository.BookFavRepository;
 import pi.bybliotheca.repository.BookRepository;
-import pi.bybliotheca.repository.BorrowingRepository;
 import pi.bybliotheca.repository.UserRepository;
 
 import java.util.List;
@@ -28,12 +24,6 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     private BookRepository bookRepository;
-
-    @Autowired
-    private BorrowingRepository brRepository;
-
-    @Autowired
-    private BookFavRepository bfRepository;
 
     @Autowired
     private BookService bookService;
@@ -85,29 +75,12 @@ public class UserService implements UserDetailsService {
         return repository.save(existingUser);
     }
 
-    public void activateUser(User user) {
-        if (user.getActive() == 0 && !user.getDni().isEmpty()) {
-            user.setActive(1);
-        } else {
-            throw new SecurityException("Invalid operation. User " + user.getId() + "  has already been activated or hasn't properly filled the 'dni' field.");
-        }
-    }
-
     public User getUserById(int id) {
         return repository.findById(id);
     }
 
     public User getUserByUsername(String username) {
         return repository.findByUsername(username);
-    }
-
-    public List<Book> getFavedBooks(User user){
-        List<Integer> bookIds = bfRepository.findAll().stream()
-                .filter(bf->bf.getUserId()==user.getId())
-                .map(BookFav::getBookId)
-                .collect(Collectors.toList());
-        List<Book> favedBooks = bookRepository.findAllById(bookIds);
-        return favedBooks;
     }
 
     public List<User> getActiveUsers(){
