@@ -99,15 +99,11 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                     Text('Email: ${user.email}'),
                     Text('Dni:${user.dni} '),
                     const SizedBox(height: 16.0),
-                    ElevatedButton(
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            Color.fromARGB(255, 48, 25, 6)),
-                      ),
-                      child: const Text('Edit my profile'),
+                    IconButton(
                       onPressed: () {
                         Navigator.pushReplacementNamed(context, '/edituser');
                       },
+                      icon: Icon(Icons.edit),
                     ),
                   ],
                 ),

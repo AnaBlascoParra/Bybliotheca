@@ -106,37 +106,39 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     autocorrect: false,
                     keyboardType: TextInputType.emailAddress,
                     decoration: const InputDecoration(
-                        labelText: 'Email', hintText: 'Email Address'),
+                      labelText: 'Email',
+                      hintText: 'Email Address'
+                    ),
                     onSaved: (value) => user.email = value!,
                   ),
                   // const SizedBox(height: 16.0),
                   TextFormField(
-                      autocorrect: false,
-                      keyboardType: TextInputType.name,
-                      decoration: const InputDecoration(
-                        labelText: 'Dni',
-                      ),
-                      onSaved: (value) => user.dni = value!,
-                      validator: (value) {
-                        String pattern = r'^[0-9]{8}[A-Z]$';
-                        RegExp regExp = RegExp(pattern);
-                        return regExp.hasMatch(value ?? '')
-                            ? null
-                            : 'DNI must consist of 8 numbers and 1 capital letter';
-                      }),
+                    autocorrect: false,
+                    keyboardType: TextInputType.name,
+                    decoration: const InputDecoration(
+                      labelText: 'Dni',
+                    ),
+                    onSaved: (value) => user.dni = value!,
+                    validator: (value) {
+                      String pattern = r'^[A-Za-z]{8}[0-9]$';
+                      RegExp regExp = RegExp(pattern);
+                      return regExp.hasMatch(value ?? '')
+                          ? null
+                          : 'DNI must consist of 8 letters and 1 number';
+                    }
+                  ),
                   // const SizedBox(height: 16.0),
                   TextFormField(
                     autocorrect: false,
                     obscureText: true,
                     keyboardType: TextInputType.visiblePassword,
-                    decoration: const InputDecoration(
+                     decoration: const InputDecoration(
                       hintText: '*******',
                       labelText: 'Password',
                     ),
                     onSaved: (value) => user.password = value!,
                     validator: (value) {
-                      String pattern =
-                          r'(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)';
+                      String pattern = r'(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)';
                       RegExp regExp = RegExp(pattern);
                       return regExp.hasMatch(value ?? '')
                           ? null
@@ -156,7 +158,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       return (value != null && value == user.password)
                           ? null
                           : 'The password and the c_password must be the same';
-                    },
+                    }, 
                   ),
                   ElevatedButton(
                       style: ButtonStyle(
