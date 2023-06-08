@@ -120,6 +120,19 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
           },
         ),
       ),
+      floatingActionButton: Container(
+        margin: EdgeInsets.only(bottom: 16.0),
+        child: FloatingActionButton(
+          onPressed: () {
+            UserService().logout();
+            Navigator.pushReplacementNamed(context, '/login');
+          },
+          child: Icon(Icons.exit_to_app),
+          backgroundColor:
+              Color.fromARGB(255, 116, 94, 75), // Color del botón flotante
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
     );
   }
 }

@@ -52,6 +52,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
       appBar: AppBar(
         title: const Text('Register',
             style: TextStyle(fontFamily: 'Enchanted Land', fontSize: 40)),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pushReplacementNamed(context, '/login');
+          },
+        ),
       ),
       body: Stack(
         fit: StackFit.expand,
@@ -144,20 +150,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     },
                   ),
                   // const SizedBox(height: 16.0),
-                  TextFormField(
-                    autocorrect: false,
-                    obscureText: true,
-                    keyboardType: TextInputType.visiblePassword,
-                    decoration: const InputDecoration(
-                      hintText: '*******',
-                      labelText: 'Confirm Password',
-                    ),
-                    validator: (value) {
-                      return (value != null && value == user.password)
-                          ? null
-                          : 'The password and the c_password must be the same';
-                    },
-                  ),
+                  // TextFormField(
+                  //   autocorrect: false,
+                  //   obscureText: true,
+                  //   keyboardType: TextInputType.visiblePassword,
+                  //   decoration: const InputDecoration(
+                  //     hintText: '*******',
+                  //     labelText: 'Confirm Password',
+                  //   ),
+                  //   validator: (value) {
+                  //     return (value != null && value == user.password)
+                  //         ? null
+                  //         : 'The password and the c_password must be the same';
+                  //   },
+                  // ),
+                  const SizedBox(height: 16.0),
                   ElevatedButton(
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(
