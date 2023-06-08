@@ -43,6 +43,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
     if (decodedResponse['status'] == 403) {
       return 'Password or user incorrect';
+    } else if (decodedResponse['deleted'] == 1) {
+      return 'User deleted. Please contact the library manager.';
     } else {
       await storage.write(key: 'token', value: decodedResponse['token']);
       await storage.write(key: 'id', value: decodedResponse['id'].toString());
