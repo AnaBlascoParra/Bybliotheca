@@ -45,12 +45,13 @@ class _MainMenuState extends State<MainMenu> {
         title: const Text('Bybliotheca',
             style: TextStyle(fontFamily: 'Enchanted Land', fontSize: 40)),
         actions: [
-          IconButton(
-            icon: Icon(Icons.add),
-            onPressed: () {
-              Navigator.pushReplacementNamed(context, '/addbook');
-            },
-          ),
+          if (UserService().isAdmin() == true)
+            IconButton(
+              icon: Icon(Icons.add),
+              onPressed: () {
+                Navigator.pushReplacementNamed(context, '/addbook');
+              },
+            ),
         ],
       ),
       body: Center(

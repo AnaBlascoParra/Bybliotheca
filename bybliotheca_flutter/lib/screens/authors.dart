@@ -90,7 +90,13 @@ class AuthorsScreenState extends State<AuthorsScreen> {
           itemBuilder: (context, index) {
             final author = authors[index];
             return ListTile(
-              title: Text(author),
+              title: Text(
+                '- $author',
+                style: TextStyle(
+                  fontFamily: 'Times New Roman',
+                  fontSize: 20,
+                ),
+              ),
               onTap: () async {
                 navigateToBooksByAuthor(author);
               },

@@ -92,7 +92,13 @@ class GenresScreenState extends State<GenresScreen> {
           itemBuilder: (context, index) {
             final genre = genres[index];
             return ListTile(
-              title: Text(genre),
+              title: Text(
+                '- $genre',
+                style: TextStyle(
+                  fontFamily: 'Times New Roman',
+                  fontSize: 20,
+                ),
+              ),
               onTap: () async {
                 navigateToBooksByGenre(genre);
               },

@@ -10,8 +10,18 @@ import '../models/models.dart';
 class UserService {
   final storage = const FlutterSecureStorage();
 
-  bool isAdmin(User user) {
-    return user.role == 'ADMIN';
+  Future<bool> isAdmin() async {
+    bool isAdmin;
+    String role = await readRole();
+    if (role == 'ADMIN') {
+      return isAdmin = true;
+    } else {
+      return isAdmin = false;
+    }
+  }
+
+  readRole() async {
+    return await storage.read(key: 'role') ?? '';
   }
 
   readDeleted() async {

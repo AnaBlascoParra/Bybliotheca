@@ -121,11 +121,12 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                     Text(
                       book.title,
                       style: TextStyle(
-                        fontSize: 24,
+                        fontFamily: 'Enchanted Land',
+                        fontSize: 40,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(height: 8),
+                    SizedBox(height: 5),
                     Text.rich(
                       TextSpan(
                         children: [
@@ -143,6 +144,7 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                         ],
                       ),
                     ),
+                    const SizedBox(height: 3.0),
                     Text.rich(
                       TextSpan(
                         children: [
@@ -160,6 +162,7 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                         ],
                       ),
                     ),
+                    const SizedBox(height: 3.0),
                     Text.rich(
                       TextSpan(
                         children: [
@@ -177,6 +180,7 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                         ],
                       ),
                     ),
+                    const SizedBox(height: 3.0),
                     Text.rich(
                       TextSpan(
                         children: [
@@ -194,6 +198,7 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                         ],
                       ),
                     ),
+                    const SizedBox(height: 3.0),
                     Text.rich(
                       TextSpan(
                         children: [
@@ -211,6 +216,7 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                         ],
                       ),
                     ),
+                    const SizedBox(height: 3.0),
                     Text.rich(
                       TextSpan(
                         children: [
@@ -228,6 +234,7 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                         ],
                       ),
                     ),
+                    const SizedBox(height: 8.0),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
@@ -242,42 +249,44 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                             borrowBook(book.title);
                           },
                         ),
-                        IconButton(
-                          onPressed: () {
-                            navigateToEditScreen(book.title);
-                          },
-                          icon: Icon(Icons.edit),
-                        ),
-                        IconButton(
-                          onPressed: () {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: Text('Confirm Delete'),
-                                  content: Text(
-                                      'Are you sure you want to delete this book?'),
-                                  actions: [
-                                    TextButton(
-                                      child: Text('Cancel'),
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                    ),
-                                    TextButton(
-                                      child: Text('Delete'),
-                                      onPressed: () {
-                                        deleteBook(book.title);
-                                        Navigator.of(context).pop();
-                                      },
-                                    ),
-                                  ],
-                                );
-                              },
-                            );
-                          },
-                          icon: Icon(Icons.delete_forever),
-                        ),
+                        if (UserService().isAdmin() == true)
+                          IconButton(
+                            onPressed: () {
+                              navigateToEditScreen(book.title);
+                            },
+                            icon: Icon(Icons.edit),
+                          ),
+                        if (UserService().isAdmin() == true)
+                          IconButton(
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text('Confirm Delete'),
+                                    content: Text(
+                                        'Are you sure you want to delete this book?'),
+                                    actions: [
+                                      TextButton(
+                                        child: Text('Cancel'),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                      TextButton(
+                                        child: Text('Delete'),
+                                        onPressed: () {
+                                          deleteBook(book.title);
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                            icon: Icon(Icons.delete_forever),
+                          ),
                       ],
                     ),
                   ],

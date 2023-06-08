@@ -93,11 +93,18 @@ class AllBooksScreenState extends State<AllBooksScreen> {
           itemBuilder: (context, index) {
             final book = books[index];
             return ListTile(
-              title: Text(book.title),
+              title: Text(
+                '- ${book.title}',
+                style: TextStyle(
+                  fontFamily: 'Times New Roman',
+                  fontSize: 20,
+                ),
+              ),
               onTap: () async {
                 navigateToBookDetails(book.title);
               },
-              subtitle: Text(book.author),
+              subtitle: Text(book.author,
+                  style: TextStyle(fontStyle: FontStyle.italic)),
               //TO-DO: imagen preview
             );
           },
