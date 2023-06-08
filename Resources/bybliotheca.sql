@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 05-06-2023 a las 16:45:40
+-- Tiempo de generación: 08-06-2023 a las 18:11:15
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -35,47 +35,22 @@ CREATE TABLE `books` (
   `qty` int(11) NOT NULL,
   `title` varchar(255) DEFAULT NULL,
   `year` int(11) NOT NULL,
-  `summary` varchar(255) DEFAULT NULL
+  `summary` varchar(255) DEFAULT NULL,
+  `img` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `books`
 --
 
-INSERT INTO `books` (`id`, `author`, `genre`, `npages`, `qty`, `title`, `year`, `summary`) VALUES
-(10, 'J. R. R. Tolkien', 'Fantasy', 363, 10, 'The Hobbit', 1937, 'In a sleepy village in the Shire, a young hobbit is entrusted with an immense task.'),
-(11, 'J. R. R. Tolkien', 'Fantasy', 386, 10, 'The Silmarillion', 1977, 'Morgoth, the first Dark Lord, dwelt in Middle-Earth, and the High Elves made war upon him for the recovery of the Silmarils, the jewels containing the pure light of Valinor.'),
-(12, 'J. R. R. Tolkien', 'Fantasy', 432, 10, 'The Fellowship of the Ring', 1954, 'One Ring to rule them all, One Ring to find them, One Ring to bring them all and in the darkness bind them.'),
-(15, 'J. R. R. Tolkien', 'Fantasy', 448, 10, 'The Two Towers', 1954, 'Frodo and his Companions of the Ring have been beset by danger during their quest to prevent the Ruling Ring from falling into the hands of the Dark Lord by destroying it in the Cracks of Doom. '),
-(16, 'J. R. R. Tolkien', 'Fantasy', 432, 10, 'The Return of the King', 1955, 'The Dark Lord has risen, and as he unleashes hordes of Orcs to conquer all Middle-earth, Frodo and Sam struggle deep into his realm in Mordor.'),
-(17, 'Umberto Eco', 'Historical Fiction', 502, 5, 'The Name of the Rose', 1980, 'The story centers on William of Baskerville, a 50-year-old monk who is sent to investigate a death at a Benedictine monastery. During his search, several other monks are killed in a bizarre pattern that reflects the Book of Revelation.'),
-(19, 'Ken Follett', 'Historical Fiction', 976, 5, 'The Pillars of the Earth', 1989, 'The building of the cathedral, with the almost eerie artistry of the unschooled stonemasons, is the center of the drama. Around the site of the construction, Follett weaves a story of betrayal, revenge, and love.');
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `borrowings`
---
-
-CREATE TABLE `borrowings` (
-  `id` int(11) NOT NULL,
-  `book_id` int(11) NOT NULL,
-  `borrow_date` date DEFAULT NULL,
-  `return_date` date DEFAULT NULL,
-  `user_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `favs`
---
-
-CREATE TABLE `favs` (
-  `id` int(11) NOT NULL,
-  `book_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+INSERT INTO `books` (`id`, `author`, `genre`, `npages`, `qty`, `title`, `year`, `summary`, `img`) VALUES
+(11, 'J. R. R. Tolkien', 'Fantasy', 386, 10, 'The Silmarillion', 1977, 'Morgoth, the first Dark Lord, dwelt in Middle-Earth, and the High Elves made war upon him for the recovery of the Silmarils, the jewels containing the pure light of Valinor.', 'C:\\Users\\ana21\\Desktop\\3306190.jpg'),
+(12, 'J. R. R. Tolkien', 'Fantasy', 432, 10, 'The Fellowship of the Ring', 1954, 'One Ring to rule them all, One Ring to find them, One Ring to bring them all and in the darkness bind them.', NULL),
+(15, 'J. R. R. Tolkien', 'Fantasy', 448, 10, 'The Two Towers', 1954, 'Frodo and his Companions of the Ring have been beset by danger during their quest to prevent the Ruling Ring from falling into the hands of the Dark Lord by destroying it in the Cracks of Doom. ', NULL),
+(16, 'J. R. R. Tolkien', 'Fantasy', 432, 10, 'The Return of the King', 1955, 'The Dark Lord has risen, and as he unleashes hordes of Orcs to conquer all Middle-earth, Frodo and Sam struggle deep into his realm in Mordor.', NULL),
+(17, 'Umberto Eco', 'Historical Fiction', 502, 5, 'The Name of the Rose', 1980, 'The story centers on William of Baskerville, a 50-year-old monk who is sent to investigate a death at a Benedictine monastery. During his search, several other monks are killed in a bizarre pattern that reflects the Book of Revelation.', NULL),
+(19, 'Ken Follett', 'Historical Fiction', 976, 5, 'The Pillars of the Earth', 1989, 'The building of the cathedral, with the almost eerie artistry of the unschooled stonemasons, is the center of the drama. Around the site of the construction, Follett weaves a story of betrayal, revenge, and love.', NULL),
+(52, 'J. R. R. Tolkien', 'Fantasy', 364, 10, 'The Hobbit', 1937, 'In a hole in the ground there lived a hobbit.', 'C:\\Users\\ana21\\Desktop\\5907.jpg');
 
 -- --------------------------------------------------------
 
@@ -92,7 +67,7 @@ CREATE TABLE `hibernate_sequence` (
 --
 
 INSERT INTO `hibernate_sequence` (`next_val`) VALUES
-(20);
+(53);
 
 -- --------------------------------------------------------
 
@@ -119,8 +94,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `active`, `deleted`, `dni`, `email`, `name`, `password`, `role`, `surname`, `username`, `token`) VALUES
-(6, 1, 0, '44444444B', 'prueba@gmail.com', 'Julius', '$2a$10$lWK51khRLIlvgk9lfHn3DO1XUxQ8VVIdF0wfns/c8AR1KvUASsTue', 'USER', 'Caesar', 'prueba', NULL),
-(7, 1, 0, '12345678A', 'admin@gmail.com', 'William', '$2a$10$.XIKUAbwgn14KluTI4tDWu2E4/urq4gFTL6LB/IMIZfugZGyL2HlO', 'ADMIN', 'Shakespeare', 'admin', NULL);
+(6, 1, 0, '44444444B', 'julio@gmail.com', 'Julius', '$2a$10$lWK51khRLIlvgk9lfHn3DO1XUxQ8VVIdF0wfns/c8AR1KvUASsTue', 'USER', 'Caesar', 'prueba', NULL),
+(7, 1, 0, '12345678A', 'admin@gmail.com', 'William', '$2a$10$.XIKUAbwgn14KluTI4tDWu2E4/urq4gFTL6LB/IMIZfugZGyL2HlO', 'ADMIN', 'Shakespeare', 'admin', NULL),
+(51, 1, 0, '12345678E', 'ricarduu@gmail.com', 'Richard', '$2a$10$j1.RWPlnb7UH6LtRtGlor.GMAyzPS/wlCZLO70nJn3mTJI827kOoO', 'USER', 'the Third', 'prueba2', NULL);
 
 --
 -- Índices para tablas volcadas
@@ -130,18 +106,6 @@ INSERT INTO `users` (`id`, `active`, `deleted`, `dni`, `email`, `name`, `passwor
 -- Indices de la tabla `books`
 --
 ALTER TABLE `books`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `borrowings`
---
-ALTER TABLE `borrowings`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `favs`
---
-ALTER TABLE `favs`
   ADD PRIMARY KEY (`id`);
 
 --
