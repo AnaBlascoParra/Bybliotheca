@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:bybliotheca_flutter/models/models.dart';
+
+import '../models/models.dart';
 import '../services/services.dart';
 import 'screens.dart';
 
@@ -157,13 +159,12 @@ class _EditBookScreenState extends State<EditBookScreen> {
                       },
                     ),
                     TextFormField(
+                      initialValue: book.img.toString(),
                       autocorrect: false,
-                      onChanged: (value) {
-                        book.img = _imagePath;
-                      },
                       decoration: const InputDecoration(
                         labelText: 'Cover',
                       ),
+                      readOnly: true,
                     ),
                     ElevatedButton(
                       style: ButtonStyle(
@@ -182,6 +183,9 @@ class _EditBookScreenState extends State<EditBookScreen> {
                             Color.fromARGB(255, 48, 25, 6)),
                       ),
                       onPressed: () {
+                        if (_imagePath != null) {
+                          book.img = _imagePath!;
+                        }
                         updateBookDetails(book);
                       },
                       child: Text('Update Book'),

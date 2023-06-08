@@ -110,238 +110,240 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
             fit: BoxFit.cover,
           ),
         ),
-        child: FutureBuilder<Book>(
-          future: _bookFuture,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              final book = snapshot.data!;
-              return Padding(
-                padding: EdgeInsets.all(16.0),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    if (book.img != null)
-                      Container(
-                        width: 170,
-                        height: 250,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: FileImage(File(book.img.toString())),
-                            fit: BoxFit.cover,
+        child: Center(
+          child: FutureBuilder<Book>(
+            future: _bookFuture,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                final book = snapshot.data!;
+                return Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (book.img != null)
+                        Container(
+                          width: 170,
+                          height: 250,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: FileImage(File(book.img.toString())),
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
-                      ),
-                    SizedBox(width: 16.0),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            book.title,
-                            style: TextStyle(
-                              fontFamily: 'Enchanted Land',
-                              fontSize: 40,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(height: 5),
-                          Text.rich(
-                            TextSpan(
-                              children: [
-                                TextSpan(
-                                  text: 'Author: ',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                TextSpan(
-                                  text: '${book.author}',
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(height: 3.0),
-                          Text.rich(
-                            TextSpan(
-                              children: [
-                                TextSpan(
-                                  text: 'Summary: ',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                TextSpan(
-                                  text: '${book.summary}',
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(height: 3.0),
-                          Text.rich(
-                            TextSpan(
-                              children: [
-                                TextSpan(
-                                  text: 'Genre: ',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                TextSpan(
-                                  text: '${book.genre}',
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(height: 3.0),
-                          Text.rich(
-                            TextSpan(
-                              children: [
-                                TextSpan(
-                                  text: 'Pages: ',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                TextSpan(
-                                  text: '${book.npages}',
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(height: 3.0),
-                          Text.rich(
-                            TextSpan(
-                              children: [
-                                TextSpan(
-                                  text: 'Year: ',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                TextSpan(
-                                  text: '${book.year}',
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(height: 3.0),
-                          Text.rich(
-                            TextSpan(
-                              children: [
-                                TextSpan(
-                                  text: 'Stock: ',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                TextSpan(
-                                  text: '${book.qty}',
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(height: 8.0),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              FutureBuilder<bool>(
-                                future: UserService().isAdmin(),
-                                builder: (context, snapshot) {
-                                  if (snapshot.connectionState ==
-                                      ConnectionState.waiting) {
-                                    return Container();
-                                  } else if (snapshot.hasError) {
-                                    return Container();
-                                  } else {
-                                    final isAdmin = snapshot.data;
-                                    if (isAdmin == true) {
-                                      return IconButton(
-                                        onPressed: () {
-                                          navigateToEditScreen(book.title);
-                                        },
-                                        icon: Icon(Icons.edit),
-                                      );
-                                    } else {
-                                      return Container();
-                                    }
-                                  }
-                                },
+                      SizedBox(width: 16.0),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              book.title,
+                              style: TextStyle(
+                                fontFamily: 'Enchanted Land',
+                                fontSize: 40,
+                                fontWeight: FontWeight.bold,
                               ),
-                              FutureBuilder<bool>(
-                                future: UserService().isAdmin(),
-                                builder: (context, snapshot) {
-                                  if (snapshot.connectionState ==
-                                      ConnectionState.waiting) {
-                                    return Container();
-                                  } else if (snapshot.hasError) {
-                                    return Container();
-                                  } else {
-                                    final isAdmin = snapshot.data;
-                                    if (isAdmin == true) {
-                                      return IconButton(
-                                        onPressed: () {
-                                          showDialog(
-                                            context: context,
-                                            builder: (BuildContext context) {
-                                              return AlertDialog(
-                                                title: Text('Confirm Delete'),
-                                                content: Text(
-                                                    'Are you sure you want to delete this book?'),
-                                                actions: [
-                                                  TextButton(
-                                                    child: Text('Cancel'),
-                                                    onPressed: () {
-                                                      Navigator.of(context)
-                                                          .pop();
-                                                    },
-                                                  ),
-                                                  TextButton(
-                                                    child: Text('Delete'),
-                                                    onPressed: () {
-                                                      deleteBook(book.title);
-                                                      Navigator.of(context)
-                                                          .pop();
-                                                    },
-                                                  ),
-                                                ],
-                                              );
-                                            },
-                                          );
-                                        },
-                                        icon: Icon(Icons.delete_forever),
-                                      );
-                                    } else {
-                                      return Container();
-                                    }
-                                  }
-                                },
+                            ),
+                            SizedBox(height: 5),
+                            Text.rich(
+                              TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: 'Author: ',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: '${book.author}',
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
-                        ],
+                            ),
+                            const SizedBox(height: 3.0),
+                            Text.rich(
+                              TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: 'Summary: ',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: '${book.summary}',
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(height: 3.0),
+                            Text.rich(
+                              TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: 'Genre: ',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: '${book.genre}',
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(height: 3.0),
+                            Text.rich(
+                              TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: 'Pages: ',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: '${book.npages}',
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(height: 3.0),
+                            Text.rich(
+                              TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: 'Year: ',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: '${book.year}',
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(height: 3.0),
+                            Text.rich(
+                              TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: 'Stock: ',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: '${book.qty}',
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(height: 8.0),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                FutureBuilder<bool>(
+                                  future: UserService().isAdmin(),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.connectionState ==
+                                        ConnectionState.waiting) {
+                                      return Container();
+                                    } else if (snapshot.hasError) {
+                                      return Container();
+                                    } else {
+                                      final isAdmin = snapshot.data;
+                                      if (isAdmin == true) {
+                                        return IconButton(
+                                          onPressed: () {
+                                            navigateToEditScreen(book.title);
+                                          },
+                                          icon: Icon(Icons.edit),
+                                        );
+                                      } else {
+                                        return Container();
+                                      }
+                                    }
+                                  },
+                                ),
+                                FutureBuilder<bool>(
+                                  future: UserService().isAdmin(),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.connectionState ==
+                                        ConnectionState.waiting) {
+                                      return Container();
+                                    } else if (snapshot.hasError) {
+                                      return Container();
+                                    } else {
+                                      final isAdmin = snapshot.data;
+                                      if (isAdmin == true) {
+                                        return IconButton(
+                                          onPressed: () {
+                                            showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return AlertDialog(
+                                                  title: Text('Confirm Delete'),
+                                                  content: Text(
+                                                      'Are you sure you want to delete this book?'),
+                                                  actions: [
+                                                    TextButton(
+                                                      child: Text('Cancel'),
+                                                      onPressed: () {
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                      },
+                                                    ),
+                                                    TextButton(
+                                                      child: Text('Delete'),
+                                                      onPressed: () {
+                                                        deleteBook(book.title);
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                      },
+                                                    ),
+                                                  ],
+                                                );
+                                              },
+                                            );
+                                          },
+                                          icon: Icon(Icons.delete_forever),
+                                        );
+                                      } else {
+                                        return Container();
+                                      }
+                                    }
+                                  },
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              );
-            } else if (snapshot.hasError) {
-              return Text('Error: ${snapshot.error}');
-            } else {
-              return CircularProgressIndicator();
-            }
-          },
+                    ],
+                  ),
+                );
+              } else if (snapshot.hasError) {
+                return Text('Error: ${snapshot.error}');
+              } else {
+                return CircularProgressIndicator();
+              }
+            },
+          ),
         ),
       ),
     );
