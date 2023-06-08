@@ -71,11 +71,11 @@ public class UserService implements UserDetailsService {
         return repository.save(user);
     }
 
-    public User deleteUser(User user) {
-        User existingUser = repository.findByUsername(user.getUsername());
-        existingUser.setActive(0);
-        existingUser.setDeleted(1);
-        return repository.save(existingUser);
+    public void deleteUser(String username) {
+        User user = repository.findByUsername(username);
+        user.setActive(0);
+        user.setDeleted(1);
+        repository.save(user);
     }
 
     public User updateUser(User user) {

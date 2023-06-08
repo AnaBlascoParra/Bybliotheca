@@ -9,6 +9,7 @@ import pi.bybliotheca.repository.UserRepository;
 import pi.bybliotheca.service.UserService;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class AdminController {
@@ -19,11 +20,12 @@ public class AdminController {
     @Autowired
     private UserRepository repository;
     @PutMapping("users/deleteuser")
-    public User deleteUser(@RequestBody User user){
+    public void deleteUser(@RequestBody Map<String, String> body){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = repository.findByUsername(auth.getPrincipal().toString());
         if(loggedUser.getRole().equals("ADMIN")) {
-            return service.deleteUser(user);
+            String username = body.get("username");
+            service.deleteUser(username);
         } else {
             throw new SecurityException("Invalid operation.");
         }

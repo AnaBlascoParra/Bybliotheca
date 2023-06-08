@@ -63,19 +63,19 @@ class UserListScreenState extends State<UserListScreen> {
     }
   }
 
-  Future<void> deleteUser(User deletedUser) async {
+  Future<void> deleteUser(String username) async {
     String? token = await UserService().readToken();
     final url = 'http://localhost:8080/users/deleteuser';
-    final response = await http.put(Uri.parse(url),
-        headers: {
-          'Content-type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': token!
-        },
-        body: json.encode(deletedUser.toJson()));
+    final response = await http.put(
+      Uri.parse(url),
+      headers: {
+        'Content-type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': token!,
+      },
+      body: json.encode({'username': username}),
+    );
     if (response.statusCode == 200) {
-      final jsonData = json.decode(response.body);
-      final deletedUser = User.fromJson(jsonData);
       Navigator.pushReplacementNamed(context, '/userlist');
     } else {
       throw Exception('Could not delete user');
@@ -131,7 +131,7 @@ class UserListScreenState extends State<UserListScreen> {
                   IconButton(
                     icon: Icon(Icons.delete),
                     onPressed: () {
-                      deleteUser(user);
+                      deleteUser(user.username);
                     },
                   ),
                 ],
