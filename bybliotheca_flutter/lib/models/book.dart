@@ -16,6 +16,7 @@ class Book {
   String author;
   String summary;
   String genre;
+  String? img;
   int npages;
   int year;
   int qty;
@@ -25,6 +26,7 @@ class Book {
     required this.author,
     required this.summary,
     required this.genre,
+    required this.img,
     required this.npages,
     required this.year,
     required this.qty,
@@ -35,6 +37,7 @@ class Book {
         author: json["author"],
         summary: json["summary"],
         genre: json["genre"],
+        img: json["img"],
         npages: json["npages"],
         year: json["year"],
         qty: json["qty"],
@@ -45,6 +48,7 @@ class Book {
         "author": author,
         "summary": summary,
         "genre": genre,
+        "img": img,
         "npages": npages,
         "year": year,
         "qty": qty,

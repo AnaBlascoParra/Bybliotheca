@@ -1,9 +1,11 @@
 import 'dart:convert';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:bybliotheca_flutter/screens/screens.dart';
 import 'package:bybliotheca_flutter/models/models.dart';
 import '../services/services.dart';
+import 'dart:io';
 
 class AddBookScreen extends StatefulWidget {
   const AddBookScreen({super.key});
@@ -15,11 +17,13 @@ class AddBookScreen extends StatefulWidget {
 
 class _AddBookScreenState extends State<AddBookScreen> {
   final formKey = GlobalKey<FormState>();
+  String? _imagePath;
   final book = Book(
       title: '',
       author: '',
       summary: '',
       genre: '',
+      img: '',
       npages: 0,
       year: 0,
       qty: 0);
@@ -46,6 +50,20 @@ class _AddBookScreenState extends State<AddBookScreen> {
       if (response.statusCode == 200) {
         Navigator.pushReplacementNamed(context, '/mainmenu');
       }
+    }
+  }
+
+  void _pickImage() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.image,
+      allowMultiple: false,
+    );
+
+    if (result != null && result.files.isNotEmpty) {
+      PlatformFile file = result.files.first;
+      setState(() {
+        _imagePath = file.path;
+      });
     }
   }
 
@@ -85,7 +103,6 @@ class _AddBookScreenState extends State<AddBookScreen> {
                       labelText: 'Title',
                     ),
                   ),
-                  // const SizedBox(height: 16.0),
                   TextFormField(
                     autocorrect: false,
                     keyboardType: TextInputType.name,
@@ -94,14 +111,12 @@ class _AddBookScreenState extends State<AddBookScreen> {
                       labelText: 'Author',
                     ),
                   ),
-                  // const SizedBox(height: 16.0),
                   TextFormField(
                     onSaved: (value) => book.summary = value!,
                     decoration: const InputDecoration(
                       labelText: 'Summary',
                     ),
                   ),
-                  // const SizedBox(height: 16.0),
                   TextFormField(
                     autocorrect: false,
                     keyboardType: TextInputType.emailAddress,
@@ -110,7 +125,6 @@ class _AddBookScreenState extends State<AddBookScreen> {
                       labelText: 'Genre',
                     ),
                   ),
-                  // const SizedBox(height: 16.0),
                   TextFormField(
                     autocorrect: false,
                     keyboardType: TextInputType.number,
@@ -119,7 +133,6 @@ class _AddBookScreenState extends State<AddBookScreen> {
                       labelText: 'Number of pages',
                     ),
                   ),
-                  // const SizedBox(height: 16.0),
                   TextFormField(
                     autocorrect: false,
                     keyboardType: TextInputType.number,
@@ -128,7 +141,6 @@ class _AddBookScreenState extends State<AddBookScreen> {
                       labelText: 'Publication year',
                     ),
                   ),
-                  // const SizedBox(height: 16.0),
                   TextFormField(
                     autocorrect: false,
                     keyboardType: TextInputType.number,
@@ -136,6 +148,23 @@ class _AddBookScreenState extends State<AddBookScreen> {
                     decoration: const InputDecoration(
                       labelText: 'Stock',
                     ),
+                  ),
+                  TextFormField(
+                    autocorrect: false,
+                    onSaved: (value) => book.img = _imagePath,
+                    decoration: const InputDecoration(
+                      labelText: 'Cover',
+                    ),
+                  ),
+                  ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                          Color.fromARGB(255, 48, 25, 6)),
+                    ),
+                    child: Text('Select cover'),
+                    onPressed: () {
+                      _pickImage();
+                    },
                   ),
                   const SizedBox(height: 16.0),
                   ElevatedButton(

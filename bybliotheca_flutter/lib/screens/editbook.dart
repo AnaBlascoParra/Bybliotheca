@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:bybliotheca_flutter/models/models.dart';
@@ -17,6 +18,7 @@ class EditBookScreen extends StatefulWidget {
 
 class _EditBookScreenState extends State<EditBookScreen> {
   late Future<Book> _bookFuture;
+  String? _imagePath;
   final background = const AssetImage("assets/background.png");
 
   @override
@@ -58,6 +60,20 @@ class _EditBookScreenState extends State<EditBookScreen> {
       Navigator.pushReplacementNamed(context, '/allbooks');
     } else {
       throw Exception('Failed to update book details');
+    }
+  }
+
+  void _pickImage() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.image,
+      allowMultiple: false,
+    );
+
+    if (result != null && result.files.isNotEmpty) {
+      PlatformFile file = result.files.first;
+      setState(() {
+        _imagePath = file.path;
+      });
     }
   }
 
@@ -138,6 +154,25 @@ class _EditBookScreenState extends State<EditBookScreen> {
                       decoration: InputDecoration(labelText: 'Stock'),
                       onChanged: (value) {
                         book.qty = int.parse(value);
+                      },
+                    ),
+                    TextFormField(
+                      autocorrect: false,
+                      onChanged: (value) {
+                        book.img = _imagePath;
+                      },
+                      decoration: const InputDecoration(
+                        labelText: 'Cover',
+                      ),
+                    ),
+                    ElevatedButton(
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            Color.fromARGB(255, 48, 25, 6)),
+                      ),
+                      child: Text('Select new cover'),
+                      onPressed: () {
+                        _pickImage();
                       },
                     ),
                     SizedBox(height: 8),
