@@ -71,8 +71,7 @@ public class UserService implements UserDetailsService {
         return repository.save(user);
     }
 
-    public void deleteUser(int id) {
-        User user = repository.findById(id);
+    public void deleteUser(User user) {
         user.setActive(0);
         user.setDeleted(1);
         System.out.print("User successfully deleted.");

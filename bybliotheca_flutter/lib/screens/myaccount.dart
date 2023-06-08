@@ -56,6 +56,24 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
             Navigator.pushReplacementNamed(context, '/mainmenu');
           },
         ),
+        actions: [
+          ElevatedButton(
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all<Color>(
+                  Color.fromARGB(255, 48, 25, 6)),
+            ),
+            onPressed: () {
+              Navigator.pushReplacementNamed(context, '/userlist');
+            },
+            child: Text(
+              'User List →',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 15,
+              ),
+            ),
+          ),
+        ],
       ),
       body: Container(
         decoration: BoxDecoration(

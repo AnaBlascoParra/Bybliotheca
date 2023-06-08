@@ -64,7 +64,7 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
     if (response.statusCode == 200) {
       Navigator.pushReplacementNamed(context, '/allbooks');
     } else {
-      throw Exception('Could not fetch book');
+      throw Exception('Could not delete book');
     }
   }
 

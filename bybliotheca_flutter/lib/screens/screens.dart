@@ -14,5 +14,6 @@ export 'package:bybliotheca_flutter/screens/bygenre.dart';
 export 'package:bybliotheca_flutter/screens/genres.dart';
 export 'package:bybliotheca_flutter/screens/authors.dart';
 export 'package:bybliotheca_flutter/screens/myaccount.dart';
+export 'package:bybliotheca_flutter/screens/userlist.dart';
 export 'package:bybliotheca_flutter/screens/myborrowings.dart';
 export 'package:bybliotheca_flutter/screens/myfavs.dart';
