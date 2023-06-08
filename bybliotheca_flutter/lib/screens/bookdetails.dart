@@ -92,8 +92,10 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Book Details',
-            style: TextStyle(fontFamily: 'Enchanted Land', fontSize: 40)),
+        title: Text(
+          'Book Details',
+          style: TextStyle(fontFamily: 'Enchanted Land', fontSize: 40),
+        ),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
@@ -238,55 +240,76 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        // ElevatedButton(
-                        //   style: ButtonStyle(
-                        //     backgroundColor: MaterialStateProperty.all<Color>(
-                        //       Color.fromARGB(255, 48, 25, 6),
-                        //     ),
-                        //   ),
-                        //   child: const Text('Borrow book'),
-                        //   onPressed: () {
-                        //     borrowBook(book.title);
-                        //   },
-                        // ),
-                        if (UserService().isAdmin() == true)
-                          IconButton(
-                            onPressed: () {
-                              navigateToEditScreen(book.title);
-                            },
-                            icon: Icon(Icons.edit),
-                          ),
-                        if (UserService().isAdmin() == true)
-                          IconButton(
-                            onPressed: () {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    title: Text('Confirm Delete'),
-                                    content: Text(
-                                        'Are you sure you want to delete this book?'),
-                                    actions: [
-                                      TextButton(
-                                        child: Text('Cancel'),
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                      ),
-                                      TextButton(
-                                        child: Text('Delete'),
-                                        onPressed: () {
-                                          deleteBook(book.title);
-                                          Navigator.of(context).pop();
-                                        },
-                                      ),
-                                    ],
-                                  );
-                                },
-                              );
-                            },
-                            icon: Icon(Icons.delete_forever),
-                          ),
+                        FutureBuilder<bool>(
+                          future: UserService().isAdmin(),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return Container();
+                            } else if (snapshot.hasError) {
+                              return Container();
+                            } else {
+                              final isAdmin = snapshot.data;
+                              if (isAdmin == true) {
+                                return IconButton(
+                                  onPressed: () {
+                                    navigateToEditScreen(book.title);
+                                  },
+                                  icon: Icon(Icons.edit),
+                                );
+                              } else {
+                                return Container();
+                              }
+                            }
+                          },
+                        ),
+                        FutureBuilder<bool>(
+                          future: UserService().isAdmin(),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return Container();
+                            } else if (snapshot.hasError) {
+                              return Container();
+                            } else {
+                              final isAdmin = snapshot.data;
+                              if (isAdmin == true) {
+                                return IconButton(
+                                  onPressed: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: Text('Confirm Delete'),
+                                          content: Text(
+                                              'Are you sure you want to delete this book?'),
+                                          actions: [
+                                            TextButton(
+                                              child: Text('Cancel'),
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
+                                            TextButton(
+                                              child: Text('Delete'),
+                                              onPressed: () {
+                                                deleteBook(book.title);
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  },
+                                  icon: Icon(Icons.delete_forever),
+                                );
+                              } else {
+                                return Container();
+                              }
+                            }
+                          },
+                        ),
                       ],
                     ),
                   ],

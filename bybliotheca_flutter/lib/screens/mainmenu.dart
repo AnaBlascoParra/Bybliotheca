@@ -42,18 +42,36 @@ class _MainMenuState extends State<MainMenu> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: const Text('Bybliotheca',
-            style: TextStyle(fontFamily: 'Enchanted Land', fontSize: 40)),
+        title: const Text(
+          'Bybliotheca',
+          style: TextStyle(fontFamily: 'Enchanted Land', fontSize: 40),
+        ),
         actions: [
-          if (UserService().isAdmin() == true)
-            IconButton(
-              icon: Icon(Icons.add),
-              onPressed: () {
-                Navigator.pushReplacementNamed(context, '/addbook');
-              },
-            ),
+          FutureBuilder<bool>(
+            future: UserService().isAdmin(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Container();
+              } else if (snapshot.hasError) {
+                return Container();
+              } else {
+                final isAdmin = snapshot.data;
+                if (isAdmin == true) {
+                  return IconButton(
+                    icon: Icon(Icons.add),
+                    onPressed: () {
+                      Navigator.pushReplacementNamed(context, '/addbook');
+                    },
+                  );
+                } else {
+                  return Container(); // Si no es administrador, no muestra ningún contenido
+                }
+              }
+            },
+          ),
         ],
       ),
+      // Resto del contenido del Scaffold
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),

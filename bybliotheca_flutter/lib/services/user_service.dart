@@ -12,20 +12,27 @@ class UserService {
 
   Future<bool> isAdmin() async {
     bool isAdmin;
-    String role = await readRole();
-    if (role == 'ADMIN') {
-      return isAdmin = true;
+    String id = await UserService().readId();
+    int userId = int.parse(id);
+    final url = 'http://localhost:8080/users/id/$userId';
+    String? token = await UserService().readToken();
+    final response = await http.get(
+      Uri.parse(url),
+      headers: {
+        'Content-type': 'application/json',
+        'Accept': 'application/json',
+        "Authorization": token!
+      },
+    );
+
+    final Map<String, dynamic> decodedResponse = json.decode(response.body);
+
+    if (decodedResponse['role'] == 'ADMIN') {
+      isAdmin = true;
     } else {
-      return isAdmin = false;
+      isAdmin = false;
     }
-  }
-
-  readRole() async {
-    return await storage.read(key: 'role') ?? '';
-  }
-
-  readDeleted() async {
-    return await storage.read(key: 'deleted') ?? '';
+    return isAdmin;
   }
 
   readToken() async {

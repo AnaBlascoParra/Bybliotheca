@@ -48,8 +48,10 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('My Account',
-            style: TextStyle(fontFamily: 'Enchanted Land', fontSize: 40)),
+        title: const Text(
+          'My Account',
+          style: TextStyle(fontFamily: 'Enchanted Land', fontSize: 40),
+        ),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
@@ -57,23 +59,39 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
           },
         ),
         actions: [
-          if (UserService().isAdmin() == true)
-            ElevatedButton(
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(
-                    Color.fromARGB(255, 48, 25, 6)),
-              ),
-              onPressed: () {
-                Navigator.pushReplacementNamed(context, '/userlist');
-              },
-              child: Text(
-                'User List →',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 15,
-                ),
-              ),
-            ),
+          FutureBuilder<bool>(
+            future: UserService().isAdmin(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Container(); // No muestra ningún contenido mientras se obtiene el resultado
+              } else if (snapshot.hasError) {
+                return Container(); // No muestra ningún contenido si hay un error
+              } else {
+                final isAdmin = snapshot.data;
+                if (isAdmin == true) {
+                  return ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                        Color.fromARGB(255, 48, 25, 6),
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.pushReplacementNamed(context, '/userlist');
+                    },
+                    child: Text(
+                      'User List →',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 15,
+                      ),
+                    ),
+                  );
+                } else {
+                  return Container(); // Si no es administrador, no muestra ningún contenido
+                }
+              }
+            },
+          ),
         ],
       ),
       body: Container(
@@ -233,8 +251,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
             Navigator.pushReplacementNamed(context, '/login');
           },
           child: Icon(Icons.exit_to_app),
-          backgroundColor:
-              Color.fromARGB(255, 116, 94, 75), // Color del botón flotante
+          backgroundColor: Color.fromARGB(255, 116, 94, 75),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
