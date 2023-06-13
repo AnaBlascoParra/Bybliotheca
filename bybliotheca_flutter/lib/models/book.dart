@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 
 Book bookFromJson(String str) => Book.fromJson(json.decode(str));
 
@@ -17,6 +18,9 @@ class Book {
   String summary;
   String genre;
   String? img;
+  List<Long?> reviews;
+  List<int?> ratings;
+  int avrRating;
   int npages;
   int year;
   int qty;
@@ -27,6 +31,9 @@ class Book {
     required this.summary,
     required this.genre,
     required this.img,
+    required this.reviews,
+    required this.ratings,
+    required this.avrRating,
     required this.npages,
     required this.year,
     required this.qty,
@@ -38,6 +45,9 @@ class Book {
         summary: json["summary"],
         genre: json["genre"],
         img: json["img"],
+        reviews: json["reviews"],
+        ratings: json["ratings"],
+        avrRating: json["avrRating"],
         npages: json["npages"],
         year: json["year"],
         qty: json["qty"],
@@ -49,6 +59,9 @@ class Book {
         "summary": summary,
         "genre": genre,
         "img": img,
+        "ratings": ratings,
+        "avrrating": avrRating,
+        "reviews": reviews,
         "npages": npages,
         "year": year,
         "qty": qty,

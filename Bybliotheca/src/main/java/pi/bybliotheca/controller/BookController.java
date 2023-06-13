@@ -112,6 +112,19 @@ public class BookController {
         }
     }
 
+    @PutMapping("/books/title/{title}/addreview")
+    public void writeReview(@PathVariable String title){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User loggedUser = userRepository.findByUsername(auth.getPrincipal().toString());
+        if(loggedUser.getRole().equals("USER")) {
+            Book book = service.getBookByTitle(title);
+            service.writeReview(book);
+        } else {
+            throw new SecurityException("Invalid operation");
+        }
+    }
+
+
 
 }
 

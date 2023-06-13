@@ -58,6 +58,14 @@ public class BookService {
         return repository.findByGenre(genre);
     }
 
+    public void writeReview(Book book){
+        Book existingBook = repository.findByTitle(book.getTitle());
+        existingBook.setReviews(book.getReviews());
+        existingBook.setRatings(book.getRatings());
+        double newAvrRating = existingBook.calculateAvrRating();
+        existingBook.setAvrRating(newAvrRating);
+        repository.save(existingBook);
+    }
 
 }
 

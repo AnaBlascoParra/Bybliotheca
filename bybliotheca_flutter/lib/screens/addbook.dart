@@ -24,6 +24,9 @@ class _AddBookScreenState extends State<AddBookScreen> {
       summary: '',
       genre: '',
       img: '',
+      reviews: [],
+      ratings:[],
+      avrRating: 0,
       npages: 0,
       year: 0,
       qty: 0);

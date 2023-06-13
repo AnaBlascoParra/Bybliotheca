@@ -28,6 +28,13 @@ public class Book {
 
     private String img;
 
+    private List<Long> reviews;
+
+    private List<Integer> ratings;
+
+    private double avrRating;
+
+
     public Book(String title, String author, String summary, String genre, int npages, int year, int qty) {
         this.title = title;
         this.author = author;
@@ -36,5 +43,14 @@ public class Book {
         this.npages = npages;
         this.year = year;
         this.qty = qty;
+    }
+
+    public double calculateAvrRating(){
+        int ratingSum = this.ratings.stream()
+                .mapToInt(Integer::intValue)
+                .sum();
+        double avrRating = (double) ratingSum/this.ratings.size();
+        return avrRating;
+
     }
 }
