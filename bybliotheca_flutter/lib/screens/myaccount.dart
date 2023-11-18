@@ -25,7 +25,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
   Future<User> getUserById() async {
     String id = await UserService().readId();
     int userId = int.parse(id);
-    final url = 'http://localhost:8080/users/id/$userId';
+    final url = 'http://bybliotheca.duckdns.org:8080/users/id/$userId';
     String? token = await UserService().readToken();
     final response = await http.get(
       Uri.parse(url),

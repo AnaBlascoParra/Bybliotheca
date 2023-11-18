@@ -33,7 +33,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
 
-      final url = 'http://localhost:8080/books/addbook';
+      final url = 'http://bybliotheca.duckdns.org:8080/books/addbook';
       String? token = await UserService().readToken();
       final body = jsonEncode(book.toJson());
 

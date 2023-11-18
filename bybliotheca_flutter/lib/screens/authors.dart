@@ -21,7 +21,7 @@ class AuthorsScreenState extends State<AuthorsScreen> {
   }
 
   Future<void> fetchAuthors() async {
-    final url = 'http://localhost:8080/books';
+    final url = 'http://bybliotheca.duckdns.org:8080/books';
     String? token = await UserService().readToken();
     final response = await http.get(Uri.parse(url), headers: {
       'Content-type': 'application/json',
@@ -46,8 +46,8 @@ class AuthorsScreenState extends State<AuthorsScreen> {
   }
 
   Future<List<Book>> fetchBooksByAuthor(String author) async {
-    final response =
-        await http.get(Uri.parse('http://localhost:8080/books/$author'));
+    final response = await http
+        .get(Uri.parse('http://bybliotheca.duckdns.org:8080/books/$author'));
     if (response.statusCode == 200) {
       final jsonData = json.decode(response.body);
       return List<Book>.from(jsonData.map((item) => Book.fromJson(item)));

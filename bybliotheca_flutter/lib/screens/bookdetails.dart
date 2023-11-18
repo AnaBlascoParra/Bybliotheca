@@ -26,7 +26,7 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
   }
 
   Future<Book> fetchBookDetails(String title) async {
-    final url = 'http://localhost:8080/books/title/$title';
+    final url = 'http://bybliotheca.duckdns.org:8080/books/title/$title';
     String? token = await UserService().readToken();
     final response = await http.get(Uri.parse(url), headers: {
       'Content-type': 'application/json',
@@ -52,7 +52,7 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
 
   deleteBook(String title) async {
     String? token = await UserService().readToken();
-    final url = 'http://localhost:8080/books/deletebook/$title';
+    final url = 'http://bybliotheca.duckdns.org:8080/books/deletebook/$title';
     final response = await http.delete(
       Uri.parse(url),
       headers: {
@@ -72,7 +72,8 @@ class _BookDetailsScreenState extends State<BookDetailsScreen> {
     String _userId = await UserService().readId();
     int userId = int.parse(_userId);
     String? token = await UserService().readToken();
-    final url = 'http://localhost:8080/books/title/$title/borrow/$userId';
+    final url =
+        'http://bybliotheca.duckdns.org:8080/books/title/$title/borrow/$userId';
     final response = await http.post(
       Uri.parse(url),
       headers: {

@@ -17,7 +17,7 @@ class AllBooksScreenState extends State<AllBooksScreen> {
   final background = const AssetImage("assets/background.png");
 
   Future<void> fetchBooks() async {
-    final url = 'http://localhost:8080/books';
+    final url = 'http://bybliotheca.duckdns.org:8080/books';
     String? token = await UserService().readToken();
 
     final response = await http.get(Uri.parse(url), headers: {
@@ -46,7 +46,7 @@ class AllBooksScreenState extends State<AllBooksScreen> {
 
   void navigateToBookDetails(String title) async {
     String? token = await UserService().readToken();
-    final url = 'http://localhost:8080/books/title/$title';
+    final url = 'http://bybliotheca.duckdns.org:8080/books/title/$title';
     final response = await http.get(Uri.parse(url), headers: {
       'Content-type': 'application/json',
       'Accept': 'application/json',

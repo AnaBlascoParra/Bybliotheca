@@ -23,7 +23,7 @@ class GenresScreenState extends State<GenresScreen> {
   }
 
   Future<void> fetchGenres() async {
-    final url = 'http://localhost:8080/books';
+    final url = 'http://bybliotheca.duckdns.org:8080/books';
     String? token = await UserService().readToken();
     final response = await http.get(Uri.parse(url), headers: {
       'Content-type': 'application/json',
@@ -57,8 +57,8 @@ class GenresScreenState extends State<GenresScreen> {
   }
 
   Future<List<Book>> fetchBooksByGenre(String genre) async {
-    final response =
-        await http.get(Uri.parse('http://localhost:8080/books/$genre'));
+    final response = await http
+        .get(Uri.parse('http://bybliotheca.duckdns.org:8080/books/$genre'));
     if (response.statusCode == 200) {
       final jsonData = json.decode(response.body);
       return List<Book>.from(jsonData.map((item) => Book.fromJson(item)));

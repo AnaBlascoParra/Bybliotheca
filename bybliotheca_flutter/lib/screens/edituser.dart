@@ -24,7 +24,7 @@ class _EditUserScreenState extends State<EditUserScreen> {
   Future<User> getUserById() async {
     String id = await UserService().readId();
     int userId = int.parse(id);
-    final url = 'http://localhost:8080/users/id/$userId';
+    final url = 'http://bybliotheca.duckdns.org:8080/users/id/$userId';
     String? token = await UserService().readToken();
     final response = await http.get(
       Uri.parse(url),
@@ -45,7 +45,7 @@ class _EditUserScreenState extends State<EditUserScreen> {
 
   Future<void> updateUser(User updatedUser) async {
     String? token = await UserService().readToken();
-    final url = 'http://localhost:8080/users/updateuser';
+    final url = 'http://bybliotheca.duckdns.org:8080/users/updateuser';
     final response = await http.put(Uri.parse(url),
         headers: {
           'Content-type': 'application/json',

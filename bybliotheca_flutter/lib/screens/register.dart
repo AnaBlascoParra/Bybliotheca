@@ -23,7 +23,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
 
-      final url = 'http://localhost:8080/register';
+      final url = 'http://bybliotheca.duckdns.org:8080/register';
 
       try {
         final response = await http.post(
