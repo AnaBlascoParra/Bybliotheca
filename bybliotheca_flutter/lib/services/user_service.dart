@@ -14,7 +14,7 @@ class UserService {
     bool isAdmin;
     String id = await UserService().readId();
     int userId = int.parse(id);
-    final url = 'http://bybliotheca.duckdns.org:8080/users/id/$userId';
+    final url = 'http://188.171.201.11:8080/users/id/$userId';
     String? token = await UserService().readToken();
     final response = await http.get(
       Uri.parse(url),

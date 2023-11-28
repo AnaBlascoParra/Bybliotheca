@@ -20,7 +20,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController passwordController = new TextEditingController();
 
   Future<String?> login(String username, String password) async {
-    final url = 'http://bybliotheca.duckdns.org:8080/login';
+    final url = 'http://188.171.201.11:8080/login';
 
     final Map<String, dynamic> data = {
       'username': '$username',
@@ -30,7 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
     var body = json.encode(data);
 
     var response = await http.post(
-      Uri.parse('http://bybliotheca.duckdns.org:8080/login'),
+      Uri.parse('http://188.171.201.11:8080/login'),
       headers: {
         'Content-type': 'application/json',
         'Accept': 'application/json',

@@ -30,7 +30,7 @@ class _EditBookScreenState extends State<EditBookScreen> {
   }
 
   Future<Book> fetchBookDetails(String title) async {
-    final url = 'http://bybliotheca.duckdns.org:8080/books/title/$title';
+    final url = 'http://188.171.201.11:8080/books/title/$title';
     String? token = await UserService().readToken();
     final response = await http.get(Uri.parse(url), headers: {
       'Content-type': 'application/json',
@@ -47,7 +47,7 @@ class _EditBookScreenState extends State<EditBookScreen> {
 
   Future<void> updateBookDetails(Book updatedBook) async {
     String? token = await UserService().readToken();
-    final url = 'http://bybliotheca.duckdns.org:8080/books/updatebook';
+    final url = 'http://188.171.201.11:8080/books/updatebook';
     final response = await http.put(Uri.parse(url),
         headers: {
           'Content-type': 'application/json',

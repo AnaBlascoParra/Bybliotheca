@@ -17,7 +17,7 @@ class UserListScreenState extends State<UserListScreen> {
   final background = const AssetImage("assets/background.png");
 
   Future<void> getActiveUsers() async {
-    final url = 'http://bybliotheca.duckdns.org:8080/users';
+    final url = 'http://188.171.201.11:8080/users';
     String? token = await UserService().readToken();
 
     final response = await http.get(Uri.parse(url), headers: {
@@ -46,7 +46,7 @@ class UserListScreenState extends State<UserListScreen> {
 
   Future<void> updateUser(User updatedUser) async {
     String? token = await UserService().readToken();
-    final url = 'http://bybliotheca.duckdns.org:8080/users/updateuser';
+    final url = 'http://188.171.201.11:8080/users/updateuser';
     final response = await http.put(Uri.parse(url),
         headers: {
           'Content-type': 'application/json',
@@ -65,7 +65,7 @@ class UserListScreenState extends State<UserListScreen> {
 
   Future<void> deleteUser(String username) async {
     String? token = await UserService().readToken();
-    final url = 'http://bybliotheca.duckdns.org:8080/users/deleteuser';
+    final url = 'http://188.171.201.11:8080/users/deleteuser';
     final response = await http.put(
       Uri.parse(url),
       headers: {

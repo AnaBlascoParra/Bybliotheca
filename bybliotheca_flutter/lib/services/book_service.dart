@@ -11,7 +11,7 @@ class BookService {
 
   Future<List<String>?> getAuthors() async {
     try {
-      var url = 'http://bybliotheca.duckdns.org:8080/authors';
+      var url = 'http://188.171.201.11:8080/authors';
       var response = await http.get(Uri.parse(url));
       if (response.statusCode == 200) {
         List<Book> books = booksFromJson(response.body);
@@ -25,7 +25,7 @@ class BookService {
 
   Future<List<Book>?> getBooksByAuthor(String author) async {
     try {
-      var url = 'http://bybliotheca.duckdns.org:8080/books/$author';
+      var url = 'http://188.171.201.11:8080/books/$author';
       var response = await http.get(Uri.parse(url));
       if (response.statusCode == 200) {
         List<Book> books = booksFromJson(response.body);
