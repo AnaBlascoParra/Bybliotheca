@@ -2,7 +2,7 @@
     package="com.example.bybliotheca_flutter">
     <uses-permission android:name="android.permission.INTERNET"/>
    <application
-        android:label="bybliotheca_flutter"
+        android:label="Bybliotheca Digitalis"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         
