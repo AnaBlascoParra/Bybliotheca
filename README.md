@@ -1,6 +1,6 @@
 ![Bybliotheca Digitalis](https://bybliothecadigitalis.carrd.co/assets/images/image01.png?v=1044d291)
 
-# APK DOWNLOAD: https://bybliothecadigitalis.carrd.co/\
+# APK DOWNLOAD: https://bybliothecadigitalis.carrd.co/
 
 ## **Users**
 
