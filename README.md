@@ -14,9 +14,9 @@
 
 ## **Folders info**
 
-__/Bybliotheca:__ Backend Java-Springboot\
+__/Bybliotheca:__ Backend Java-Springboot
 
-__/bybliotheca_flutter:__ Frontend Dart-Flutter\
+__/bybliotheca_flutter:__ Frontend Dart-Flutter
 
 __/Resources:__ bybliotheca.sql 
 
