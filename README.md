@@ -18,7 +18,7 @@ __/Bybliotheca:__ Backend Java-Springboot\
 
 __/bybliotheca_flutter:__ Frontend Dart-Flutter\
 
-__/Resources:__ bybliotheca.sql \
+__/Resources:__ bybliotheca.sql 
 
 
 
