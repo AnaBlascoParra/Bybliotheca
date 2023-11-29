@@ -1,10 +1,12 @@
 # Bybliotheca
 
+APK DOWNLOAD: https://bybliothecadigitalis.carrd.co/
+
 Users:
 
   SYS ADMIN
-  username: admin
-  pw: admin
+    username: admin
+    pw: admin
   
   STANDARD USER:
     username: prueba2  
@@ -15,5 +17,7 @@ Users:
 /bybliotheca_flutter: Frontend Dart-Flutter
 
 /Resources: bybliotheca.sql 
+
+
 
 
